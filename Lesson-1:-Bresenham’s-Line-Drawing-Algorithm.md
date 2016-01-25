@@ -46,3 +46,38 @@ line(80, 40, 13, 20, image, red);
 
 It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the second lines (in the code) give the same line of different colors. We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
 
+# Third attempt
+
+There are holes in one of the line segments due to the fact that its height is greater than the width. My students often suggest the following fix:
+
+```C++
+if (dx>dy) {for (int x)} else {for (int y)}
+```
+
+Holy cow!
+
+```C++ 
+void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
+    bool steep = false; 
+    if (std::abs(x0-x1)<std::abs(y0-y1)) { // if the line is steep, we transpose the image 
+        std::swap(x0, y0); 
+        std::swap(x1, y1); 
+        steep = true; 
+    } 
+    if (x0>x1) { // make it left−to−right 
+        std::swap(x0, x1); 
+        std::swap(y0, y1); 
+    } 
+    for (int x=x0; x<=x1; x++) { 
+        float t = (x-x0)/(float)(x1-x0); 
+        int y = y0*(1.-t) + y1*t; 
+        if (steep) { 
+            image.set(y, x, color); // if transposed, de−transpose 
+        } else { 
+            image.set(x, y, color); 
+        } 
+    } 
+}
+```
+
+![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/3e8e5c7d26.png)
