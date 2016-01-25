@@ -106,7 +106,7 @@ I compiled the code with g++ -ggdb -g3 -pg -O0 keys, and then ran gprof:
 
 10% of the time are spent on copying the color. But then 70% are performed in calling line()! That’s where we will optimize.
 
-# Fourth attempt contiued
+# Fourth attempt continued
 
 We should note that each division has the same divisor. Let’s take it out of the loop. The error variable gives is the distance to the best straight line from our current (x, y) pixel. Each time error is greater than one pixel, we increase (or decrease) y by one, and decrease the error by one as well.
 
@@ -155,3 +155,52 @@ Here is the output of gprof:
   2.09      2.35     0.05        2    25.03    25.03  TGAColor::TGAColor(unsigned char, unsigned char, unsigned char, unsigned char) 
   1.25      2.38     0.03                             TGAImage::get(int, int) 
 ```
+
+
+# Timings: fifth and final attempt
+
+Why do we need floating points? The only reason is one division by dx and comparison with .5 in the loop body. We can get rid of the floating point by replacing the error variable with another one. Let’s call it error2, and assume it is equal to error*dx*2. Here’s the equivalent [code](https://github.com/ssloy/tinyrenderer/tree/28b766abe59b8635c912ed78b8a6e938a7ef29f2):
+ 
+```C++
+void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
+    bool steep = false; 
+    if (std::abs(x0-x1)<std::abs(y0-y1)) { 
+        std::swap(x0, y0); 
+        std::swap(x1, y1); 
+        steep = true; 
+    } 
+    if (x0>x1) { 
+        std::swap(x0, x1); 
+        std::swap(y0, y1); 
+    } 
+    int dx = x1-x0; 
+    int dy = y1-y0; 
+    int derror2 = std::abs(dy)*2; 
+    int error2 = 0; 
+    int y = y0; 
+    for (int x=x0; x<=x1; x++) { 
+        if (steep) { 
+            image.set(y, x, color); 
+        } else { 
+            image.set(x, y, color); 
+        } 
+        error2 += derror2; 
+        if (error2 > dx) { 
+            y += (y1>y0?1:-1); 
+            error2 -= dx*2; 
+        } 
+    } 
+} 
+```
+
+```
+%   cumulative   self              self     total 
+ time   seconds   seconds    calls  ms/call  ms/call  name 
+ 42.77      0.91     0.91 204000000     0.00     0.00  TGAImage::set(int, int, TGAColor) 
+ 30.08      1.55     0.64  3000000     0.00     0.00  line(int, int, int, int, TGAImage&, TGAColor) 
+ 21.62      2.01     0.46 204000000     0.00     0.00  TGAColor::TGAColor(int, int) 
+  1.88      2.05     0.04        2    20.02    20.02  TGAColor::TGAColor(unsigned char, unsigned char, unsigned char, unsigned char) 
+```
+
+Now, it’s enough to remove unnecessary copies during the function call by passing the color by reference (or just enable the compilation flag -O3), and it’s done. Not a single multiplication or division in code. The execution time has decreased from 2.95 to 0.64 seconds.
+
