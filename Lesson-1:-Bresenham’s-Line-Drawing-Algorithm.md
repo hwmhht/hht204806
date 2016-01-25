@@ -204,3 +204,38 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 
 Now, it’s enough to remove unnecessary copies during the function call by passing the color by reference (or just enable the compilation flag -O3), and it’s done. Not a single multiplication or division in code. The execution time has decreased from 2.95 to 0.64 seconds.
 
+# Wireframe rendering
+
+So now we are ready to create a wire render. You can find the snapshot of the [code and the test model here](https://github.com/ssloy/tinyrenderer/tree/f6fecb7ad493264ecd15e230411bfb1cca539a12).
+I used the [wavefront obj](http://en.wikipedia.org/wiki/Wavefront_.obj_file) format of the file to store model. All we need for the render is read from the file the array of vertices of the following type:
+
+```
+v 0.608654 -0.568839 -0.416318
+```
+
+are x,y,z coordinates, one vertex per file line
+and faces
+```
+f 1193/1240/1193 1180/1227/1180 1179/1226/1179
+```
+
+We are interested in the first number after each space. It is the number of the vertex in the array that we have read before. Thus, this line says that 1193, 1180 and 1179 vertices form a triangle.
+The model.cpp file contains a simple parser. Write the following loop to our main.cpp and voilà, our wire renderer is ready.
+ 
+```C++
+for (int i=0; i<model->nfaces(); i++) { 
+    std::vector<int> face = model->face(i); 
+    for (int j=0; j<3; j++) { 
+        Vec3f v0 = model->vert(face[j]); 
+        Vec3f v1 = model->vert(face[(j+1)%3]); 
+        int x0 = (v0.x+1.)*width/2.; 
+        int y0 = (v0.y+1.)*height/2.; 
+        int x1 = (v1.x+1.)*width/2.; 
+        int y1 = (v1.y+1.)*height/2.; 
+        line(x0, y0, x1, y1, image, white); 
+    } 
+}
+```
+![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/5da6818190.png)
+
+Next time we will draw 2D triangles and improve our renderer.
