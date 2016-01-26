@@ -183,3 +183,99 @@ Okay, let us start: first of all we need to know what the [barycentric coordinat
 While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index1x.png),![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index2x.png)):
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index3x.png)
+
+So, we have vectors ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index4x.png)￼, ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index5x.png)￼ and ￼![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index6x.png), we need to find two real numbers u and v respecting the following constraint:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index7x.png)
+￼
+It is a simple vector equation, or a linear system of two equations with two variables:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index8x.png)
+￼
+I am lazy and do not want to solve linear systems in a scholar way. Let us write it in matrix form:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index9x.png)
+
+
+It means that we are looking for a vector (u,v,1) that is orthogonal to (￼ABx,AC￼x,￼PAx) and (￼ABy,AC￼y,PA￼y) *at the same time*! I hope you see [where i am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
+
+So, let us program our new rasterization routine: we iterate through all pixels of a bounding box for a given triangle. For each pixel we compute its barycentric coordinates. If it has at least one negative component, then the pixel is outside of the triangle. Probably it is more clear to see the program directly:
+
+```C++
+#include <vector> 
+#include <iostream> 
+#include ”geometry.h” 
+#include ”tgaimage.h” 
+ 
+const int width  = 200; 
+const int height = 200; 
+ 
+Vec3f barycentric(Vec2i *pts, Vec2i P) { 
+    Vec3f u = cross(Vec3f(pts[2][0]-pts[0][0], pts[1][0]-pts[0][0], pts[0][0]-P[0]), Vec3f(pts[2][1]-pts[0][1], pts[1][1]-pts[0][1], pts[0][1]-P[1])); 
+    if (std::abs(u[2])<1) return Vec3f(-1,1,1); // triangle is degenerate, in this case return smth with negative coordinates 
+    return Vec3f(1.f-(u.x+u.y)/u.z, u.y/u.z, u.x/u.z); 
+} 
+ 
+void triangle(Vec2i *pts, TGAImage &image, TGAColor color) { 
+    Vec2i bboxmin(image.get_width()-1,  image.get_height()-1); 
+    Vec2i bboxmax(0, 0); 
+    Vec2i clamp(image.get_width()-1, image.get_height()-1); 
+    for (int i=0; i<3; i++) { 
+        for (int j=0; j<2; j++) { 
+            bboxmin[j] = std::max(0,        std::min(bboxmin[j], pts[i][j])); 
+            bboxmax[j] = std::min(clamp[j], std::max(bboxmax[j], pts[i][j])); 
+        } 
+    } 
+    Vec2i P; 
+    for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) { 
+        for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) { 
+            Vec3f bc_screen  = barycentric(pts, P); 
+            if (bc_screen.x<0 || bc_screen.y<0 || bc_screen.z<0) continue; 
+            image.set(P.x, P.y, color); 
+        } 
+    } 
+} 
+ 
+int main(int argc, char** argv) { 
+    TGAImage frame(200, 200, TGAImage::RGB); 
+    Vec2i pts[3] = {Vec2i(10,10), Vec2i(100, 30), Vec2i(190, 160)}; 
+    triangle(pts, frame, TGAColor(255, 0, 0)); 
+    frame.flip_vertically(); // to place the origin in the bottom left corner of the image 
+    frame.write_tga_file(”framebuffer.tga”); 
+    return 0; 
+}
+```
+
+*barycentric()* function computes coordinates of a point P in a given triangle, we already saw the details. Now let us see how works *triangle()* function. First of all, it computes a bounding box, it is described by two points: bottom left and upper right. To find these corners we iterate through the vertices of the triangle and choose min/max coordinates. I also added a clipping of the bounding box with the screen rectangle to spare the CPU time for the triangles outside of the screen. Congratulations, you know how to draw a triangle!
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/0ba3f3e659f5feff80a78840fb927a71.png)
+
+# Flat shading render
+
+We already know how to draw a model with empty triangles. Let us fill them with a random color. This will help us to see how well we have encoded filling of triangles. Here is the code:
+ 
+```C++
+for (int i=0; i<model->nfaces(); i++) { 
+    std::vector<int> face = model->face(i); 
+    Vec2i screen_coords[3]; 
+    for (int j=0; j<3; j++) { 
+        Vec3f world_coords = model->vert(face[j]); 
+        screen_coords[j] = Vec2i((world_coords.x+1.)*width/2., (world_coords.y+1.)*height/2.); 
+    } 
+    triangle(screen_coords[0], screen_coords[1], screen_coords[2], image, TGAColor(rand()%255, rand()%255, rand()%255, 255)); 
+}
+```
+
+It is simple: just like before, we iterate through all the triangles, convert world coordinates to screen ones and draw triangles. I will provide the detailed description of various coordinate systems in my following articles. Current picture looks something like this:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/0c58d8a735.png)
+
+Let us get rid of these clown-colors and put some lighting. Captain Obvious: ”At the same light intensity, the polygon is illuminated most brightly when it is orthogonal to the light direction.”
+
+Let us compare:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/5371a416d1.jpg)
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/97e210ee08.jpg)
+
+We get zero illumination if the polygon is parallel to the vector of light. To paraphrase: the intensity of illumination is equal to the scalar product of the light vector and the normal to the given triangle. The normal to the triangle can be calculated simply as the [cross product](https://en.wikipedia.org/wiki/Cross_product) of its two sides.
