@@ -153,3 +153,33 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 ```
 
 [Here’s the commit](https://github.com/ssloy/tinyrenderer/tree/024ad4619b824f9179c86dc144145e2b8b155f52) for drawing 2D triangles.
+
+
+
+## The method i adopt for my code
+
+While not being really complicated, the source code for the line sweeping is a bit messy. Moreover, it is really an old-school approach designed for mono-thread CPU programming. Let us take a look at the following pseudo-code:
+
+```C++
+triangle(vec2 points[3]) { 
+    vec2 bbox[2] = find_bounding_box(points); 
+    for (each pixel in the bounding box) { 
+        if (inside(points, pixel)) { 
+            put_pixel(pixel); 
+        } 
+    } 
+}
+```
+Do you like it? I do. It is really easy to find a bounding box. It is certainly no problem to check whether a point belongs a 2D triangle (or any convex polygon). 
+
+_Off Topic: if I have to implement a code to check whether a point belongs to a polygon, and this program will run on a plane, I will never get on this plane. Turns out, it is a surprisingly difficult task to solve this problem reliably. But here we just painting pixels. I am okay with that._
+
+There is another thing i like about this pseudocode: a neophyte in programming accepts it with enthusiasm, more experienced programmers often chuckle: “What an idiot wrote it?”. And an expert in computer graphics programming will shrug his shoulders and say: “Well, that’s how it works in real life”. Massively parallel computations in thousands of threads (i’m talking about regular consumer computers here) change the way of thinking.
+
+Okay, let us start: first of all we need to know what the [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) are. Given a 2D triangle ABC and a point P, all in old good Cartesian coordinates (xy). Our goal is to find barycentric coordinates of the point P with respect to the triangle ABC. It means that we look for three numbers (1 − u − v,u,v) such that we can find the point P as follows:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index0x.png)
+
+While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index1x.png),![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index2x.png)):
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index3x.png)
