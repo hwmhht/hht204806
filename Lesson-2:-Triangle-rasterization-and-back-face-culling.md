@@ -188,11 +188,15 @@ So, we have vectors ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/ind
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index7x.png)
 ￼
+
 It is a simple vector equation, or a linear system of two equations with two variables:
 
+
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index8x.png)
+
 ￼
 I am lazy and do not want to solve linear systems in a scholar way. Let us write it in matrix form:
+
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index9x.png)
 
