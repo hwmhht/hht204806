@@ -279,3 +279,30 @@ Let us compare:
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/97e210ee08.jpg)
 
 We get zero illumination if the polygon is parallel to the vector of light. To paraphrase: the intensity of illumination is equal to the scalar product of the light vector and the normal to the given triangle. The normal to the triangle can be calculated simply as the [cross product](https://en.wikipedia.org/wiki/Cross_product) of its two sides.
+
+```C++
+for (int i=0; i<model->nfaces(); i++) { 
+    std::vector<int> face = model->face(i); 
+    Vec2i screen_coords[3]; 
+    Vec3f world_coords[3]; 
+    for (int j=0; j<3; j++) { 
+        Vec3f v = model->vert(face[j]); 
+        screen_coords[j] = Vec2i((v.x+1.)*width/2., (v.y+1.)*height/2.); 
+        world_coords[j]  = v; 
+    } 
+    Vec3f n = (world_coords[2]-world_coords[0])^(world_coords[1]-world_coords[0]); 
+    n.normalize(); 
+    float intensity = n*light_dir; 
+    if (intensity>0) { 
+        triangle(screen_coords[0], screen_coords[1], screen_coords[2], image, TGAColor(intensity*255, intensity*255, intensity*255, 255)); 
+    } 
+}
+```
+
+But the dot product can be negative. What does it mean? It means that the light comes from behind the polygon. If the scene is well modelled (it is usually the case), we can simply discard this triangle. This allows us to quickly remove some invisible triangles. It is called [Back-face culling](http://en.wikipedia.org/wiki/Back-face_culling).
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/d5223f9b93.png)
+
+Note that the inner cavity of the mouth is drawn on top of the lips. That is because of our dirty clipping of invisible triangles: it works perfectly for convex shapes only. We will get rid of this artifact next time when we encode the z-buffer.
+
+[Here’s](https://github.com/ssloy/tinyrenderer/tree/e1a3f2b0f9638fa6db9e0437c621132e1baa3fb1) the current version of the render. Do you find that the image of my face was more detailed? Well, i cheated a bit: there is a quarter million triangles in it vs. roughly a thousand in this artificial head model. But my face was indeed rendered with the above code. I promise you that in following articles we will add much more details to this image.
