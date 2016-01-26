@@ -1,4 +1,4 @@
-# Triangle rasterization and back-face culling
+# Filling triangles
 
 Hi, everyone. It’s me.
 
@@ -59,4 +59,68 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
     line(t1, t2, image, green); 
     line(t2, t0, image, red); 
 }
+```
+
+Here boundary A is red, and boundary B is green.
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/3a5643f513.png)￼
+
+Unfortunately, boundary B is made of two parts. Let us draw the bottom half of the triangle by cutting it horizontally:
+
+```C++
+void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) { 
+    // sort the vertices, t0, t1, t2 lower−to−upper (bubblesort yay!) 
+    if (t0.y>t1.y) std::swap(t0, t1); 
+    if (t0.y>t2.y) std::swap(t0, t2); 
+    if (t1.y>t2.y) std::swap(t1, t2); 
+    int total_height = t2.y-t0.y; 
+    for (int y=t0.y; y<=t1.y; y++) { 
+        int segment_height = t1.y-t0.y+1; 
+        float alpha = (float)(y-t0.y)/total_height; 
+        float beta  = (float)(y-t0.y)/segment_height; // be careful with divisions by zero 
+        Vec2i A = t0 + (t2-t0)*alpha; 
+        Vec2i B = t0 + (t1-t0)*beta; 
+        image.set(A.x, y, red); 
+        image.set(B.x, y, green); 
+    } 
+}
+```
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/d8e0575a00.png)
+
+Note that the segments are not continuous. Last time when we drew straight lines we struggled to get continuous segments and here i did not bother with rotating the image (remember the xy swapping?). Why? We fill the triangles aftewards, that’s why. If we connect the corresponding pairs of points by horizontal lines, the gaps disappear:
+
+![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/c1f95127ad.png)
+
+Now, let us draw the second (upper) half of the triangle. We can do this by adding a second loop:
+ 
+```C++
+void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) { 
+    // sort the vertices, t0, t1, t2 lower−to−upper (bubblesort yay!) 
+    if (t0.y>t1.y) std::swap(t0, t1); 
+    if (t0.y>t2.y) std::swap(t0, t2); 
+    if (t1.y>t2.y) std::swap(t1, t2); 
+    int total_height = t2.y-t0.y; 
+    for (int y=t0.y; y<=t1.y; y++) { 
+        int segment_height = t1.y-t0.y+1; 
+        float alpha = (float)(y-t0.y)/total_height; 
+        float beta  = (float)(y-t0.y)/segment_height; // be careful with divisions by zero 
+        Vec2i A = t0 + (t2-t0)*alpha; 
+        Vec2i B = t0 + (t1-t0)*beta; 
+        if (A.x>B.x) std::swap(A, B); 
+        for (int j=A.x; j<=B.x; j++) { 
+            image.set(j, y, color); // attention, due to int casts t0.y+i != A.y 
+        } 
+    } 
+    for (int y=t1.y; y<=t2.y; y++) { 
+        int segment_height =  t2.y-t1.y+1; 
+        float alpha = (float)(y-t0.y)/total_height; 
+        float beta  = (float)(y-t1.y)/segment_height; // be careful with divisions by zero 
+        Vec2i A = t0 + (t2-t0)*alpha; 
+        Vec2i B = t1 + (t2-t1)*beta; 
+        if (A.x>B.x) std::swap(A, B); 
+        for (int j=A.x; j<=B.x; j++) { 
+            image.set(j, y, color); // attention, due to int casts t0.y+i != A.y 
+        } 
+    } 
 ```
