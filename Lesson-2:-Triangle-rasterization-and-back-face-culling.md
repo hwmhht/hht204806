@@ -31,6 +31,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/41060d3251.png)
 
 As usual, the appropriate commit is available on [github](https://github.com/ssloy/tinyrenderer/tree/7e46cc57fa3f5a41129d6b6fefe4e77f77b8aa84). The code is simple: I provide three triangles for the initial debugging of your code. If we invoke line() inside the triangle function, we’ll get the contour of the triangle. How to draw a filled triangle?
+
 A good method of drawing a triangle must have the following features:
 
 * It should be (surprise!) simple and fast.
@@ -43,3 +44,19 @@ A good method of drawing a triangle must have the following features:
 3. Draw a horizontal line segment between the left and the right boundary points.
 
 At this point my students start to loose the firm ground: which segment is the left one, which one is right? Besides, there are three segments in a triangle... Usually, after this introduction I leave my students for about an hour: once again, reading my code is much less valuable than comparing your own code with mine.
+
+[One hour passes]
+
+How do I draw a triangle? Once again, if you have a better method, I’d be glad to adopt it. Let us assume that we have three points of the triangle: t0, t1, t2, they are sorted in ascending order by the y-coordinate. Then, the boundary A is between t0 and t2, boundary B is between t0 and t1, and then between t1 and t2.
+ 
+```C++
+void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) { 
+    // sort the vertices, t0, t1, t2 lower−to−upper (bubblesort yay!) 
+    if (t0.y>t1.y) std::swap(t0, t1); 
+    if (t0.y>t2.y) std::swap(t0, t2); 
+    if (t1.y>t2.y) std::swap(t1, t2); 
+    line(t0, t1, image, green); 
+    line(t1, t2, image, green); 
+    line(t2, t0, image, red); 
+}
+```
