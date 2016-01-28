@@ -1,6 +1,6 @@
 # Introduction
 
-Hello, let me introduce you my friend z-buffer of a black guy. He will help us get rid of visual artifacts of hidden faces removal we had in during the last lesson.
+Hello, let me introduce you my friend z-buffer of a black guy. He will help us to get rid of visual artifacts of hidden faces removal we had in during the last lesson.
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3f057a75601d8ac34555e72ea03ef711.png)
 
