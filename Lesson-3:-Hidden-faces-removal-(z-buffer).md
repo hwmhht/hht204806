@@ -87,22 +87,41 @@ void rasterize(Vec2i p0, Vec2i p1, TGAImage &image, TGAColor color, int ybuffer[
 
 It is really-really simple: i iterate through all x-coordinates between p0.x and p1.x and compute the corresponding y-coordinate of the segment. Then i check what we got in our array *ybuffer* with current x index. If the current y-value is closer to the camera than the value in the *ybuffer*, then i draw it on the screen and update the *ybuffer*.
 
+Let us see it step-by-step. After calling *rasterize()* on the first (red) segment this is our memory:
 
-
+screen:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/01694d604755b68c406998c03db374d9.png)
 
+ybuffer:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/65ddaf2b4d87f9b80127ecc6b02d0f72.png)
 
+Here the magenta color indicates the minus infinity, those are places corresponding to the screen we did not touch. All the rest is shown in the shades of gray: clear colors are close to the camera, dark colors far from the camera.
+
+Then we draw the green segment.
+
+screen:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/6f081ac5fc77e2ec4bc733c945b16615.png)
 
+ybuffer:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/bae97132fc4ae67584b46b03d7350944.png)
 
+And finally the blue one.
+
+screen:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d6fdb1d49161923ac91796967afa766e.png)
 
+ybuffer:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/8f430d7de76bdcbda73b8de2986fbe49.png)
 
+Congratulations, we just drew a 2D scene on a 1D screen! Let us admire once again the render:
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/24935d71a1b0023ee3cb48934fae175d.png)
 
+
+# Back to 3D
+
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
+
+
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/73714966ad4a4377b8c4df60bef03777.png)
