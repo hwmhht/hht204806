@@ -4,7 +4,7 @@ Hello, let me introduce you my friend z-buffer of a black guy. He will help us g
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3f057a75601d8ac34555e72ea03ef711.png)
 
-By the way, i'd like to mention that this model i use heavily in the course is created by [Vidar Rapp](https://se.linkedin.com/in/vidarrapp). He kindely granted me a permission to use it for teaching rendering basics and i vandalized it, but i promise you to give back the eyes to the black guy.
+By the way, i'd like to mention that this model i use heavily in the course is created by [Vidar Rapp](https://se.linkedin.com/in/vidarrapp). He kindely granted me a permission to use it for teaching rendering basics and i vandalized it, but i promise you to give back the eyes to the guy.
 
 Well, back to the topic, in theory we could just draw all the triangles without discarding any. If we do it properly starting rear-to-front, the front facets will erase the back ones. It is called the [painter's algorithm](http://en.wikipedia.org/wiki/Painter%27s_algorithm). Unfortunately, it comes along with a high computational cost: for each camera movement we need to re-sort all the scene. And then there are dynamic scenes... And this is not even the main problem. The main problem is it is not always possible to determine the correct order.
 
@@ -118,6 +118,39 @@ Congratulations, we just drew a 2D scene on a 1D screen! Let us admire once agai
 
 
 # Back to 3D
+
+So, for drawing on a 2D screen the z-buffer must be two-dimensional:
+
+```C++
+int *zbuffer = new int[width*height];
+```
+
+Personally i pack a two-dimensional buffer into a one-dimensional, the conversion is trivial:
+
+```C++
+int idx = x + y*width;
+```
+
+and the back one:
+
+```C++
+int x = idx % width;
+int y = idx / width;
+```
+
+Then in the code i simply iterate through all the triangles and call the rasterizer function with current triangle and a reference to the z-buffer.
+
+The only difficulty is how to compute the z-value of a pixel we want to draw.
+Let us recall how we computed the y-value in the y-buffer example:
+
+```C++
+        int y = p0.y*(1.-t) + p1.y*t;
+```
+
+What is the nature of the *t* variable? It turns out that *(1-t, t)* are barycentric coordinates of the point 
+(x,y) with respect to the segment p0, p1:  (x,y) = p0*(1-t) + p1*t
+
+
 
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
