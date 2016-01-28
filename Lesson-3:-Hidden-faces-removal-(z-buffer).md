@@ -151,6 +151,8 @@ What is the nature of the *t* variable? It turns out that *(1-t, t)* are barycen
 (x,y) with respect to the segment p0, p1:  (x,y) = p0\*(1-t) + p1\*t.
 So the idea is to take the barycentric coordinates version of triangle rasterization, and for every pixel we want to draw simply to multiply its barycentric coordinates by the z-values of the vertices of the triangle we rasterize:
 
+# TODO update the source code to the barycentric version!!!!
+
 ```C++
 triangle(screen_coords[0], screen_coords[1], screen_coords[2], image, TGAColor(intensity*255, intensity*255, intensity*255, 255), zbuffer);
 
@@ -183,10 +185,20 @@ void triangle(Vec3i t0, Vec3i t1, Vec3i t2, TGAImage &image, TGAColor color, int
 }
 ```
 
-
+It is terrific how little changes we made to the source code from the previous lesson to discard the hidden parts!
+Here is the render:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
 
+# Okay, we just interpolated the z-values. What else can we do?
 
+Texture! It would be our home assignment.
+
+In the .obj file we have lines starting with "vt u v", they give an array of texture coordinates.
+The number in the middle (between the slashes) in the facet lines "f x/x/x x/x/x x/x/x" are the texture coordinates of this vertex of this triangle. Interpolate it inside the triangle, multiply by the width-height of the texture image and you will get the color to put in your render.
+
+Diffuse texture can be taken [here](https://github.com/ssloy/tinyrenderer/raw/master/obj/african_head_diffuse.tga).
+
+Here is an example of what i expect from you:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/73714966ad4a4377b8c4df60bef03777.png)
