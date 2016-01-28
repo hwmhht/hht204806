@@ -18,15 +18,43 @@ The render should look like this:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/023668cb8ea97f59bf87d982c1e8b030.png)
 
-Blue facet - is it behind or in front of the red one? The painter's algorithm does not work here. It is possible to split blue facet in two (one in front of the red facet and one behind). And then the one in front of the red one is to be split in two - one in front of the green triangle and one behind... I think you get the problem: in scenes with millions of triangles it is really expensive to compute. It is possible to use [BSP trees](https://en.wikipedia.org/wiki/Binary_space_partitioning), by the way, this data structure helps for moving camera, but it is really messy. And the life is too short to get it messy.
+Blue facet - is it behind or in front of the red one? The painter's algorithm does not work here. It is possible to split blue facet in two (one in front of the red facet and one behind). And then the one in front of the red one is to be split in two - one in front of the green triangle and one behind... I think you get the problem: in scenes with millions of triangles it is really expensive to compute. It is possible to use [BSP trees](https://en.wikipedia.org/wiki/Binary_space_partitioning) to get it done. By the way, this data structure is constant for moving camera, but it is really messy. And the life is too short to get it messy.
 
 # Even simpler: let us loose a dimension. Y-buffer!
 
+Let us loose a dimension for a while and to cut the above scene along the yellow plane:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d673f40bcadbe53f4b3cb29bbbcfb461.png)
+
+I mean, now our scene is made of three line segments (intersection of the yellow plane and each of the triangles),
+and the final render has a normal width but 1 pixel height:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3d4c4a1710b8e2558beb5c72ea52a61a.png)
 
+As always, there is a [commit](https://github.com/ssloy/tinyrenderer/tree/d9c4b14c0d8c385937bc87cee1178f1e42966b7c) available. Our scene is two-dimensional, so it is easy to draw it using the line() function we programmed in the very first lesson.
+
+```C++
+    { // just dumping the 2d scene (yay we have enough dimensions!)
+        TGAImage scene(width, height, TGAImage::RGB);
+
+        // scene "2d mesh"
+        line(Vec2i(20, 34),   Vec2i(744, 400), scene, red);
+        line(Vec2i(120, 434), Vec2i(444, 400), scene, green);
+        line(Vec2i(330, 463), Vec2i(594, 200), scene, blue);
+
+        // screen line
+        line(Vec2i(10, 10), Vec2i(790, 10), scene, white);
+
+        scene.flip_vertically(); // i want to have the origin at the left bottom corner of the image
+        scene.write_tga_file("scene.tga");
+    }
+```
+
+This is how our 2D scene looks like if we look at it sideways:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/20e9d8742d17979ec70e45cafacd63a5.png)
+
+
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/01694d604755b68c406998c03db374d9.png)
 
