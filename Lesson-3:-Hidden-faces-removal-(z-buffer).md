@@ -54,6 +54,39 @@ This is how our 2D scene looks like if we look at it sideways:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/20e9d8742d17979ec70e45cafacd63a5.png)
 
+Let us render it. Recall that the render is 1 pixel height. In my source code i create images 16 pixels height for the ease of reading on high resolution screens. *rasterize()* function writes only in the first line of the image *render*
+
+```C++
+        TGAImage render(width, 16, TGAImage::RGB);
+        int ybuffer[width];
+        for (int i=0; i<width; i++) {
+            ybuffer[i] = std::numeric_limits<int>::min();
+        }
+        rasterize(Vec2i(20, 34),   Vec2i(744, 400), render, red,   ybuffer);
+        rasterize(Vec2i(120, 434), Vec2i(444, 400), render, green, ybuffer);
+        rasterize(Vec2i(330, 463), Vec2i(594, 200), render, blue,  ybuffer);
+```
+
+So, i declared a magic array *ybuffer* with dimensions *(width, 1)*. This array is initialized with minus infinity. Then i call *rasterize()* function with this array and the image *render* as arguments. How does the function look like?
+
+```C++
+void rasterize(Vec2i p0, Vec2i p1, TGAImage &image, TGAColor color, int ybuffer[]) {
+    if (p0.x>p1.x) {
+        std::swap(p0, p1);
+    }
+    for (int x=p0.x; x<=p1.x; x++) {
+        float t = (x-p0.x)/(float)(p1.x-p0.x);
+        int y = p0.y*(1.-t) + p1.y*t;
+        if (ybuffer[x]<y) {
+            ybuffer[x] = y;
+            image.set(x, 0, color);
+        }
+    }
+}
+```
+
+It is really-really simple: i iterate through all x-coordinates between p0.x and p1.x and compute the corresponding y-coordinate of the segment. Then i check what we got in our array *ybuffer* with current x index. If the current y-value is closer to the camera than the value in the *ybuffer*, then i draw it on the screen and update the *ybuffer*.
+
 
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/01694d604755b68c406998c03db374d9.png)
