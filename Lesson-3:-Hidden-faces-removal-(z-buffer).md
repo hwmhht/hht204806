@@ -188,7 +188,7 @@ Here is the render:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
 
-The source code can be found [here](https://github.com/ssloy/tinyrenderer/commit/68a5ae382135d679891423fb5285fdd582ca389d).
+The source code can be found [here](https://github.com/ssloy/tinyrenderer/tree/68a5ae382135d679891423fb5285fdd582ca389d).
 
 # Okay, we just interpolated the z-values. What else can we do?
 
