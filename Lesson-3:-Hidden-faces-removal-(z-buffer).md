@@ -151,33 +151,31 @@ What is the nature of the *t* variable? It turns out that *(1-t, t)* are barycen
 (x,y) with respect to the segment p0, p1:  (x,y) = p0\*(1-t) + p1\*t.
 So the idea is to take the barycentric coordinates version of triangle rasterization, and for every pixel we want to draw simply to multiply its barycentric coordinates by the z-values of the vertices of the triangle we rasterize:
 
-# TODO update the source code to the barycentric version!!!!
 
 ```C++
 triangle(screen_coords[0], screen_coords[1], screen_coords[2], image, TGAColor(intensity*255, intensity*255, intensity*255, 255), zbuffer);
 
 [...]
 
-void triangle(Vec3i t0, Vec3i t1, Vec3i t2, TGAImage &image, TGAColor color, int *zbuffer) {
-    if (t0.y==t1.y && t0.y==t2.y) return; // i dont care about degenerate triangles
-    if (t0.y>t1.y) std::swap(t0, t1);
-    if (t0.y>t2.y) std::swap(t0, t2);
-    if (t1.y>t2.y) std::swap(t1, t2);
-    int total_height = t2.y-t0.y;
-    for (int i=0; i<total_height; i++) {
-        bool second_half = i>t1.y-t0.y || t1.y==t0.y;
-        int segment_height = second_half ? t2.y-t1.y : t1.y-t0.y;
-        float alpha = (float)i/total_height;
-        float beta  = (float)(i-(second_half ? t1.y-t0.y : 0))/segment_height; // be careful: with above conditions no division by zero here
-        Vec3i A =               t0 + Vec3f(t2-t0)*alpha;
-        Vec3i B = second_half ? t1 + Vec3f(t2-t1)*beta : t0 + Vec3f(t1-t0)*beta;
-        if (A.x>B.x) std::swap(A, B);
-        for (int j=A.x; j<=B.x; j++) {
-            float phi = B.x==A.x ? 1. : (float)(j-A.x)/(float)(B.x-A.x);
-            Vec3i P = Vec3f(A) + Vec3f(B-A)*phi;
-            int idx = P.x+P.y*width;
-            if (zbuffer[idx]<P.z) {
-                zbuffer[idx] = P.z;
+void triangle(Vec3f *pts, float *zbuffer, TGAImage &image, TGAColor color) {
+    Vec2f bboxmin( std::numeric_limits<float>::max(),  std::numeric_limits<float>::max());
+    Vec2f bboxmax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+    Vec2f clamp(image.get_width()-1, image.get_height()-1);
+    for (int i=0; i<3; i++) {
+        for (int j=0; j<2; j++) {
+            bboxmin[j] = std::max(0.f,      std::min(bboxmin[j], pts[i][j]));
+            bboxmax[j] = std::min(clamp[j], std::max(bboxmax[j], pts[i][j]));
+        }
+    }
+    Vec3f P;
+    for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
+        for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) {
+            Vec3f bc_screen  = barycentric(pts[0], pts[1], pts[2], P);
+            if (bc_screen.x<0 || bc_screen.y<0 || bc_screen.z<0) continue;
+            P.z = 0;
+            for (int i=0; i<3; i++) P.z += pts[i][2]*bc_screen[i];
+            if (zbuffer[int(P.x+P.y*width)]<P.z) {
+                zbuffer[int(P.x+P.y*width)] = P.z;
                 image.set(P.x, P.y, color);
             }
         }
@@ -189,6 +187,8 @@ It is terrific how little changes we made to the source code from the previous l
 Here is the render:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
+
+The source code can be found [here](https://github.com/ssloy/tinyrenderer/commit/68a5ae382135d679891423fb5285fdd582ca389d).
 
 # Okay, we just interpolated the z-values. What else can we do?
 
