@@ -72,9 +72,17 @@ It makes sense: to shear an object and then to rotate it is not the same as to r
 
 # 2D affine transformations
 
+So, any linear transformation on a plane is a composition of scale and shear transformations. And it means that we can do any linear transformation we want, the origin wont ever move! Those possibilities are great, but if we can not perform simple translations, our life will be miserable. Can we? Okay, translations are not linear, no problem, let us try to append translations after performing the linear part:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f07.svg)
 
+This expression is really cool, we can rotate, we can scale, shear and translate. However. Let us recall that we are interested in composing multiple transformation, here is what a composition of two transformations look like (remember, we need to compose dozes of those?):
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f08.svg)
+
+It is starting to look ugly even for a single composition, add more and things get even worse.
+
+# Homogeneous coordinates
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f09.svg)
 
