@@ -121,9 +121,25 @@ Let us continue, point (x,y,1/4) becomes (4x, 4y):
 
 If we continue the process, approaching to z=0, then the projection goes farther from the origin in the direction (x,y). In other words, point (x,y,0) is projected onto an infinitely far point in the direction (x,y). What is it? Right, it is simply a vector!
 
+Homogeneous coordinates allow to distinguish between a vector and a point. If a programmer writes vec2(x,y), is it a vector or a point? Hard to say. In homogeneous coordinates all things with z=0 are vectors, all the rest are points. Look: vector + vector = vector. Vector - vector = vector. Point + vector = point. Great, is not it?
+
+## A composite transformation 
+
+As i said before, we should be able to accumulate dozens of transformations. Why? Let us imagine we need to rotate an object (2D) around a point (x0,y0). How to do it? Well, we could look up for formulas somewhere, or we can do it by hand, we have all the tools we need!
+
+We know to rotate around the origin, we know how to translate. It is all we need: translate (x0,y0) into the origin, rotate, un-translate, done:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f11.svg)
 
+In 3D sequences of actions will be a bit longer, but the idea is the same: we need to know few basic transformations and with their aid we can represent any composed action.
+
+# Wait a minute, may I touch this magic last row of the 3x3 matrix?
+
+Sure thing! Let us apply the following transformation to our standard squarish object:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f12.svg)
+
+Recall that the original object is in white, unit axis vectors are in red and green:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/7f36ab01dad4a2937599de236c8d4d28.png)
 
@@ -144,4 +160,3 @@ If we continue the process, approaching to z=0, then the projection goes farther
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f16.svg)
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f17.svg)
-
