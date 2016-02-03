@@ -1,4 +1,4 @@
-# Perspective projection
+# The goal
 
 In previous lessons we rendered our model in orthographic projection by simply forgetting the z-coordinate. The goal for today is to learn how to draw in perspective:
 
