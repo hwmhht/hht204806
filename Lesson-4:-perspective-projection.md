@@ -186,7 +186,7 @@ It is really similar to the result we put aside few moments ago, but there we go
 
 *If you use simply copy-paste this formula without understanding the above material, I hate you.*
 
-So, if we want to compute a central projection with a camera ** (important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
+So, if we want to compute a central projection with a camera **(important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f17.svg)
 
