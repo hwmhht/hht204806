@@ -1,0 +1,1 @@
+![](https://hsto.org/getpro/habr/post_images/50d/e2a/be9/50de2abe990efa345664f98c9464a4c8.png)
