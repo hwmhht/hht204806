@@ -84,9 +84,22 @@ It is starting to look ugly even for a single composition, add more and things g
 
 # Homogeneous coordinates
 
+Okay, now it is the time for the black magic. Imagine that i add one column and one row to our transformation matrix (thus making it 3x3) and append one coordinate always equal to 1 to our vector to be transformed:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f09.svg)
 
+If we multiply this matrix and the vector augmented by 1 we get another vector with 1 in the last component, but the other two components have exactly the shape we would like! Magic.
+
+In fact, the idea is really simple. Parallel translations are not linear in the 2D space. So we embed our 2D into 3D space (by simply adding 1 for the 3rd component). It means that our 2D space is the plane z=1 in the 3D space. Then we perform a linear 3D transformation and project the result onto our 2D physical plane. Parallel translations have not become linear, but the pipeline is simple.
+
+How do we project 3D back onto the 2D plane? Simply by dividing by the 3d component:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f10.svg)
+
+## Wait a second, it is forbidden to divide by zero!
+
+Who said this? [Shoots]
+
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/47cf05bf642df13f9b738e2c3040f648.png)
 
