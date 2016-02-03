@@ -1,0 +1,1 @@
+![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm_tangent.png)
