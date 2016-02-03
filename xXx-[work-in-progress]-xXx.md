@@ -143,20 +143,51 @@ Recall that the original object is in white, unit axis vectors are in red and gr
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/7f36ab01dad4a2937599de236c8d4d28.png)
 
+Here is the transformed object:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/ff8f6a2130986fed747e55a26e054c6f.png)
+
+And here another kind of magic (white!) happens. Do you remember our y-buffer exercise? Here we will do the same: we project our 2D object onto the vertical line x=0. Let us harden the rules a bit: we have to use a central projection, our camera is in the point (5,0) and is pointed onto the origin. To find the projection we need to trace straight lines between the camera and the points to be projected (yellow) and to find the intersection with the screen line (white vertical).
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/a7081e13ad5016aa33f87edb50b218f0.png)
 
+Now i replace the original object with the transformed one, but i do not touch the yellow lines we drew before:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/2b9f233797ca0a8b2d9d9f9750c29a36.png)
+
+If we project the red object onto the screen using **standard orthogonal projection**, then we find exactly the same points! Let us look closely how the transformation works: all vertical segments are transformed into vertical segments, but those close to the camera are stretched and those far from the camera are shrunk. If we choose the coefficient correctly (in our transformation matrix it is the -1/5 coefficient), we obtain an image in perspective (central) projection!
+
+# Time to work in full 3D
+
+Let us explain the magic. As for 2D affine transformations, for 3D affine transformations we will use homogeneous coordinates: a point (x,y,z) is augmented with 1 (x,y,z,1), then we transform it in 4D and project back to 3D. For example, if we take the following transformation:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f13.svg)
 
+The retro-projection gives us the following 3D coordinages:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f14.svg)
+
+Let us remember this result, but put it aside for a while. Let us return to the standard definition of the central projection, without any fancy stuff as 4D transformations. Given a point P=(x,y,z) we want to project it onto the plane z=0, the camera is on the z-axis in the point (0,0,c):
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/525d3930435c3be900e4c7956edb5a1c.png)
 
+Triangles ABC and ODC are similar. It means that we can write the following: |AB|/|AC|=|OD|/|OC| => x/(c-z) = x'/c. In other words:
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f15.svg)
+
+By doing the same reasoning for triangles CPB and CP'D, it is easy to find the following expression:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f16.svg)
 
+It is really similar to the result we put aside few moments ago, but there we got the result by a single matrix multiplication. We got the law for the coefficient: r = -1/c.
+
+
+# Let us sum up: the main formula for today
+
+*If you use simply copy-paste this formula without understanding the above material, I hate you.*
+
+So, if we want to compute a central projection with a camera ** (important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f17.svg)
+
+We deformed our object in a way, that simply forgetting its z-coordinate we will get a drawing in a perspective. If we want to use the z-buffer, then, naturally, do not forget the z. The code is available [here](https://github.com/ssloy/tinyrenderer/tree/1cce85258d1f1cf75fd10fe4d62ebfdb669f8cf9), its result is visible in the very beginning of the article.
