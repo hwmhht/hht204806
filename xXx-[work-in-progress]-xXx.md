@@ -98,16 +98,28 @@ How do we project 3D back onto the 2D plane? Simply by dividing by the 3d compon
 
 ## Wait a second, it is forbidden to divide by zero!
 
-Who said this? [Shoots]
+Who said this? [Shoots] Let us recall the pipeline:
+* We embed 2D into 3D by putting it inside the plane z=3
+* We do whatever we want in 3d
+* For every point we want to project from 3D into 2D we draw a straight line between the origin and the point to project and then we find its intersection with the plane z=1.
 
+In this image our 2D plane is in magenta, the point (x,y,z) is projected onto (x/z, y/z):
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/47cf05bf642df13f9b738e2c3040f648.png)
 
+Let us imagine a vertical rail through the point (x,y,1). Where will be projected the point (x,y,1)? Doh, onto (x,y):
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/0c054967a27e66bf020844118a1750d8.png)
+
+Now let us descend on the rail, for example, the point (x,y,1/2) is projected onto (2x, 2y):
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/ed24b22a0542f9f930e0386c598d5a77.png)
 
+Let us continue, point (x,y,1/4) becomes (4x, 4y):
+
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/9e9658d91a6c8198606a8603012f048a.png)
+
+If we continue the process, approaching to z=0, then the projection goes farther from the origin in the direction (x,y). In other words, point (x,y,0) is projected onto an infinitely far point in the direction (x,y). What is it? Right, it is simply a vector!
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f11.svg)
 
