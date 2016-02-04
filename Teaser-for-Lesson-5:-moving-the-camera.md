@@ -101,6 +101,24 @@ In the OpenGL terminology this matrix is called viewport matrix.
 
 # Chain of coordinate transformations
 
+So, let us sum up. Our models (characters, for example) are created in their own local frame (**object coordinates**). They are inserted into a scene expressed in **world coordinates**. The transformation from one to another is made with matrix **Model**. Then, we want to express it in the camera frame (**eye coordinates**), the transformation is called **View**. Then, we deform the scene to create a perspective deformation with **Projection** matrix ([lesson 4](https://github.com/ssloy/tinyrenderer/wiki/Lesson-4:-perspective-projection)), this matrix transforms the scene to so-called **clip coordinates**. Finally, we draw the scene, and the matrix transforming clip coordinates to the **screen coordinates** is called **Viewport**.
+
+Again, if we read a point **v** from the .obj file, then to draw it on the screen it undergoes the following chain of transformations:
+```C++
+Viewport * Projection * View * Model * v.
+```
+
+If you look to [this](https://github.com/ssloy/tinyrenderer/blob/10723326bb631d081948e5346d2a64a0dd738557/main.cpp) commit, then you will see the following lines:
+
+```C++
+Vec3f v = model->vert(face[j]);
+screen_coords[j] =  Vec3f(ViewPort*Projection*ModelView*Matrix(v));
+```
+
+As i draw a single object only, the matrix Model is equal to identity, and i merged it with the matrix View.
+
+# Transformation of normal vectors
+
 ![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f05.svg)
 
 ![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f06.svg)
