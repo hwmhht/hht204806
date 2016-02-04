@@ -119,8 +119,32 @@ As i draw a single object only, the matrix Model is equal to identity, and i mer
 
 # Transformation of normal vectors
 
+There is a widely-known fact:
+
+* If we have a model and its normal vectors are given by the artist AND this model is transformed with an affine mapping, then normal vectors are to be transformed with a mapping, equal to the transposition of the inverse matrix of the original mapping matrix
+
+What-what-what?! I met quite a few programmers who know this fact, but it remains a black magic for them. In fact, it is not so complicated. Take a pencil and draw a 2D triangle (0,0), (0,1), (1,0) and a vector **n**, normal to the hypothenuse. Naturally, **n** is equal to (1,1). Then let us stretch all the y-coordinates by a factor of 2, leaving x-coordinates intact. Thus, our triangle becomes (0,0), (0,2), (1,0). If we transform the vector **n** in the same way, it becomes (1, 2) and it is no longer orthogonal to the transformed edge of the triangle.
+
+Thus, to remove all the black magic fog, we need to understand one simple thing: **we do not need to simply transform normal vectors (as they can become not normal anymore), we need to compute (new) normal vectors to the transformed model.**
+
+Back to 3D, we have a vector **n** = (A,B,C). We know that the plane passing through the origin and having **n** for its normal, has an equation Ax+By+Cz=0. Let us write it in the matrix form (i do it in homogeneous coordinates from the beginning):
+ 
 ![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f05.svg)
+
+Recall that (A,B,C) - is a vector, so we augment it with 0 when embedding into the 4D, and (x,y,z) is augmented with 1 since it is a point.
+
+Let us insert an identity matrix in between (inverse to M multiplied by M is equal to identity):
 
 ![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f06.svg)
 
+The expression in right parentheses - are for the transformed points of the object. In the left - are for normal vectors to the transformed object! In standard convention we usually write coordinates as columns (please let us not raise all the stuff about contra- and co-variant vectors), so we can rewrite the previous expression as follows:
+
 ![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f07.svg)
+
+And the left parentheses tell us that a normal to the transformed object can be computed from the old normal by applying the inverse transpose matrix of the affine mapping.
+
+Please note that if our transformation matrix M is a composition of uniform scalings, rotations and translations, then M is equal to its inverse transpose, since inverse and transpose are cancelling each other in this case. But since our matrices include perspective deformations, usually this trick does not help.
+
+In the current code we do not use the transformation of normal vectors, but in the next lesson it will be very, very handy. 
+
+Happy coding!
