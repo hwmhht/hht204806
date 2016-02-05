@@ -69,11 +69,11 @@ Yes, they can. Shaders can be used for other things than simple lighting tasks. 
 
 First of all, at the CPU side we send one vertex per sphere to draw. If we do not use any fancy shaders, here is the image we will get:
 
-!()[https://habrastorage.org/getpro/habr/post_images/fb0/48c/3c3/fb048c3c313377c098a45a2faa761866.png]
+![](https://habrastorage.org/getpro/habr/post_images/fb0/48c/3c3/fb048c3c313377c098a45a2faa761866.png)
 
 Then in the vertex shader we change gl_PointSize, it produces a set of large square pixels:
 
-!()[https://habrastorage.org/getpro/habr/post_images/6a9/4ef/841/6a94ef841cacdaea03e3482abcefcf1c.png]
+![](https://habrastorage.org/getpro/habr/post_images/6a9/4ef/841/6a94ef841cacdaea03e3482abcefcf1c.png)
 
 Please note that the fragment shader will be executed *for each pixel* of the square! Now it is all simple. In the fragment shader we check the distance of the current pixel from the square center and discard it if it is greater than the radius of the sphere to draw. Thus we can get a set of flat confetti:
 
