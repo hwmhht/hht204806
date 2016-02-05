@@ -109,3 +109,17 @@ Our spheres:
 
 Difference between the two:
 [![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_depth_b.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_depth_b.png)
+
+Result of the vertex shader:
+[![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/vertex_shader_pointsize_a.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/vertex_shader_pointsize_a.png)
+
+Let us debug it by superposing triangulated spheres:
+[![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/vertex_shader_pointsize_b.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/vertex_shader_pointsize_b.png)
+
+Discard only in the fragment shader:
+[![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_discard_a.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_discard_a.png)
+
+Superposition with triangulated spheres to check the correctness:
+[![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_discard_b.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/fragment_shader_discard_b.png)
+
+The depth and the lighting debugging were provided at the beginning of the section. Enjoy!
