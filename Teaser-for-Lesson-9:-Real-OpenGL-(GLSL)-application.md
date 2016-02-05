@@ -12,7 +12,7 @@ It is a nice task to start learning shaders. First I will show how to create an 
 
 As usual, I created a [repo](https://github.com/ssloy/glsltuto/tree/006d7a1be29e2513af6700db7ed0d0063e859a2e). *Attention, this is a separate repository from the tinyrenderer, since it actually uses 3rd party libraries.* At the moment OpenGL does not provide a cross-platform way to create the rendering context. Here I use libraries GLUT, GLU and GLEW. 
 
-**Attention,** *glut is really outdated, my choice is based on the fact that in our university hardware as well as software are really old. I do not even have a C++11 compiler. You should probably use sfml/sdl other. I am not worried though about glut, since this writing focuses on shaders (GPU side) and not on OpenGL context (CPU side) *
+**Attention,** *glut is really outdated, my choice is based on the fact that in our university hardware as well as software are really old. I do not even have a C++11 compiler. You should probably use sfml/sdl other. I am not worried though about glut, since this writing focuses on shaders (GPU side) and not on OpenGL context (CPU side). The same applies to the fixed pipeline in our rendering routine. I do not have access to OpenGL 4+ on our school computers. *
 
 [Here](https://github.com/ssloy/glsltuto/blob/006d7a1be29e2513af6700db7ed0d0063e859a2e/main.cpp) is a code to draw [the Utah teapot](http://en.wikipedia.org/wiki/Utah_teapot).
 
@@ -57,4 +57,24 @@ So, we know how to create an OpenGL context and how to link shaders. Let us put 
 Here is the image we should get in this way:
 ![](https://habrastorage.org/getpro/habr/post_images/12c/a31/763/12ca317633a2472dc66bc6b4db013677.png)
 
-This image gives me a headache. 
+This image gives me a headache. An intersection between two spheres in a circle, and here we have anything but circular intersections. It is the consequence of triangulated spheres: we drew our "spheres" with 16 parallels and meridians (about 500 triangles per sphere). Besides the bad rendering quality a question of computational cost arises: if we want to draw ten millions of atoms, we will need to send 5 billions of triangles and it creates a bottleneck in the bus transfer.
+
+# Can shaders help us?
+
+Yes, they can. Shaders can be used for other things than simple lighting tasks. I want to minimize data transfer between GPU and CPU, so I will send one vertex per sphere to draw.
+
+*Again, I am using GLSL #120 because of the harware restrictions I have. New GLSL has a bit different syntax, but the idea is the same.*
+
+[Here](https://github.com/ssloy/glsltuto/tree/b58de5f79de31ff0522ddd81eaead4a94f8595b3) is the source code for drawing the spheres using shaders. So, what is the idea?
+
+First of all, at the CPU side we send one vertex per sphere to draw. If we do not use any fancy shaders, here is the image we will get:
+
+!()[https://habrastorage.org/getpro/habr/post_images/fb0/48c/3c3/fb048c3c313377c098a45a2faa761866.png]
+
+Then in the vertex shader we change gl_PointSize, it produces a set of large square pixels:
+
+!()[https://habrastorage.org/getpro/habr/post_images/6a9/4ef/841/6a94ef841cacdaea03e3482abcefcf1c.png]
+
+Please note that the fragment shader will be executed *for each pixel* of the square! Now it is all simple. In the fragment shader we check the distance of the current pixel from the square center and discard it if it is greater than the radius of the sphere to draw. Thus we can get a set of flat confetti:
+
+![](https://hsto.org/files/517/a19/830/517a19830f0c400e82f985d11e50accb.png)
