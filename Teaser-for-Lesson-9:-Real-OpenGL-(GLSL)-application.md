@@ -34,3 +34,16 @@ The most interesting part is inside our render_scene() callback:
 
 Finally we should get the following picture:
 ![](https://habrastorage.org/getpro/habr/post_images/07a/035/9e5/07a0359e5c30889f63555cd4efa85624.png)
+
+# GLSL helloworld
+
+[Here](https://github.com/ssloy/glsltuto/tree/ebc9594a594bcedd7e91a5880bfef8e25ba81044) you can find source code of the simplest use of shaders. Github is really handy to see the changes between versions, compare what was [actually changed](https://github.com/ssloy/glsltuto/commit/ebc9594a594bcedd7e91a5880bfef8e25ba81044).
+
+The image we should get is the following one:
+[](https://habrastorage.org/getpro/habr/post_images/ec8/be3/fe5/ec8be3fe50ec9258ad9bd5bb328c4c8e.png)
+
+What were the changes? First, I added two new files: frag_shader.glsl and vert_shader.glsl, written not in C++, but in [GLSL](http://en.wikipedia.org/wiki/OpenGL_Shading_Language). Those are our shaders, that we feed to the GPU. In main.cpp we added necessary wrapping code telling the GPU to use these shaders.
+
+More precisely, I created prog_hdlr handler and linked the source code of shaders: first we read the text files, then we compile it on-the-fly and then link to the program handler.
+
+# Drawing a "molecule" with standard OpenGL means
