@@ -56,3 +56,5 @@ So, we know how to create an OpenGL context and how to link shaders. Let us put 
 
 Here is the image we should get in this way:
 ![](https://habrastorage.org/getpro/habr/post_images/12c/a31/763/12ca317633a2472dc66bc6b4db013677.png)
+
+This image gives me a headache. 
