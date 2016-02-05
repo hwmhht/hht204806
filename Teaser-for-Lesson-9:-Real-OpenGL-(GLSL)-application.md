@@ -78,3 +78,15 @@ Then in the vertex shader we change gl_PointSize, it produces a set of large squ
 Please note that the fragment shader will be executed *for each pixel* of the square! Now it is all simple. In the fragment shader we check the distance of the current pixel from the square center and discard it if it is greater than the radius of the sphere to draw. Thus we can get a set of flat confetti:
 
 ![](https://hsto.org/files/517/a19/830/517a19830f0c400e82f985d11e50accb.png)
+
+Then we can change the depth of each pixel:
+
+![](https://hsto.org/files/bf2/899/dd3/bf2899dd30454301b05a4b248c3c948b.png)
+
+The last thing to do is to compute actual shading (yay shaders!):
+
+![](https://habrastorage.org/getpro/habr/post_images/ea2/917/919/ea291791954647279347a9e90fd8481d.png)
+
+Let us put again the triangulated render we saw at the very beginning:
+
+![](https://habrastorage.org/getpro/habr/post_images/12c/a31/763/12ca317633a2472dc66bc6b4db013677.png)
