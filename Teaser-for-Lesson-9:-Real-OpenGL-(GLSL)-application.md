@@ -47,3 +47,12 @@ What were the changes? First, I added two new files: frag_shader.glsl and vert_s
 More precisely, I created prog_hdlr handler and linked the source code of shaders: first we read the text files, then we compile it on-the-fly and then link to the program handler.
 
 # Drawing a "molecule" with standard OpenGL means
+
+So, we know how to create an OpenGL context and how to link shaders. Let us put it aside for a while and draw 10000 of random spheres. I want to have our source code as simple as possible, so I would not load an actual molecule, even if (ascii) .pdb format is really simple. Then the task is formulated as follows: *let us draw a lot of random spheres of random color*.
+
+[Here is](https://github.com/ssloy/glsltuto/tree/5cfd168c3734072e1af96f0849f544e762dd1b98) a commit drawing the spheres **without** using shaders, it calls glutSolidSphere().
+
+[Do not forget](https://github.com/ssloy/glsltuto/commit/5cfd168c3734072e1af96f0849f544e762dd1b98) to check the changes. I added atoms array with seven entries per atom: its center, radius and RGB color.
+
+Here is the image we should get in this way:
+![](https://habrastorage.org/getpro/habr/post_images/12c/a31/763/12ca317633a2472dc66bc6b4db013677.png)
