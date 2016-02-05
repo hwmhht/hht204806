@@ -1,8 +1,8 @@
 # The goal
 
-Once upon a time I had to render (fast) molecules. For example, a molecule can be represented as a set of spheres, like in the following image:
+Once upon a time I had to render (fast) molecules. For example, a molecule can be represented as a set of spheres, like in the following image (clickable):
 
-![](https://hsto.org/getpro/habr/post_images/ca2/e9b/7a2/ca2e9b7a235690715acd5dc35da4d919.png)
+[![](https://hsto.org/getpro/habr/post_images/ca2/e9b/7a2/ca2e9b7a235690715acd5dc35da4d919.png)](https://hsto.org/getpro/habr/post_images/ca2/e9b/7a2/ca2e9b7a235690715acd5dc35da4d919.png)
 
 This is a virus consisting of roughly three million atoms. You can download the model from a wonderful site called [rcsb.org](http://www.rcsb.org/pdb/explore.do?structureId=2BTV). 
 
