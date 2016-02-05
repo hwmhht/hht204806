@@ -90,3 +90,12 @@ The last thing to do is to compute actual shading (yay shaders!):
 Let us put again the triangulated render we saw at the very beginning:
 
 ![](https://habrastorage.org/getpro/habr/post_images/12c/a31/763/12ca317633a2472dc66bc6b4db013677.png)
+
+Quite an improvement for quality, is not it? And as a bonus a better performance! If we add .pdb file parsing + ambient occlusion, we get the teaser image I gave a the beginning of the lesson.
+
+# Well, glOrtho is good, but what about perspective projection?
+
+For those who would like to implement the idea in perspective projection, there is a nice article ![here](http://reality.cs.ucl.ac.uk/projects/quadrics/pbg06.pdf). The source code is available in the repository, for the comments refer to the paper. Here I put the images of the process.
+
+Triangulated spheres for debug purposes:
+[![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/glut_spheres.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/glut_spheres.png)
