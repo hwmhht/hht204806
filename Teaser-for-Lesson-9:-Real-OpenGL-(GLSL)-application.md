@@ -16,3 +16,21 @@ As usual, I created a [repo](https://github.com/ssloy/glsltuto/tree/006d7a1be29e
 
 [Here](https://github.com/ssloy/glsltuto/blob/006d7a1be29e2513af6700db7ed0d0063e859a2e/main.cpp) is a code to draw [the Utah teapot](http://en.wikipedia.org/wiki/Utah_teapot).
 
+Let us see how it works starting from main() function:
+* First line initializes the library, telling that we will use two framebuffers, colors and a z-buffer
+* Then we specify window dimensions, position, title and a background color, here it is blue
+* Next something interesting happens: glutDisplayFunc, glutReshapeFunc and glutKeyboardFunc specify our callback functions that will be called on redraw, redimension and keyboard press events.
+* Next a bit of checkboxes telling us that yes, we actually use z-buffer, we have a bit of lighting etc
+* Finally - the call to the main window loop. glutMainLoop is working while the operating system shows the window.
+
+Here keyboard processing is simple, I quit the application (a bit brutally) after hitting the ESC key. On resize event I pass to OpenGL new window size and specify that our projection is still orthogonal and we must map the bi-unit square [-1,1]x[-1,1] onto the screen.
+
+The most interesting part is inside our render_scene() callback:
+* first we clear our frame- and z-buffers
+* next we clear our ModelView matrix and load inside the camera position (here it is constant)
+* set the red color
+* draw the teapot
+* swap the framebuffers
+
+Finally we should get the following picture:
+![](https://habrastorage.org/getpro/habr/post_images/07a/035/9e5/07a0359e5c30889f63555cd4efa85624.png)
