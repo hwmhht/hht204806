@@ -166,9 +166,7 @@ Let us re-list the fragment shader:
     }
 ```
 
-This routine is called for each pixel inside the triangle we draw; as an input it receives [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) for interpolation of varying_ data.
-
-Thus, interpolated intensity can be computed as varying_intensity[0]\*bar[0]+varying_intensity[1]\*bar[1]+varying_intensity[2]\*bar[2] or simply as a dot product between two vectors: varying_intensity\*bar. In true GLSL, of course, fragment shaders receive ready interpolated values.
+This routine is called for each pixel inside the triangle we draw; as an input it receives [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) for interpolation of varying_ data. Thus, interpolated intensity can be computed as varying_intensity[0]\*bar[0]+varying_intensity[1]\*bar[1]+varying_intensity[2]\*bar[2] or simply as a dot product between two vectors: varying_intensity\*bar. In true GLSL, of course, fragment shaders receive ready interpolated values.
 
 Notice that the shader returns a bool value. It is easy to understand what it does if we look inside the rasterizer (our_gl.cpp, triangle() function):
 
