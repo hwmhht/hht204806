@@ -137,6 +137,10 @@ Okay, in the above image all the stages we can not touch are shown in blue, wher
 
 That is all. You know what the shaders are and now you can create your own shaders.
 
+# My implementation of shaders work, or Gouraud shading
+
+![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/output.png)
+
 Let us check the shader I listed above in the main.cpp. As the name shows, it is a Gouraud shader. Let me re-list the code:
 
 ```C++
@@ -163,6 +167,23 @@ Let us re-list the fragment shader:
 ```
 
 This routine is called for each pixel inside the triangle we draw; as an input it receives [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) for interpolation of varying_ data.
+
+Thus, interpolated intensity can be computed as varying_intensity[0]*bar[0]+varying_intensity[1]*bar[1]+varying_intensity[2]*bar[2] or simply as a dot product between two vectors: varying_intensity*bar. In true GLSL, of course, fragment shaders receive ready interpolated values.
+
+Notice that the shader returns a bool value. It is easy to understand what it does if we look inside the rasterizer (our_gl.cpp, triangle() function):
+
+```C++
+         TGAColor color;
+            bool discard = shader.fragment(c, color);
+            if (!discard) {
+                zbuffer.set(P.x, P.y, TGAColor(P.z));
+                image.set(P.x, P.y, color);
+            }
+```
+
+Fragment shader can discard drawing of the current pixel, then the rasterizer simply skips it. It is handy if we want to create binary masks or whatever you want (check the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application) for a very cool example of discarding pixels).
+
+Of cause, the rasterizer can not imagine all the weird stuff you could program, therefore it can not be pre-compiled with your shader. Here we use abstract calss IShader as an intermediate between the two. Wow, it is quite rare I use abstract classes, but without it we would suffer here. Pointers to functions are ugly.
 
 
 
