@@ -119,7 +119,7 @@ Let us see how it works. Skipping the headers, we declare few global constants: 
 * Initialization of ModelView, Projection and Viewport matrices (recall that actual instances of these matrices are in the our_gl module)
 * Iteration through all triangles of the model and rasterization of each triangle.
 
-The last thing is the most interesting. Outer loop iterates through all the triangles. Inner loop iterates through all the vertices of the current triangle and calls a vertex shader for each vertex.
+The last step is the most interesting. Outer loop iterates through all the triangles. Inner loop iterates through all the vertices of the current triangle and calls a vertex shader for each vertex.
 
 **The main goal of the vertex shader is to transform the coordinates of the vertices. The secondary goal is to prepare data for the fragment shader**
 
