@@ -137,7 +137,7 @@ Okay, in the above image all the stages we can not touch are shown in blue, wher
 
 That is all. You know what the shaders are and now you can create your own shaders.
 
-# My implementation of shaders work, or Gouraud shading
+# My implementation of shaders or Gouraud shading
 
 ![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/output.png)
 
