@@ -16,7 +16,7 @@ For a total of 525 lines, exactly what we wanted. Please note that the only file
 # Refactoring the source code
 
 Okay, our main.cpp is starting to grow too much, let us split it in two:
-* our_gl.cpp+h - this is the graphics programmer can not touch, roughly speaking, it is a binary of the OpenGL library
+* our_gl.cpp+h - this part the programmer can not touch: roughly speaking, it is a binary of the OpenGL library
 * main.cpp - here we can program all we want.
 
 Now, what did I put into our_gl? ModelView, Viewport and Projection matrices along with initialization functions and the triangle rasterizer. That is all!
