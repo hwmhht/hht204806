@@ -1,6 +1,6 @@
 **Recall that all my source code here is meant to be compared with yours. Do not use my code, write your own. I am a bad programmer. Please, do the most insane shaders and send me images, I'll post them here.**
 
-Time for fun. First of all, let us check the current state of the [source code](https://github.com/ssloy/tinyrenderer/tree/f037c7a0517a632c7391b35131f9746a8f8bb235):
+Time for fun! First of all, let us check the current state of the [source code](https://github.com/ssloy/tinyrenderer/tree/f037c7a0517a632c7391b35131f9746a8f8bb235):
 
 * geometry.cpp+.h — 218 lines
 * model.cpp+.h — 139 lines
@@ -135,11 +135,11 @@ Okay, in the above image all the stages we can not touch are shown in blue, wher
 
 That is all. You know what the shaders are and now you can create your own shaders.
 
-# My implementation of shaders or Gouraud shading
+# My implementation of shaders shown on Gouraud shading
 
 ![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/output.png)
 
-Let us check the shader I listed above in the main.cpp. As the name shows, it is a Gouraud shader. Let me re-list the code:
+Let us check the shader I listed above in the main.cpp. According to its name, it is a Gouraud shader. Let me re-list the code:
 
 ```C++
     Vec3f varying_intensity; // written by vertex shader, read by fragment shader
@@ -150,7 +150,7 @@ Let us check the shader I listed above in the main.cpp. As the name shows, it is
     }
 ```
 
-vayring - is a reserved keyword in GLSL language, I have used varying_intensity as a name in order to show the correspondence (we will talk about GLSL in the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application)). In varying variables we store data to be interpolated inside the triangle, and the fragment shaders gets the interpolated value (for the current pixel).
+**vayring** is a reserved keyword in GLSL language, I have used varying_intensity as a name in order to show the correspondence (we will talk about GLSL in the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application)). In varying variables we store data to be interpolated inside the triangle, and the fragment shaders get the interpolated value (for the current pixel).
 
 Let us re-list the fragment shader:
 
