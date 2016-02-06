@@ -283,3 +283,27 @@ struct Shader : public IShader {
         triangle(screen_coords, shader, image, zbuffer);
     }
 ```
+
+**Uniform** is a reserved keyword in GLSL, it allows to pass constants to the sahders. Here I passed the matrix Projection\*ModelView and its inverse transpose to transform the normal vectors (refer to the end of the [lesson 5](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera)). So, computation of the lighting intensity is the same, as before with one exception: instead of interpolating normal vectors we retrieve the information from the normal mapping texture (do not forget to transform light vector and normal vectors).
+
+![](http://hsto.org/files/161/ecc/7c4/161ecc7c4f0147ca8ae66f0eb21baf29.png)
+
+# Specular mapping
+
+Okay, let us continue the fun. All the computer graphics science is the art to cheat. To (cheaply) trick the eye we use the [Phong's approximation](https://en.wikipedia.org/wiki/Phong_reflection_model) of the lighting model. Phong proposed to consider the final lighting as a (weighted) sum of three light intensities: ambient lighting (constant per scene), diffuse lighting (the one we computed up to this moment) and specular lighting.
+
+Take a look at the following image, it speaks for itself:
+
+![](http://hsto.org/getpro/habr/comment_images/e37/20a/5df/e3720a5dfedc49edb0bf70f8bc64204a.png)
+
+We compute diffuse lighting as a cosine of the angle between the normal vector and the light direction vector. I mean, this supposes that the light is reflected in all directions uniformly. What happens to glossy surfaces? In the limit case (mirror) the pixel is illuminated if and only if we can see the light source reflected by this pixel:
+
+![](http://hsto.org/files/d58/cd3/bba/d58cd3bbab46463e87b782a12a147fbb.png)
+
+For diffuse lighting we computed the (cosine of) angle between vectors **n** and **l**, and now we are interested in the (cosine of) angle between vectors **r** (reflected light direction) and **v** (view direction).
+
+**Exercise 3:** Given vectors **n** and **l**, find vector **r**.
+_Answer:_ If **n** and **l** are normalized, then **r** = 2**n**<**n**,**l**> - **l**
+
+
+
