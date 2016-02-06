@@ -236,7 +236,7 @@ Okay, now we have texture coordinates. What can we store in texture images? In f
 
 ![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm.png)
 
-If we interpreate RGB values as xyz directions, this image gives us normal vectors **for each pixel** of our render and not only per vertex as before.
+If we interpret RGB values as xyz directions, this image gives us normal vectors **for each pixel** of our render and not only per vertex as before.
 
 By the way, compare this image to another one, it gives exactly the same information, but in another frame:
 
