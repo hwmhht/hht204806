@@ -13,9 +13,6 @@ For a total of 525 lines, exactly what we wanted. Please note that the only file
 
 ![](https://hsto.org/getpro/habr/post_images/e3c/d70/492/e3cd704925f52b5466ab3c4f9fbab899.png)
 
-_Black triangles at the corns - is a problem of uv textures in the model, I can not stand the black guy's head anymore and too lazy to fix the UV of the demon :)_
-
-
 # Refactoring the source code
 
 Okay, our main.cpp is starting to grow too much, let us split it in two:
