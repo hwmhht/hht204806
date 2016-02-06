@@ -131,7 +131,9 @@ The rendering pipeline for the OpenGL 2 can be represented as follows (in fact, 
 
 ![](http://3dgep.com/wp-content/uploads/2014/01/OpenGL-2.0-Programmable-Shader-Pipeline.png)
 
-Because of the time limits I have for my course, I restrict myself to the OpenGL 2 pipeline and therefore to fragment and vertex shaders only. In newer versions of OpenGL there are other shaders, allowing, for example, to generate geometry on the fly. Well, in the above image all the stages we can not touch are shown in blue, whereas our callbacks are shown in orange. In fact, our main() function - is the **primitive processing** routine. It calls the vertex shader. We do not have primitive assembly here, since we are drawing dumb triangles only (in our code it is merged with the primitive processing). triangle() function - is the **rasterizer**, for each point inside the triangle it calls the **fragment shader**, then performs depth checks (z-buffer) and such.
+Because of the time limits I have for my course, I restrict myself to the OpenGL 2 pipeline and therefore to fragment and vertex shaders only. In newer versions of OpenGL there are other shaders, allowing, for example, to generate geometry on the fly. 
+
+Okay, in the above image all the stages we can not touch are shown in blue, whereas our callbacks are shown in orange. In fact, our main() function - is the **primitive processing** routine. It calls the vertex shader. We do not have primitive assembly here, since we are drawing dumb triangles only (in our code it is merged with the primitive processing). triangle() function - is the **rasterizer**, for each point inside the triangle it calls the **fragment shader**, then performs depth checks (z-buffer) and such.
 
 That is all. You know what the shaders are and now you can create your own shaders.
 
