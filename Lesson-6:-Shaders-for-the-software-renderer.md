@@ -343,6 +343,8 @@ _Please note that normally the sum of the coefficents must be equal to 1, but yo
 
 ![](http://hsto.org/files/5ac/940/44f/5ac94044fb2b405f9b9c1647e5b86feb.png)
 
+![](http://www.loria.fr/~sokolovd/cg-course/boggie.png) 
+
 # Conclusion
 
 We know how to render quite nice scenes, but our lighting is far from being real. In the next articles I will talk about shadows.
