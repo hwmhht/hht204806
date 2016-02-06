@@ -282,7 +282,7 @@ struct Shader : public IShader {
     }
 ```
 
-**Uniform** is a reserved keyword in GLSL, it allows to pass constants to the shaders. Here I pass the matrix Projection\*ModelView and its inverse transpose to transform the normal vectors (refer to the end of the [lesson 5](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera)). So, computation of the lighting intensity is the same, as before with one exception: instead of interpolating normal vectors we retrieve the information from the normal mapping texture (do not forget to transform light vector and normal vectors).
+**Uniform** is a reserved keyword in GLSL, it allows to pass constants to the shaders. Here I pass the matrix Projection\*ModelView and its inverse transpose to transform the normal vectors (refer to the end of the [lesson 5](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera)). So, computation of the lighting intensity is the same as before with one exception: instead of interpolating normal vectors we retrieve the information from the normal mapping texture (do not forget to transform light vector and normal vectors).
 
 ![](http://hsto.org/files/161/ecc/7c4/161ecc7c4f0147ca8ae66f0eb21baf29.png)
 
