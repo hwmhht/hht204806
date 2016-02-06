@@ -306,5 +306,47 @@ For diffuse lighting we computed the (cosine of) angle between vectors **n** and
 
 _Answer:_ If **n** and **l** are normalized, then **r** = 2**n**<**n**,**l**> - **l**
 
+For diffused lighting we computed the light intensity as the cosine. But a glossy surface reflects in one direction much more than in others! Okay then, what happens if we take tenth power of the cosine? Recall that all numbers inferior to 1 will decrease when we apply the power. It means that tenth power of the cosine will give smaller radius of the reflected beam. And hundredth power **much** smaller beam radius. This power is stored in a special texture (specular mapping texture) that tells for each point if it is glossy or not.
 
+```C++
+struct Shader : public IShader {
+    mat<2,3,float> varying_uv;  // same as above
+    mat<4,4,float> uniform_M;   //  Projection*ModelView
+    mat<4,4,float> uniform_MIT; // (Projection*ModelView).invert_transpose()
 
+    virtual Vec4f vertex(int iface, int nthvert) {
+        varying_uv.set_col(nthvert, model->uv(iface, nthvert));
+        Vec4f gl_Vertex = embed<4>(model->vert(iface, nthvert)); // read the vertex from .obj file
+        return Viewport*Projection*ModelView*gl_Vertex; // transform it to screen coordinates
+    }
+
+    virtual bool fragment(Vec3f bar, TGAColor &color) {
+        Vec2f uv = varying_uv*bar;
+        Vec3f n = proj<3>(uniform_MIT*embed<4>(model->normal(uv))).normalize();
+        Vec3f l = proj<3>(uniform_M  *embed<4>(light_dir        )).normalize();
+        Vec3f r = (n*(n*l*2.f) - l).normalize();   // reflected light
+        float spec = pow(std::max(r.z, 0.0f), model->specular(uv));
+        float diff = std::max(0.f, n*l);
+        TGAColor c = model->diffuse(uv);
+        color = c;
+        for (int i=0; i<3; i++) color[i] = std::min<float>(5 + c[i]*(diff + .6*spec), 255);
+        return false;
+    }
+};
+```
+
+I think that i do not need to comment anything in the above code at the exception of coefficients.
+```C++
+        for (int i=0; i<3; i++) color[i] = std::min<float>(5 + c[i]*(diff + .6*spec), 255);
+```
+I took 5 for the ambient component, 1 for the diffuse component and .6 for the specular component. What coefficients to choose - is your choice. Different choices give different appearances for the object. Normally it is for the artist to decide.
+
+_Please note that normally the sum of the coefficents must be equal to 1, but you know. I like to create light._
+
+!()[http://hsto.org/files/5ac/940/44f/5ac94044fb2b405f9b9c1647e5b86feb.png]
+
+# Conclusion
+
+We know how to render quite nice scenes, but our lighting is far from being real. In the next articles I will talk about shadows.
+
+Enjoy!
