@@ -2,7 +2,7 @@
 
 **Recall that all my source code here is meant to be compared with yours. Do not use my code, write your own. I am a bad programmer. Please, do the most insane shaders and send me images, I'll post them here.**
 
-Time for fun. First of all, let us check the current state of the source code:
+Time for fun. First of all, let us check the current state of the [source code](https://github.com/ssloy/tinyrenderer/tree/f037c7a0517a632c7391b35131f9746a8f8bb235):
 
 * geometry.cpp+.h — 218 lines
 * model.cpp+.h — 139 lines
