@@ -1,5 +1,3 @@
-# [WORK IN PROGRESS]
-
 **Recall that all my source code here is meant to be compared with yours. Do not use my code, write your own. I am a bad programmer. Please, do the most insane shaders and send me images, I'll post them here.**
 
 Time for fun. First of all, let us check the current state of the [source code](https://github.com/ssloy/tinyrenderer/tree/f037c7a0517a632c7391b35131f9746a8f8bb235):
@@ -343,7 +341,7 @@ I took 5 for the ambient component, 1 for the diffuse component and .6 for the s
 
 _Please note that normally the sum of the coefficents must be equal to 1, but you know. I like to create light._
 
-!()[http://hsto.org/files/5ac/940/44f/5ac94044fb2b405f9b9c1647e5b86feb.png]
+![](http://hsto.org/files/5ac/940/44f/5ac94044fb2b405f9b9c1647e5b86feb.png)
 
 # Conclusion
 
