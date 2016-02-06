@@ -1,6 +1,6 @@
 # Introduction
 
-Hello, let me introduce you my friend z-buffer of a black guy. He will help us to get rid of visual artifacts of hidden faces removal we had in during the last lesson.
+Hello, let me introduce you my friend z-buffer of a black guy. He will help us get rid of the visual artifacts of the hidden faces removal we had during the last lesson.
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3f057a75601d8ac34555e72ea03ef711.png)
 
@@ -10,7 +10,7 @@ Well, back to the topic, in theory we could just draw all the triangles without 
 
 # Let us try to render a simple scene
 
-Imagine a simplest scene made of three triangles: the camera looks up-to-down, we project the colored triangles onto the white screen:
+Imagine a simple scene made of three triangles: the camera looks up-to-down, we project the colored triangles onto the white screen:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d493c52da4cabe9a057c26f696784956.png)
 
@@ -20,9 +20,9 @@ The render should look like this:
 
 Blue facet - is it behind or in front of the red one? The painter's algorithm does not work here. It is possible to split blue facet in two (one in front of the red facet and one behind). And then the one in front of the red one is to be split in two - one in front of the green triangle and one behind... I think you get the problem: in scenes with millions of triangles it is really expensive to compute. It is possible to use [BSP trees](https://en.wikipedia.org/wiki/Binary_space_partitioning) to get it done. By the way, this data structure is constant for moving camera, but it is really messy. And the life is too short to get it messy.
 
-# Even simpler: let us loose a dimension. Y-buffer!
+# Even simpler: let us lose a dimension. Y-buffer!
 
-Let us loose a dimension for a while and to cut the above scene along the yellow plane:
+Let us lose a dimension for a while and to cut the above scene along the yellow plane:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d673f40bcadbe53f4b3cb29bbbcfb461.png)
 
@@ -54,7 +54,7 @@ This is how our 2D scene looks like if we look at it sideways:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/20e9d8742d17979ec70e45cafacd63a5.png)
 
-Let us render it. Recall that the render is 1 pixel height. In my source code i create images 16 pixels height for the ease of reading on high resolution screens. *rasterize()* function writes only in the first line of the image *render*
+Let us render it. Recall that the render is 1 pixel height. In my source code I create images 16 pixels height for the ease of reading on high resolution screens. *rasterize()* function writes only in the first line of the image *render*
 
 ```C++
         TGAImage render(width, 16, TGAImage::RGB);
@@ -199,6 +199,6 @@ The number in the middle (between the slashes) in the facet lines "f x/x/x x/x/x
 
 Diffuse texture can be taken [here](https://github.com/ssloy/tinyrenderer/raw/master/obj/african_head_diffuse.tga).
 
-Here is an example of what i expect from you:
+Here is an example of what I expect from you:
 
 ![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/73714966ad4a4377b8c4df60bef03777.png)
