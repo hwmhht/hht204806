@@ -121,9 +121,9 @@ Let us see how it works. Skipping the headers, we declare few global constants: 
 
 The last step is the most interesting. Outer loop iterates through all the triangles. Inner loop iterates through all the vertices of the current triangle and calls a vertex shader for each vertex.
 
-**The main goal of the vertex shader is to transform the coordinates of the vertices. The secondary goal is to prepare data for the fragment shader**
+**The main goal of the vertex shader is to transform the coordinates of the vertices. The secondary goal is to prepare data for the fragment shader.**
 
-What happens after? We call the rasterization routine. What happens inside the rasterizer we do not know (well, okay, we do know since we programmed it) besides one thing. We know that the rasterizer calls **our** routine for each pixel, namely, the fragment shader. Again, for each pixel inside the triangle the rasterizer calls our own callback, the fragment shader.
+What happens after that? We call the rasterization routine. What happens inside the rasterizer we do not know (well, okay, we do know since we programmed it!) with one exception. We know that the rasterizer calls **our** routine for each pixel, namely, the fragment shader. Again, for each pixel inside the triangle the rasterizer calls our own callback, the fragment shader.
 
 **The main goal of the fragment shader - is to determine the color of the current pixel. Secondary goal - we can discard current pixel by returning true.**
 
