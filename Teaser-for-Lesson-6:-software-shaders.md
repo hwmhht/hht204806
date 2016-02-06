@@ -303,6 +303,7 @@ We compute diffuse lighting as a cosine of the angle between the normal vector a
 For diffuse lighting we computed the (cosine of) angle between vectors **n** and **l**, and now we are interested in the (cosine of) angle between vectors **r** (reflected light direction) and **v** (view direction).
 
 **Exercise 3:** Given vectors **n** and **l**, find vector **r**.
+
 _Answer:_ If **n** and **l** are normalized, then **r** = 2**n**<**n**,**l**> - **l**
 
 
