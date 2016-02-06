@@ -183,6 +183,103 @@ Fragment shader can discard drawing of the current pixel, then the rasterizer si
 
 Of cause, the rasterizer can not imagine all the weird stuff you could program, therefore it can not be pre-compiled with your shader. Here we use abstract calss IShader as an intermediate between the two. Wow, it is quite rare I use abstract classes, but without it we would suffer here. Pointers to functions are ugly.
 
+# First modification of the shaders
 
+```C++
+    virtual bool fragment(Vec3f bar, TGAColor &color) {
+        float intensity = varying_intensity*bar;
+        if (intensity>.85) intensity = 1;
+        else if (intensity>.60) intensity = .80;
+        else if (intensity>.45) intensity = .60;
+        else if (intensity>.30) intensity = .45;
+        else if (intensity>.15) intensity = .30;
+        else intensity = 0;
+        color = TGAColor(255, 155, 0)*intensity;
+        return false;
+    }
+```
+
+Simple modification of the Gourad shading, where the intensities are allowed to have 6 values only, here is the result:
+
+![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/f2bf83c5994b9051aaba499cb05e65bf.png)
+
+# Textures
+
+I'll skip the [Phong shading](https://en.wikipedia.org/wiki/Phong_shading), but take a look at the article. Remember the homework assignment I gave you for texturing? We had to interpolate uv-coordinates. So, I create a 2x3 matrix. 2 rows for u and v, 3 columns (one per vertex).
+
+```C++
+struct Shader : public IShader {
+    Vec3f          varying_intensity; // written by vertex shader, read by fragment shader
+    mat<2,3,float> varying_uv;        // same as above
+
+    virtual Vec4f vertex(int iface, int nthvert) {
+        varying_uv.set_col(nthvert, model->uv(iface, nthvert));
+        varying_intensity[nthvert] = std::max(0.f, model->normal(iface, nthvert)*light_dir); // get diffuse lighting intensity
+        Vec4f gl_Vertex = embed<4>(model->vert(iface, nthvert)); // read the vertex from .obj file
+        return Viewport*Projection*ModelView*gl_Vertex; // transform it to screen coordinates
+    }
+    
+    virtual bool fragment(Vec3f bar, TGAColor &color) {
+        float intensity = varying_intensity*bar;   // interpolate intensity for the current pixel
+        Vec2f uv = varying_uv*bar;                 // interpolate uv for the current pixel
+        color = model->diffuse(uv)*intensity;      // well duh
+        return false;                              // no, we do not discard this pixel
+    }
+};
+```
+
+Here is the result:
+
+![](https://hsto.org/files/51f/723/ffe/51f723ffe99f4c6888a13091796da8f7.png)
+
+# Normalmapping
+
+Okay, now we have texture coordinates. What can we store in texture images? In fact, almost anything. It can be color, directions, temperature and so on. Let us load this texture:
+
+![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm.png)
+
+If we interpreate RGB values as xyz directions, this image gives us normal vectors **for each pixel** of our render and not only per vertex as before.
+
+By the way, compare this image to another one, it gives exactly the same information, but in another frame:
 
 ![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm_tangent.png)
+
+One of the images gives normal vectors in clobal (Cartesian) coordinate system, another one in [Darboux frame](https://en.wikipedia.org/wiki/Darboux_frame) (so-called tangent space). In Darboux frame the z-vector is normal to the object, x - principal curvature direction and y - their cross product.
+
+**Exercise 1:** Can you tell which image is represented in Darboux frame and which one is in the global coordinate frame?
+
+**Exercise 2:** Can you tell which representation is better and if yes, why is that?
+
+```C++
+struct Shader : public IShader {
+    mat<2,3,float> varying_uv;  // same as above
+    mat<4,4,float> uniform_M;   //  Projection*ModelView
+    mat<4,4,float> uniform_MIT; // (Projection*ModelView).invert_transpose()
+
+    virtual Vec4f vertex(int iface, int nthvert) {
+        varying_uv.set_col(nthvert, model->uv(iface, nthvert));
+        Vec4f gl_Vertex = embed<4>(model->vert(iface, nthvert)); // read the vertex from .obj file
+        return Viewport*Projection*ModelView*gl_Vertex; // transform it to screen coordinates
+   }
+
+    virtual bool fragment(Vec3f bar, TGAColor &color) {
+        Vec2f uv = varying_uv*bar;                 // interpolate uv for the current pixel
+        Vec3f n = proj<3>(uniform_MIT*embed<4>(model->normal(uv))).normalize();
+        Vec3f l = proj<3>(uniform_M  *embed<4>(light_dir        )).normalize();
+        float intensity = std::max(0.f, n*l);
+        color = model->diffuse(uv)*intensity;      // well duh
+        return false;                              // no, we do not discard this pixel
+    }
+};
+[...]
+    Shader shader;
+    shader.uniform_M   =  Projection*ModelView;
+    shader.uniform_MIT = (Projection*ModelView).invert_transpose();
+    for (int i=0; i<model->nfaces(); i++) {
+        Vec4f screen_coords[3];
+        for (int j=0; j<3; j++) {
+            screen_coords[j] = shader.vertex(i, j);
+        }
+        triangle(screen_coords, shader, image, zbuffer);
+    }
+```
