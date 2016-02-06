@@ -4,11 +4,11 @@ Hi, everyone. It’s me.
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/cfa0f3a9d9.png)
 ￼
-More precisely, it is a model of my face rendered in the program we will create in the next hour or two. Last time we drew the wire mesh of a three-dimensional model. This time, we will fill polygons, or rather triangles. In fact, OpenGL triangulates almost any polygon, so there’s no need to consider sophisticated cases.
+More precisely, it is a model of my face rendered in the program we will be creating in the next hour or two. Last time we drew the wire mesh of a three-dimensional model. This time, we will fill polygons, or rather triangles. In fact, OpenGL triangulates almost any polygon, so there’s no need to consider sophisticated cases.
 
-_Let me remind you, this series of articles is designed to allow you to program yourself. When i said that in two hours you can draw a picture like the one above, i do not mean the time to read my code. It’s time for creating your code from scratch. My code is provided here purely to compare your (working) program with mine. I am an awful programmer, it is very likely that you are a better one. Do not simply copy-paste my code. Any comments and questions are welcome._
+_Let me remind you, this series of articles is designed to allow you to program yourself. When I said that in two hours you can draw a picture like the one above, I did not mean the time to read my code. It’s time for creating your code from scratch. My code is provided here purely to compare your (working) program with mine. I am an awful programmer, it is very likely that you are a better one. Do not simply copy-paste my code. Any comments and questions are welcome._
 
-## Old-school method: line sweeping
+## Old-school method: Line sweeping
 
 Thus, the task is to draw two-dimensional triangles. For motivated students it normally takes a couple of hours, even if they are bad programmers. Last time we saw Bresenham’s line drawing algorithm. Today’s task is to draw a filled triangle. Funny enough, but this task is not trivial. I don’t know why, but I know that it’s true. Most of my students struggle with this simple task.
 So, the initial stub will look like this:
@@ -43,7 +43,7 @@ A good method of drawing a triangle must have the following features:
 2. Rasterize simultaneously the left and the right sides of the triangle;
 3. Draw a horizontal line segment between the left and the right boundary points.
 
-At this point my students start to loose the firm ground: which segment is the left one, which one is right? Besides, there are three segments in a triangle... Usually, after this introduction I leave my students for about an hour: once again, reading my code is much less valuable than comparing your own code with mine.
+At this point my students start to lose the firm ground: which segment is the left one, which one is right? Besides, there are three segments in a triangle... Usually, after this introduction I leave my students for about an hour: once again, reading my code is much less valuable than comparing your own code with mine.
 
 [One hour passes]
 
@@ -88,7 +88,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/d8e0575a00.png)
 
-Note that the segments are not continuous. Last time when we drew straight lines we struggled to get continuous segments and here i did not bother with rotating the image (remember the xy swapping?). Why? We fill the triangles aftewards, that’s why. If we connect the corresponding pairs of points by horizontal lines, the gaps disappear:
+Note that the segments are not continuous. Last time when we drew straight lines we struggled to get continuous segments and here I did not bother with rotating the image (remember the xy swapping?). Why? We fill the triangles aftewards, that’s why. If we connect the corresponding pairs of points by horizontal lines, the gaps disappear:
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/c1f95127ad.png)
 
@@ -131,7 +131,7 @@ This could be enough, but I dislike to see the same code twice. That is why we w
 
 ```C++ 
 void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) { 
-    if (t0.y==t1.y && t0.y==t2.y) return; // i dont care about degenerate triangles 
+    if (t0.y==t1.y && t0.y==t2.y) return; // I dont care about degenerate triangles 
     // sort the vertices, t0, t1, t2 lower−to−upper (bubblesort yay!) 
     if (t0.y>t1.y) std::swap(t0, t1); 
     if (t0.y>t2.y) std::swap(t0, t2); 
@@ -156,7 +156,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 
 
 
-## The method i adopt for my code
+## The method I adopt for my code
 
 While not being really complicated, the source code for the line sweeping is a bit messy. Moreover, it is really an old-school approach designed for mono-thread CPU programming. Let us take a look at the following pseudo-code:
 
@@ -172,9 +172,9 @@ triangle(vec2 points[3]) {
 ```
 Do you like it? I do. It is really easy to find a bounding box. It is certainly no problem to check whether a point belongs a 2D triangle (or any convex polygon). 
 
-_Off Topic: if I have to implement a code to check whether a point belongs to a polygon, and this program will run on a plane, I will never get on this plane. Turns out, it is a surprisingly difficult task to solve this problem reliably. But here we just painting pixels. I am okay with that._
+_Off Topic: if I have to implement some code to check whether a point belongs to a polygon, and this program will run on a plane, I will never get on this plane. Turns out, it is a surprisingly difficult task to solve this problem reliably. But here we just painting pixels. I am okay with that._
 
-There is another thing i like about this pseudocode: a neophyte in programming accepts it with enthusiasm, more experienced programmers often chuckle: “What an idiot wrote it?”. And an expert in computer graphics programming will shrug his shoulders and say: “Well, that’s how it works in real life”. Massively parallel computations in thousands of threads (i’m talking about regular consumer computers here) change the way of thinking.
+There is another thing I like about this pseudocode: a neophyte in programming accepts it with enthusiasm, more experienced programmers often chuckle: “What an idiot wrote it?”. And an expert in computer graphics programming will shrug his shoulders and say: “Well, that’s how it works in real life”. Massively parallel computations in thousands of threads (i’m talking about regular consumer computers here) change the way of thinking.
 
 Okay, let us start: first of all we need to know what the [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) are. Given a 2D triangle ABC and a point P, all in old good Cartesian coordinates (xy). Our goal is to find barycentric coordinates of the point P with respect to the triangle ABC. It means that we look for three numbers (1 − u − v,u,v) such that we can find the point P as follows:
 
@@ -201,7 +201,7 @@ I am lazy and do not want to solve linear systems in a scholar way. Let us write
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index9x.png)
 
 
-It means that we are looking for a vector (u,v,1) that is orthogonal to (￼ABx,AC￼x,￼PAx) and (￼ABy,AC￼y,PA￼y) *at the same time*! I hope you see [where i am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
+It means that we are looking for a vector (u,v,1) that is orthogonal to (￼ABx,AC￼x,￼PAx) and (￼ABy,AC￼y,PA￼y) *at the same time*! I hope you see [where I am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
 
 So, let us program our new rasterization routine: we iterate through all pixels of a bounding box for a given triangle. For each pixel we compute its barycentric coordinates. If it has at least one negative component, then the pixel is outside of the triangle. Probably it is more clear to see the program directly:
 
@@ -309,4 +309,4 @@ But the dot product can be negative. What does it mean? It means that the light 
 
 Note that the inner cavity of the mouth is drawn on top of the lips. That is because of our dirty clipping of invisible triangles: it works perfectly for convex shapes only. We will get rid of this artifact next time when we encode the z-buffer.
 
-[Here’s](https://github.com/ssloy/tinyrenderer/tree/e1a3f2b0f9638fa6db9e0437c621132e1baa3fb1) the current version of the render. Do you find that the image of my face was more detailed? Well, i cheated a bit: there is a quarter million triangles in it vs. roughly a thousand in this artificial head model. But my face was indeed rendered with the above code. I promise you that in following articles we will add much more details to this image.
+[Here’s](https://github.com/ssloy/tinyrenderer/tree/e1a3f2b0f9638fa6db9e0437c621132e1baa3fb1) the current version of the render. Do you find that the image of my face was more detailed? Well, I cheated a bit: there is a quarter million triangles in it vs. roughly a thousand in this artificial head model. But my face was indeed rendered with the above code. I promise you that in following articles we will add much more details to this image.
