@@ -127,7 +127,7 @@ What happens after that? We call the rasterization routine. What happens inside 
 
 **The main goal of the fragment shader - is to determine the color of the current pixel. Secondary goal - we can discard current pixel by returning true.**
 
-The rendering pipeline for the OpenGL 2 (in fact, for the newer versions it is the same with minor modifications) can be represented as follows:
+The rendering pipeline for the OpenGL 2 can be represented as follows (in fact, it is more or less the same for newer versions too):
 
 ![](http://3dgep.com/wp-content/uploads/2014/01/OpenGL-2.0-Programmable-Shader-Pipeline.png)
 
