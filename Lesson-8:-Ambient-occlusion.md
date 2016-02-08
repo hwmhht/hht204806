@@ -117,8 +117,43 @@ struct ZShader : public IShader {
 };
 ```
 
-What-what-what?! ```color = TGAColor(0, 0, 0);```
+What-what-what?! ```color = TGAColor(0, 0, 0);``` ?! 
+
+Yes, that is right. At the moment I am only interested in the z-buffer, the image will appear after a post-processing step. Here is the complete code with our "empty" shader call and the post-processing routine:
+
+```C++
+    ZShader zshader;
+    for (int i=0; i<model->nfaces(); i++) {
+        for (int j=0; j<3; j++) {
+            zshader.vertex(i, j);
+        }
+        triangle(zshader.varying_tri, zshader, frame, zbuffer);
+    }
+
+    for (int x=0; x<width; x++) {
+        for (int y=0; y<height; y++) {
+            if (zbuffer[x+y*width] < -1e5) continue;
+            float total = 0;
+            for (float a=0; a<M_PI*2-1e-4; a += M_PI/4) {
+                total += M_PI/2 - max_elevation_angle(zbuffer, Vec2f(x, y), Vec2f(cos(a), sin(a)));
+            }
+            total /= (M_PI/2)*8;
+            total = pow(total, 100.f);
+            frame.set(x, y, TGAColor(total*255, total*255, total*255));
+        }
+    }
+```
+
+The empty shader call gives us the z-buffer. As for the post-processing: for each pixel of our image I emit a number of rays (eight here) in all directions around the pixel. The z-buffer is a height map, you can imagine it as a landscape. What i want to compute is the slope in each of our 8 directions. The function ```max_elevation_angle``` gives the maximum slope we encounter for each ray we cast.
+
+If all eight rays have zero elevation, then the current pixel is well visible, the terrain around is flat. If the angle is near 90°, then current pixel is well-hidden in a kind of a valley, and receives little ambient light.
+
+In theory we need to compute the [solid angle](https://en.wikipedia.org/wiki/Solid_angle) for each point of the z-buffer, but we approximate it as a sum of (90°-max_elevation_angle) / 8. The pow(, 100.) is simply there to increase the contrast of the image. 
+
+Here is what we get in this manner for our friend the black guy:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/ea0db451f6934992a7a4a04f6dbe0bd8.png)
+
+The source code is available [here](https://github.com/ssloy/tinyrenderer/tree/d7c806bc3d598fc54dd446b6c81b94f723728205):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/feceed3f2a964e2fb79926a167f15500.png)
