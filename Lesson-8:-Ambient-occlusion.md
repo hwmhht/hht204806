@@ -28,13 +28,63 @@ If we simply choose randomly a longitude and a latitude, we will obtain an accum
 
 Since we are in the brute force section, then the answer is obvious: in a texture!
 
+Thus, we do a two-pass rendering for each point we picked on the sphere, here is the first shader and the resulting image:
+```C++
+    virtual bool fragment(Vec3f gl_FragCoord, Vec3f bar, TGAColor &color) {
+        color = TGAColor(255, 255, 255)*((gl_FragCoord.z+1.f)/2.f);
+        return false;
+    }
+```
+
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/d6393412463267f66a15c48e2816b5cc.png)
+
+This image is not very interesting for us, we are more interested in its z-buffer, exactly as in the previous lesson. Then we do another pass:
+
+```C++
+    virtual bool fragment(Vec3f gl_FragCoord, Vec3f bar, TGAColor &color) {
+        Vec2f uv = varying_uv*bar;
+        if (std::abs(shadowbuffer[int(gl_FragCoord.x+gl_FragCoord.y*width)]-gl_FragCoord.z)<1e-2) {
+            occl.set(uv.x*1024, uv.y*1024, TGAColor(255));
+        }
+        color = TGAColor(255, 0, 0);
+        return false;
+    }
+```
+
+The resulting image is not interesting either, it will simply draw a red image. However, this line I like:
+
+```C++
+            occl.set(uv.x*1024, uv.y*1024, TGAColor(255));
+```
+
+occl - is initially clear image; this line tells us that if the fragment is visible, then we put a white point in this image using fragment's texture coordinates. Here is the resulting occl image for one point we choose on the hemisphere:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/05c950df6f1b4bac904bc309068ba260.png)
 
+**Question:** Why are there holes in obviously visible triangles?
+
+**Question:** Why are there triangles more densely covered than others?
+
+Well, we repeat above procedure a thousand times, compute average of all occl images and here is the average visible texture:
+
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/5ef7454c7294416fa7fa3b80c3663a71.png)
 
+Cool, looks like something we could want. Let us draw our Diable without any lighting computation, simply by putting above texture:
+
+```C++
+    virtual bool fragment(Vec3f gl_FragCoord, Vec3f bar, TGAColor &color) {
+        Vec2f uv = varying_uv*bar;
+        int t = aoimage.get(uv.x*1024, uv.y*1024)[0];
+        color = TGAColor(t, t, t);
+        return false;
+    }
+```
+
+Here aoimage is the above (average lighting) texture. Here is the result of the shader:
+
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/6031c8b2ccd84e2d8e15584a3b91c8a2.png)
+
+
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/1ba93fa5a48646e2a9614271c943b4da.png)
 
