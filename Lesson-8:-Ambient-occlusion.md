@@ -90,7 +90,7 @@ This question is linked to the previous one. Did you notice that in Diablo's tex
 
 ## Let us sum up
 
-This method allows to precompute ambient occlusion for scenes with static geometry. Computation time depends on the number of samples you choose, but in practice it does not matter since we compute it once and use as a texture afterwards. Advantage of this method is its flexibility and ability to compute much more complex lighting than a simple uniform hemisphere. Disadvantage - for doubled texture coordinates the computation is not correct, we need to put some masking tape to repair it. 
+This method allows to precompute ambient occlusion for scenes with static geometry. Computation time depends on the number of samples you choose, but in practice it does not matter since we compute it once and use as a texture afterwards. Advantage of this method is its flexibility and ability to compute much more complex lighting than a simple uniform hemisphere. Disadvantage - for doubled texture coordinates the computation is not correct, we need to put some scotch tape to repair it (see the teaser image for this lesson).
 
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/1ba93fa5a48646e2a9614271c943b4da.png)
