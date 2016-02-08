@@ -12,7 +12,10 @@ Well, I was not 100% right: we did use a bit global illumination when we compute
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/45d82ad9f666f7068488dc3f1e5c9da1.png)
 
-No diffuse component, no specular. Ambient only, however it is easy to see that I did not choose it to be constant. 
+**No diffuse component, no specular. Ambient only, however it is easy to see that I did not choose it to be constant.** Okay, the problem is stated as follows: let us ambient intensity for each point of our scene. When we previously supposed constant ambient illumination, it means that we supposed our scene so nice that all light was reflected everywhere equally. A bit strong hypothesis that is. Of course, it was made back in the old days where computing power was severely limited. Nowadays, we can spend a bit more to get more realistic images. Global illumination is more expensive than the local is. Recall that for shadow mapping we were forced to do two-passes rendering, thus roughly dividing our FPS by 2. 
+
+
+
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/48b9ff4834579809cc61362360995b98.png)
 
