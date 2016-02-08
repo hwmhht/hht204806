@@ -148,7 +148,7 @@ If all eight rays have zero elevation, then the current pixel is well visible, t
 
 In theory we need to compute the [solid angle](https://en.wikipedia.org/wiki/Solid_angle) for each point of the z-buffer, but we approximate it as a sum of (90°-max_elevation_angle) / 8. The pow(, 100.) is simply there to increase the contrast of the image. 
 
-Here is what we get in this manner for our friend the black guy:
+Here is an ambient-occlusion-only render of our friend:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/ea0db451f6934992a7a4a04f6dbe0bd8.png)
 
