@@ -152,7 +152,7 @@ Here is what we get in this manner for our friend the black guy:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/ea0db451f6934992a7a4a04f6dbe0bd8.png)
 
-The source code is available [here].(https://github.com/ssloy/tinyrenderer/tree/d7c806bc3d598fc54dd446b6c81b94f723728205)
+The source code is available [here](https://github.com/ssloy/tinyrenderer/tree/d7c806bc3d598fc54dd446b6c81b94f723728205).
 
 Enjoy!
 
