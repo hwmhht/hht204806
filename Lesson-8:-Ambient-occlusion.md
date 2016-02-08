@@ -16,11 +16,11 @@ Well, I was not 100% right: we did use a bit global illumination when we compute
 
 The source code is available [here](https://github.com/ssloy/tinyrenderer/tree/631386c5ab1987d4cfa097e8f89894cadd593c2d). Let us suppose that our object is surrounded by a hemisphere, emitting light uniformly (cloudy sky). Then let us choose randomly, say, a thousand points at the hemisphere, render the object thousand times and to compute what parts of the model were visible.
 
-**Question:** Do you know hot to choose **uniformly** a thousand points on a (hemi-)sphere? Something like this:
+**Question:** Do you know how to pick **uniformly** a thousand points on a (hemi-)sphere? Something like this:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/48b9ff4834579809cc61362360995b98.png)
 
-If we simply choose randomly a longitude and a latitude, we will obtain an accumulation of points near the poles, thus breaking our assumption on uniform lighting of the sky. [Check the answer](http://mathworld.wolfram.com/SpherePointPicking.html).
+If we simply pick randomly a longitude and a latitude, we will obtain an accumulation of points near the poles, thus breaking our assumption on uniform lighting of the sky. [Check the answer](http://mathworld.wolfram.com/SpherePointPicking.html).
 
 **Question:** where do we store the visibility information? 
 
