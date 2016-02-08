@@ -1,5 +1,3 @@
-# Work in progress
-
 In previous lectures we used local illumination model. In other words, for computing illumination of a current pixel we did not take into account its neighbors. [Phong reflection model](https://en.wikipedia.org/wiki/Phong_reflection_model) is a famous example of such approach:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/e3720a5dfedc49edb0bf70f8bc64204a.png)
@@ -154,6 +152,8 @@ Here is what we get in this manner for our friend the black guy:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/ea0db451f6934992a7a4a04f6dbe0bd8.png)
 
-The source code is available [here](https://github.com/ssloy/tinyrenderer/tree/d7c806bc3d598fc54dd446b6c81b94f723728205):
+The source code is available [here].(https://github.com/ssloy/tinyrenderer/tree/d7c806bc3d598fc54dd446b6c81b94f723728205)
+
+Enjoy!
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/feceed3f2a964e2fb79926a167f15500.png)
