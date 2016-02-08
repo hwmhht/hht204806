@@ -1,5 +1,3 @@
-# WORK IN PROGRESS!
-
 # The goal
 
 Well, we are approaching the end of your short course of CG lectures. The goal for today is to compute shadows. **Attention, we are talking about hard shadows here, soft shadows computation is another story.**
@@ -139,5 +137,23 @@ Recall that the matrix M is the transformation matrix from the object space to t
 
 We know that ```Viewport*Projection*ModelView``` transforms the object's coordinates into the (framebuffer) screen space. We need to know how to transform the framebuffer screen into the shadow screen. It is really simple: ```(Viewport*Projection*ModelView).invert()``` allows to convert framebuffer coordinates into object coordinates and then ```M*(Viewport*Projection*ModelView).invert()``` gives the transformation between the framebuffer and the shadow buffer.
 
-All that is mighty well with one hiccup:
+All that is mighty well but there is a hiccup:
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/164be1dce9e980d47a90159103b954a3.png)
+
+Notice the ugly shadow rendering? This artifact is known as the ![z-fighting](http://en.wikipedia.org/wiki/Z-fighting). Resolution of our buffers is insufficient to obtain precise results. How to solve the problem? I like brute force solutions:
+
+```C++
+        float shadow = .3+.7*(shadowbuffer[idx]<sb_p[2]+43.34); // magic coeff to avoid z-fighting
+```
+
+I simply move a bit one z-buffer with respect to another, it is sufficient to remove the artifact. Yes, it creates other problems (can you tell which ones?), but those are generally less visible. The final render is visible in the teaser image.
+
+# Homework assignment
+
+## shadow maps
+I uploaded a Diablo model, try to add shadows to the render:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/e3cd704925f52b5466ab3c4f9fbab899.png)
+
+## glow
+Notice the crystal (and the eyes), they are glowing. How to achieve this effect?
