@@ -80,9 +80,11 @@ Cool, looks like something we could want. Let us draw our Diable without any lig
     }
 ```
 
-Here aoimage is the above (average lighting) texture. Here is the result of the shader:
+Here aoimage is the above (average lighting) texture. And resulting render is:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/6031c8b2ccd84e2d8e15584a3b91c8a2.png)
+
+**Question:** Wow, he is in a bad mood... Why?
 
 
 
