@@ -6,7 +6,7 @@ Well, we are approaching the end of your short course of CG lectures. The goal f
 
 # Problem statement
 
-Up to this moment convex objects were shaded correctly by our simple local shading. Local means computation with light direction and the normal vector. Unfortunately, it does not produce correct results for non-convex objects. Here is the image we can got during [previous lesson](https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer):
+Up to this moment convex objects were shaded correctly by our simple local shading. Local means computation with light direction and the normal vector. Unfortunately, it does not produce correct results for non-convex objects. Here is the image we can got during previous lesson:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/b4af24130ecb1536703e4793308af425.png)
 
@@ -100,7 +100,7 @@ struct Shader : public IShader {
 };
 ```
 
-It is a copy of the final shader from the previous lesson with one exception: I declared a constant matrix ```mat<4,4,float> uniform_Mshadow```, it allows me to transform screen coordinates of current fragment into screen coordinates inside the shadowbuffer! I'll explain how it is computed a bit later, let us see how I use it:
+It is a copy of the [final shader](https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer#specular-mapping) from the previous lesson with one exception: I declared a constant matrix ```mat<4,4,float> uniform_Mshadow```, it allows me to transform screen coordinates of current fragment into screen coordinates inside the shadowbuffer! I'll explain how it is computed a bit later, let us see how I use it:
 
 ```C++
      Vec4f sb_p = uniform_Mshadow*embed<4>(varying_tri*bar); // corresponding point in the shadow buffer
