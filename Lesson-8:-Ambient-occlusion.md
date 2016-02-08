@@ -22,6 +22,8 @@ The source code is available [here](https://github.com/ssloy/tinyrenderer/tree/6
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/48b9ff4834579809cc61362360995b98.png)
 
+If we simply choose randomly a longitude and a latitude, we will obtain an accumulation of points near the poles, thus breaking our assumption on uniform lighting of the sky. [Check the answer](http://mathworld.wolfram.com/SpherePointPicking.html).
+
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/d6393412463267f66a15c48e2816b5cc.png)
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/05c950df6f1b4bac904bc309068ba260.png)
