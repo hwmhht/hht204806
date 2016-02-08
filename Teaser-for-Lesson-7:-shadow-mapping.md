@@ -2,7 +2,7 @@
 
 # The goal
 
-Well, we are approaching the end of your short course of CG lectures. The goal for today is to compute shadows. **Attention, we are talking aboud hard shadows here, soft shadows computation is another story.**
+Well, we are approaching the end of your short course of CG lectures. The goal for today is to compute shadows. **Attention, we are talking about hard shadows here, soft shadows computation is another story.**
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/50de2abe990efa345664f98c9464a4c8.png)
 
@@ -63,3 +63,81 @@ I put the camera at the light source position (lookat(light_dir, center, up);) a
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/f743999b9d21aee9d0704c4036e18dce.png)
 
+The second pass is naturally made with another shader:
+
+```C++
+struct Shader : public IShader {
+    mat<4,4,float> uniform_M;   //  Projection*ModelView
+    mat<4,4,float> uniform_MIT; // (Projection*ModelView).invert_transpose()
+    mat<4,4,float> uniform_Mshadow; // transform framebuffer screen coordinates to shadowbuffer screen coordinates
+    mat<2,3,float> varying_uv;  // triangle uv coordinates, written by the vertex shader, read by the fragment shader
+    mat<3,3,float> varying_tri; // triangle coordinates before Viewport transform, written by VS, read by FS
+
+    Shader(Matrix M, Matrix MIT, Matrix MS) : uniform_M(M), uniform_MIT(MIT), uniform_Mshadow(MS), varying_uv(), varying_tri() {}
+
+    virtual Vec4f vertex(int iface, int nthvert) {
+        varying_uv.set_col(nthvert, model->uv(iface, nthvert));
+        Vec4f gl_Vertex = Viewport*Projection*ModelView*embed<4>(model->vert(iface, nthvert));
+        varying_tri.set_col(nthvert, proj<3>(gl_Vertex/gl_Vertex[3]));
+        return gl_Vertex;
+    }
+
+    virtual bool fragment(Vec3f bar, TGAColor &color) {
+        Vec4f sb_p = uniform_Mshadow*embed<4>(varying_tri*bar); // corresponding point in the shadow buffer
+        sb_p = sb_p/sb_p[3];
+        int idx = int(sb_p[0]) + int(sb_p[1])*width; // index in the shadowbuffer array
+        float shadow = .3+.7*(shadowbuffer[idx]<sb_p[2]); 
+        Vec2f uv = varying_uv*bar;                 // interpolate uv for the current pixel
+        Vec3f n = proj<3>(uniform_MIT*embed<4>(model->normal(uv))).normalize(); // normal
+        Vec3f l = proj<3>(uniform_M  *embed<4>(light_dir        )).normalize(); // light vector
+        Vec3f r = (n*(n*l*2.f) - l).normalize();   // reflected light
+        float spec = pow(std::max(r.z, 0.0f), model->specular(uv));
+        float diff = std::max(0.f, n*l);
+        TGAColor c = model->diffuse(uv);
+        for (int i=0; i<3; i++) color[i] = std::min<float>(20 + c[i]*shadow*(1.2*diff + .6*spec), 255);
+        return false;
+    }
+};
+```
+
+It is a copy of the final shader from the previous lesson with one exception: I declared a constant matrix ```mat<4,4,float> uniform_Mshadow```, it allows me to transform screen coordinates of current fragment into screen coordinates inside the shadowbuffer! I'll explain how it is computed a bit later, let us see how I use it:
+
+```C++
+     Vec4f sb_p = uniform_Mshadow*embed<4>(varying_tri*bar); // corresponding point in the shadow buffer
+        sb_p = sb_p/sb_p[3];
+        int idx = int(sb_p[0]) + int(sb_p[1])*width; // index in the shadowbuffer array
+        float shadow = .3+.7*(shadowbuffer[idx]<sb_p[2]);
+```
+
+varying_tri\*bar provides me screen coordinates of the pixel we currently draw; we augment it with 1 (recall the homogeneous coordinates stuff), then transform it with the magic matrix uniform_Mshadow and ta-da! We know xyz coordinates in the shadow buffer space. Now to determine whether the current pixel is lit or no it suffices to compare its z-coordinate with the value we stored in the shadow buffer.
+
+Let me show you how I call the shader:
+
+```C++
+    Matrix M = Viewport*Projection*ModelView;
+
+    { // rendering the frame buffer
+        TGAImage frame(width, height, TGAImage::RGB);
+        lookat(eye, center, up);
+        viewport(width/8, height/8, width*3/4, height*3/4);
+        projection(-1.f/(eye-center).norm());
+
+        Shader shader(ModelView, (Projection*ModelView).invert_transpose(), M*(Viewport*Projection*ModelView).invert());
+        Vec4f screen_coords[3];
+        for (int i=0; i<model->nfaces(); i++) {
+            for (int j=0; j<3; j++) {
+                screen_coords[j] = shader.vertex(i, j);
+            }
+            triangle(screen_coords, shader, frame, zbuffer);
+        }
+        frame.flip_vertically(); // to place the origin in the bottom left corner of the image
+        frame.write_tga_file("framebuffer.tga");
+    }
+```
+
+Recall that the matrix M is the transformation matrix from the object space to the shadow buffer screen space. We return the camera back to its normal position, recompute the viewport matrix, the projection matrix and call the second shader.
+
+We know that ```Viewport*Projection*ModelView``` transforms the object's coordinates into the (framebuffer) screen space. We need to know how to transform the framebuffer screen into the shadow screen. It is really simple: ```(Viewport*Projection*ModelView).invert()``` allows to convert framebuffer coordinates into object coordinates and then ```M*(Viewport*Projection*ModelView).invert()``` gives the transformation between the framebuffer and the shadow buffer.
+
+All that is mighty well with one hiccup:
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/164be1dce9e980d47a90159103b954a3.png)
