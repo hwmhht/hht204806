@@ -4,7 +4,9 @@ Well, we are approaching the end of your short course of CG lectures. The goal f
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/50de2abe990efa345664f98c9464a4c8.png)
 
-Up to this moment convex objects were shaded correctly by our simple local shading. Local means computation with light direction and the normal vector. Unfortunately, it does not produce correct results for non-convex objects. Here is the image we can got during previous lesson:
+# Problem statement
+
+Up to this moment convex objects were shaded correctly by our simple local shading. Local means computation with light direction and the normal vector. Unfortunately, it does not produce correct results for non-convex objects. Here is the image we can got during [previous lesson](https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/b4af24130ecb1536703e4793308af425.png)
 
