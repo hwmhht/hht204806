@@ -92,8 +92,32 @@ This question is linked to the previous one. Did you notice that in Diablo's tex
 
 This method allows to precompute ambient occlusion for scenes with static geometry. Computation time depends on the number of samples you choose, but in practice it does not matter since we compute it once and use as a texture afterwards. Advantage of this method is its flexibility and ability to compute much more complex lighting than a simple uniform hemisphere. Disadvantage - for doubled texture coordinates the computation is not correct, we need to put some scotch tape to repair it (see the teaser image for this lesson).
 
+# Screen space ambient occlusion
+
+Well, we see that global illumination is still an expensive thing, it requires visibility computations for many points. Let us try to find a compromise between computing time and rendering quality. Here is an image I want to compute (recall that in this lesson I do not use other lighting besides the ambient one):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/1ba93fa5a48646e2a9614271c943b4da.png)
+
+Here is the shader to compute the image:
+
+```C++
+struct ZShader : public IShader {
+    mat<4,3,float> varying_tri;
+
+    virtual Vec4f vertex(int iface, int nthvert) {
+        Vec4f gl_Vertex = Projection*ModelView*embed<4>(model->vert(iface, nthvert));
+        varying_tri.set_col(nthvert, gl_Vertex);
+        return gl_Vertex;
+    }
+
+    virtual bool fragment(Vec3f gl_FragCoord, Vec3f bar, TGAColor &color) {
+        color = TGAColor(0, 0, 0);
+        return false;
+    }
+};
+```
+
+What-what-what?! ```color = TGAColor(0, 0, 0);```
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/08-ambient-occlusion/ea0db451f6934992a7a4a04f6dbe0bd8.png)
 
