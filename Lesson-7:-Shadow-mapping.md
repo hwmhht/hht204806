@@ -1,6 +1,6 @@
 # The goal
 
-Well, we are approaching the end of your short course of CG lectures. The goal for today is to compute shadows. **Attention, we are talking about hard shadows here, soft shadows computation is another story.**
+Well, we are approaching the end of your short course of CG lectures. The goal for today is to compute shadows. **Attention, we are talking about hard shadows here, soft shadows computation is another story.** As always, the source code is [available](https://github.com/ssloy/tinyrenderer/tree/0c1d955e4f86c25f31f97e4f4563313ddba0c104)
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/50de2abe990efa345664f98c9464a4c8.png)
 
