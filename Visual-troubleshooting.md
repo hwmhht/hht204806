@@ -63,3 +63,9 @@ The texture needs to be vertically flipped:
 While visually ressembling to the above one, this one is completely different (why?). Here my student used xy pixel coordinates (instead of uv) to fetch a color from the texture :
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/xy_and_not_uv_read_from_texture.jpg)
+
+# Lighting
+
+Light direction (instead of view direction) was used for backface culling. Prior and after bugfix.
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/bad_backface_culling.png)
