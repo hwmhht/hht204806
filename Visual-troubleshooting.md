@@ -44,3 +44,22 @@ All "v", "vt" and "vn" lines are read in the same array, thus effectively killin
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/parsing/vt_vn_interpreted_as_v_as_well.jpg)
 
 
+# Specular map
+
+Frequent bug, anything elevated to the zero power equals to one:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/specular/power0.jpg)
+
+# Texturing
+
+This one needs a circular permutation of barycentric coordinates in the uv-interpolation:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/barycentric_coordinates_circular_permutation.jpg)
+
+The texture needs to be vertically flipped:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/texture_flip.jpg)
+
+While visually ressembling to the above one, this one is completely different (why?). Here my student used xy pixel coordinates (instead of uv) to fetch a color from the texture :
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/xy_and_not_uv_read_from_texture.jpg)
