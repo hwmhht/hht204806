@@ -4,6 +4,7 @@ This page is not meant to be a FAQ section; instead I show here several examples
 
 
 # Triangle rasterization: line sweeping
+
 Frequent bug: while sorting by y-coordinate, the vertices are sorted, but the data coming with the vertices is not.
 
 ### Gouraud shading, forgot to sort intensities
@@ -16,3 +17,11 @@ Frequent bug: while sorting by y-coordinate, the vertices are sorted, but the da
 ### Horizontal sort of two vertices splitting the triangle
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/line_sweeping/bad_split_flip.jpg)
+
+
+Here are two examples of rounding errors creating holes in/between triangles:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/line_sweeping/rounding/interpolated_y_coordinate.png)
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/line_sweeping/rounding/double_vertices_wold_be_better_to_cast_to_int.png)
+
