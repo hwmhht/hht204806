@@ -1,7 +1,6 @@
 # Permanently under construction
 
-This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images.
-
+This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images. No made up situations, real renderings, real student pain is shown.
 
 # Triangle rasterization: line sweeping
 
@@ -60,7 +59,7 @@ The texture needs to be vertically flipped:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/texture_flip.jpg)
 
-While visually ressembling to the above one, this one is completely different (why?). Here my student used xy pixel coordinates (instead of uv) to fetch a color from the texture :
+While visually ressembling to the above one, this one is completely different (why?). Here the student used xy pixel coordinates (instead of uv) to fetch a color from the texture :
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/uv/xy_and_not_uv_read_from_texture.jpg)
 
