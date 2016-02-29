@@ -1,6 +1,6 @@
 # Permanently under construction
 
-This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images. No made up situations, real renderings, real student pain is shown.
+This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images. No made up situations, real renderings, real student pain is shown. The description of bugs is kept to a bare minimum, these images speak for themselves.
 
 # Triangle rasterization: line sweeping
 
