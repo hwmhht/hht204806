@@ -4,7 +4,7 @@ This page is not meant to be a FAQ section; instead I show here several examples
 
 
 # Triangle rasterization: line sweeping
-## Bad sort by y-coordinate, the vertices are sorted, but the data coming with the vertices is not
+Frequent bug: while sorting by y-coordinate, the vertices are sorted, but the data coming with the vertices is not.
 
 ### Gouraud shading, forgot to sort intensities
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/a7c5da19378566533bd780918fc66323226467cf/troubleshooting/line_sweeping/flat_shading_bad_sort.png)
