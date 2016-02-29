@@ -70,6 +70,6 @@ Light direction (instead of view direction) was used for backface culling. Prior
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/bad_backface_culling.png)
 
 
-Broken normal map reading, before and after. RGB were translated to XYZ varying between [0,2]^3 and not [-1,1]^3.
+Broken normal map reading, before and after. [0,255]^3 RGB were brought to XYZ living in [0,2]^3 and not [-1,1]^3.
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/broken_normal_map.jpg)
