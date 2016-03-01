@@ -1,6 +1,6 @@
 # Permanently under construction
 
-This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images. No made up situations, real renderings, real student pain is shown. The description of bugs is kept to a bare minimum, these images speak for themselves.
+This page is not meant to be a FAQ section; instead I show here several examples of bugs me and my students were able to fix *without* looking into the source code, solely by observing things in the images. No made up situations, real student pain is shown. The description of bugs is kept to a bare minimum, these images speak for themselves.
 
 # Triangle rasterization: line sweeping
 
@@ -65,7 +65,7 @@ While visually ressembling to the above one, this one is completely different (w
 
 # Lighting
 
-Light direction (instead of view direction) was used for backface culling. Prior and after bugfix.
+Light direction (instead of view direction) was used for backface culling. Prior to and after bugfix.
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/bad_backface_culling.png)
 
