@@ -73,3 +73,12 @@ Light direction (instead of view direction) was used for backface culling. Prior
 Broken normal map reading, before and after. [0,255]^3 RGB were brought to XYZ living in [0,2]^3 and not [-1,1]^3.
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/broken_normal_map.jpg)
+
+
+Light and/or normal vectors were not normalized in computation of flat shading, resulting in overflowing unsigned char. Before/after images.
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/not_normalized.png)
+
+A bug correlated to above: trying to assign negative colors overflows unsigned chars. Dot product of two normalized vectors varies between -1 and 1. Here on the right fabs() of the intensity is shown, simple clamp at zero would produce right image of the above pair.
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/negative_colors.png)
