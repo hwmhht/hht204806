@@ -85,7 +85,7 @@ A bug correlated to above: trying to assign negative colors overflows unsigned c
 
 # Bad camera
 
-Clearly a bad camera coefficient c was used in <a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-4:-Perspective-projection#let-us-sum-up-the-main-formula-for-today">formula (2)</a>
+Negative focal length, clearly a bad camera coefficient c was used in <a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-4:-Perspective-projection#let-us-sum-up-the-main-formula-for-today">formula (2)</a>
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/961cc846891d6d978e45414a2da6fc75a2c59036/troubleshooting/bad_camera.jpg)
 
