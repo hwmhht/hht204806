@@ -89,3 +89,8 @@ Negative focal length, clearly a bad camera coefficient c was used in <a href="h
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/961cc846891d6d978e45414a2da6fc75a2c59036/troubleshooting/bad_camera.jpg)
 
+# Surprise
+
+Exactly the same bug with parsing and texturing we have seen before. Believe it or not, I received this from a different person!
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/b7d7092380bf065851d79184a3442f56f2702216/troubleshooting/parsing/wow_same_bug.jpg)
