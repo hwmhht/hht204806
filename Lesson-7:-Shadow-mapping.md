@@ -142,7 +142,7 @@ We know that ```Viewport*Projection*ModelView``` transforms the object's coordin
 All that is mighty well but there is a hiccup:
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/164be1dce9e980d47a90159103b954a3.png)
 
-Notice the ugly shadow rendering? This artifact is known as the ![z-fighting](http://en.wikipedia.org/wiki/Z-fighting). Resolution of our buffers is insufficient to obtain precise results. How to solve the problem? I like brute force solutions:
+Notice the ugly shadow rendering? This artifact is known as the [z-fighting](http://en.wikipedia.org/wiki/Z-fighting). Resolution of our buffers is insufficient to obtain precise results. How to solve the problem? I like brute force solutions:
 
 ```C++
         float shadow = .3+.7*(shadowbuffer[idx]<sb_p[2]+43.34); // magic coeff to avoid z-fighting
