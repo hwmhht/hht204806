@@ -88,9 +88,9 @@ _**Warning**: compiler’s optimizator (g++ -O3) is often better than you (and m
 
 This code works great. That’s exactly the kind of complexity I want to see in the final version or our renderer. It is definitely inefficient (multiple divisions, and the like), but it is short and readable. Note that it has no asserts and no checks on going beyond the borders, which is bad. In these articles I try not to overload this particular code, as it gots read a lot. At the same time, I systematically remind of the necessity to perform checks.
 
-So, the previous code works fine, but we can optimize it. Optimization is a dangerous thing. We should be clear about the platform the code will run on. Optimizing the code for a graphics card or just for a CPU — are completely different things. Before and during any optimization, the code must be profiled. Try to guess, which operation is the most recourse-intensive operation here?
+So, the previous code works fine, but we can optimize it. Optimization is a dangerous thing. We should be clear about the platform the code will run on. Optimizing the code for a graphics card or just for a CPU — are completely different things. Before and during any optimization, the code must be profiled. Try to guess, which operation is the most resource-intensive operation here?
 
-For tests, 1,000,000 times I draw 3 line segments we have drawn before. My CPU is Intel®; Core(TM) i5-3450 CPU @ 3.10GHz. For each pixel, this code calls the TGAColor copy constructor. Which is 1000000 * 3 line segments * approximately 50 pixels per line segment. Quite a lot of calls, isn’t it? Where to start with optimization? The profiler will tell us.
+For tests, 1,000,000 times I draw 3 line segments we have drawn before. My CPU is Intel® Core(TM) i5-3450 CPU @ 3.10GHz. For each pixel, this code calls the TGAColor copy constructor. Which is 1000000 * 3 line segments * approximately 50 pixels per line segment. Quite a lot of calls, isn’t it? Where to start with optimization? The profiler will tell us.
 
 I compiled the code with g++ -ggdb -g3 -pg -O0 keys, and then ran gprof:
 
