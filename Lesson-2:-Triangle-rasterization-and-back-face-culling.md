@@ -18,19 +18,21 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
     line(t0, t1, image, color); 
     line(t1, t2, image, color); 
     line(t2, t0, image, color); 
-} 
-[...] 
-    Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)}; 
-    Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)}; 
-    Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)}; 
-    triangle(t0[0], t0[1], t0[2], image, red); 
-    triangle(t1[0], t1[1], t1[2], image, white); 
-    triangle(t2[0], t2[1], t2[2], image, green);
+}
+
+// ...
+
+Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)}; 
+Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)}; 
+Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)}; 
+triangle(t0[0], t0[1], t0[2], image, red); 
+triangle(t1[0], t1[1], t1[2], image, white); 
+triangle(t2[0], t2[1], t2[2], image, green);
 ```
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/41060d3251.png)
 
-As usual, the appropriate commit is available on [github](https://github.com/ssloy/tinyrenderer/tree/7e46cc57fa3f5a41129d6b6fefe4e77f77b8aa84). The code is simple: I provide three triangles for the initial debugging of your code. If we invoke line() inside the triangle function, we’ll get the contour of the triangle. How to draw a filled triangle?
+As usual, the appropriate commit is available on GitHub [here](https://github.com/ssloy/tinyrenderer/tree/7e46cc57fa3f5a41129d6b6fefe4e77f77b8aa84). The code is simple: I provide three triangles for the initial debugging of your code. If we invoke `line()` inside the triangle function, we’ll get the contour of the triangle. How to draw a filled triangle?
 
 A good method of drawing a triangle must have the following features:
 
