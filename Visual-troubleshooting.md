@@ -79,6 +79,11 @@ Light and/or normal vectors were not normalized in computation of flat shading, 
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/not_normalized.png)
 
+Same bug with textured model:
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/not_normalized2.jpg)
+
+
 A bug correlated to above: trying to assign negative colors overflows unsigned chars. Dot product of two normalized vectors varies between -1 and 1. Here on the right fabs() of the intensity is shown, simple clamp at zero would produce right image of the above pair.
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/light/negative_colors.png)
@@ -89,7 +94,7 @@ Negative focal length, clearly a bad camera coefficient c was used in <a href="h
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/961cc846891d6d978e45414a2da6fc75a2c59036/troubleshooting/bad_camera.jpg)
 
-# Surprise
+# Voxels
 
 Quote from [here](https://www.reddit.com/r/VoxelGameDev/comments/465olm/i_accidentally_made_some_voxels_while_working_on/):
 
