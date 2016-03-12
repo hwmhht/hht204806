@@ -91,6 +91,9 @@ Negative focal length, clearly a bad camera coefficient c was used in <a href="h
 
 # Surprise
 
-Exactly the same bug with parsing and texturing we have seen before. Believe it or not, I received this from a different person!
+Quote from [here](https://www.reddit.com/r/VoxelGameDev/comments/465olm/i_accidentally_made_some_voxels_while_working_on/):
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/b7d7092380bf065851d79184a3442f56f2702216/troubleshooting/parsing/wow_same_bug.jpg)
+_The code to render triangles to the screen takes a lot of computation time. While I was experimenting with more efficient methods, I commented out the code that calculates the barycentric coordinates, basically it finds out where to plot pixels of the triangle in the bounding box. It was replaced with a literal vector as a dummy output. As a result, all the pixels of the box are rendered, producing the voxel look. Given that it's a 3D renderer they are all still depth sorted and texture-colored. The last two pictures show the model with a SSAO post-effect using the depth buffer as a reference._
+
+
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/troubleshooting/diablo_voxelized.png)
