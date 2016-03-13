@@ -110,7 +110,7 @@ So, we got an easy to solve linear matrix equation Ax = b:
 
 Please note that I used the letter A for two different things, the meaning should be clear from the context. So, our 3x3 matrix A, multiplied with the unknown vector x=(A,B,C), gives the vector b = (f1-f0, f2-f0, 0). Unknown vector x becomes known when we multiply inverse to A by b.
 
-Обратите внимание, что в матрице A нет ничего, что зависит от функции f! Там содержится только информация о геометрии треугольника.
+Also note that in the matrix A we have nothing related to the function f. It contains only some information about our triangle.
 
 # Вычисляем репер Френе и применяем карту (возмущения) нормалей
 
