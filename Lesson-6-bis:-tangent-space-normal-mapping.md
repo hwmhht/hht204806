@@ -112,15 +112,15 @@ Please note that I used the letter A for two different things, the meaning shoul
 
 Also note that in the matrix A we have nothing related to the function f. It contains only some information about our triangle.
 
-# Вычисляем репер Френе и применяем карту (возмущения) нормалей
+# Let us compute Frenet basis and apply the perturbation of normals
 
-Итого, репер Френе - это тройка векторов (i,j,n), где n - это вектор нормали, а i и j могут быть подсчитаны следующим образом:
+So, Frenet basis is a triplet of vectors (i,j,n), where n - is the original normal vector, and i, j can be computed as follows:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f06.png) 
 
-[Вот финальный код](https://github.com/ssloy/tinyrenderer/tree/907bb561c38e7bd86db8d99678c0108f2e53d54d), использующий карты нормалей, заданные в касательном пространстве, а [тут](https://github.com/ssloy/tinyrenderer/commit/907bb561c38e7bd86db8d99678c0108f2e53d54d) можно найти изменения в коде по сравнению с тонировкой Фонга.
+[Here is the commit](https://github.com/ssloy/tinyrenderer/tree/907bb561c38e7bd86db8d99678c0108f2e53d54d), using the normal maps in the tangent space, and [here](https://github.com/ssloy/tinyrenderer/commit/907bb561c38e7bd86db8d99678c0108f2e53d54d) you can check the differencies with respect to the starting point (Phong shading).
 
-Там всё довольно прямолинейно, я вычисляю матрицу A:
+All is quite straightforward, I compute the matrix A:
 
 ```
         mat<3,3,float> A;
@@ -129,7 +129,7 @@ Also note that in the matrix A we have nothing related to the function f. It con
         A[2] = bn;
 ```
 
-Затем вычисляю вектора репера Френе:
+Then compute two unknown vectors (i,j) of Frenet basis:
 
 ```
         mat<3,3,float> AI = A.invert();
@@ -137,18 +137,19 @@ Also note that in the matrix A we have nothing related to the function f. It con
         Vec3f j = AI * Vec3f(varying_uv[1][1] - varying_uv[1][0], varying_uv[1][2] - varying_uv[1][0], 0);
 ```
 
-Ну а однажды их вычислив, читаю нормаль из текстуры, и делаю простейшее преобразование координат из репера Френе в глобальный репер.
-Если что, то преобразования координат [я уже описывал](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera#change-of-basis-in-3d-space).
+Once we have all the tangent basis, I read the perturbed normal from the texture and apply the basis change from the tangent basis to the global coordinates. Recall that [I have already described](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera#change-of-basis-in-3d-space) how to perform change of basis.
 
-Вот финальный рендер, сравните детализацию с [тонировкой Фонга](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/starting_point_a.jpg):
+Here is the final rendered image, compare the details with [Phong shading](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/starting_point_a.jpg):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/normalmapping.jpg)
 
-# Совет по отладке
+# Debugging advice
 
-Самое время вспомнить, [как отрисовываются линии](https://github.com/ssloy/tinyrenderer/wiki/Lesson-1:-Bresenham%E2%80%99s-Line-Drawing-Algorithm). Наложите на модель регулярную красно-синюю сетку и для всех вершин отрисуйте полученные вектора (i,j), они должны хорошо совпасть с направлением красно-синих линий текстуры.
+Now it is the perfect time to recall how to draw [straight line segments](https://github.com/ssloy/tinyrenderer/wiki/Lesson-1:-Bresenham%E2%80%99s-Line-Drawing-Algorithm). Apply the red-blue grid as the texture and draw the vectors (i,j) for each vertex of the mesh. Normally they must coincide with the texture lines.
 
+# Were you attentive?
+
+Have you noticed that generally a (flat) triangle has a constant normal vector, whereas I used the interpolated normal in the last row of the matrix A? Why did I do it?
 
 Happy coding!
 
-<spoiler title="Насколько вы были внимательны?">А заметили ли вы, что вообще у (плоского) треугольника вектор нормали постояннен, а я использовал интерполированную нормаль в последней строчке матрицы A? Почему я так сделал?</spoiler>
