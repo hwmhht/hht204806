@@ -147,7 +147,7 @@ Here is the final rendered image, compare the details with [Phong shading](https
 
 Now it is the perfect time to recall how to draw [straight line segments](https://github.com/ssloy/tinyrenderer/wiki/Lesson-1:-Bresenham%E2%80%99s-Line-Drawing-Algorithm). Apply the red-blue grid as the texture and draw the vectors (i,j) for each vertex of the mesh. Normally they must coincide with the texture lines.
 
-# Were you attentive?
+# Were you paying attention?
 
 Have you noticed that generally a (flat) triangle has a constant normal vector, whereas I used the interpolated normal in the last row of the matrix A? Why did I do it?
 
