@@ -80,21 +80,21 @@ Okay, so our goal is to compute three vectors (tangent basis) for each pixel we 
 
 It is convenient to imagine f as a height map of an inclined plane. We fix three different (non collinear) points on the plane and we know values of f in those points. Red lines inside the triangle show the iso-heights f0, f0 + 1 meter, f0 + 2 meters and so on. For a linear function we have the isolines are parallel (straight) lines.
 
-Что нам интересно это даже не столько направление изолиний, сколько направление, им ортогональное. Если мы передвигаемся вдоль какой-то изолинии, то высота не меняется (спасибо, капитан), если мы отклоняем направление чуть-чуть от изолинии, то высота начинает меняться, а самое большое изменение на единицу высоты будет тогда, когда мы будем передвигаться в направлении, ортогональном изолиниям.
+In fact, I am more interested in the direction, orthogonal to the isolines. If we move along an iso, the height does not change (well duh, it is an iso!). If we deviate a little bit from an iso, the height starts to change a little bit. The steepest ascent we obtain when we move orthogonally to the isolines.
 
-Вспоминаем, что направление наискорейшего подъёма для какой-то функции есть не что иное, как её градиент. Для линейной функции  f(x,y,z) = Ax + By + Cz + D её градиент - это постоянный вектор (A, B, C). Логично, что он постоянный, так как любая точка плоскости наклонена одинаково. Напоминаю, что мы не знаем чисел (A,B,C). Мы знаем только значение нашей функции в трёх разных точках. Можем ли мы восстановить A, B и С? Конечно.
+Let us recall that the steepest ascent direction for a function is nothing else than its [gradient](https://en.wikipedia.org/wiki/Gradient). For a linear function f(x,y,z) = Ax + By + Cz + D its gradient is a constant vector (A, B, C). Recall that we do not know the values of (A,B,C). We know only three samples of the function. Can we reconstruct A,B and C? Sure thing.
 
-Итак, у нас есть три точки p0, p1, p2 и три значения функции f0, f1, f2. Нам интересно найти вектор (A,B,C), дающий направление наискорейшего роста функции f. Давайте для удобства будем рассматривать функцию g(p), которая задаётся как g(p) = f(p) - f(p0):
+So, we have three points p0, p1, p2 and thre values f0, f1, f2. We need to find the vector of the steepest ascent (A,B,C). Let us consider another function defined as g(p) = f(p) - f(p0):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/gradient_b.png)
 
-Очевидно, что мы просто переместили нашу наклонную плоскость, не изменив её наклона, поэтому направление наискорейшего роста для функции g будет совпадат с направлением наискорейшего роста функции f.
+Obviously that we simply translated our inclined plane, without changing its inclination, therefore the steepest ascent direction for f and g is the same.
 
-Давайте перепишем определение функции g:
+Let us rewrite the definition of g:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f02.png)
 
-Обратите внимание, что верхний индекс p^x - это координата x точки p, а не степень. То есть, функция g - это всего-навсего скалярное произведение вектора, соединяющего текущую точку p с точкой p0 и вектора (A,B,C). Но ведь мы по-прежнему не знаем (A,B,C)! Не страшно, сейчас их найдём.
+Please note that superscript x in p^x  means x coordinate of the point p and not a power. So, the function g is simply a dot product between vector (p-p0) and (ABC). And we still do not know (A,B,C)!
 
 Итак, что нам известно? Нам известно, что если от точки p0 мы пойдём в p2, то функция g будет равняться f2-f0. Иными словами, скалярное произведение между векторами p2-p0 и ABC равняется f2-f0. То же самое для dot (p1-p0,ABC)=f1-f0. То есть, мы ищем вектор (ABC), который одновременно ортогонален нормали к треугольнику и имеет эти два ограничения на скалярные произведения:
 
