@@ -22,11 +22,11 @@ Here is another example:
 
 These are textures for the Diablo model. Notice that only one hand is drawn in the texture, and only one side of the tail. The artist used the same texture for both arms and for both sides of the tail. It means that in the global coordinate system I can provide normal vectors either for the left side of the tail, either for the right one, but not for both! Same goes for the arms. And I need different information for the left and the right sides, for example, inspect left and right cheekbones in the left image, naturally normal vectors are pointing in the opposite directions!
 
-Okay, let us finish with the motivation section and go straight ahead to the computations.
+Let us finish with the motivation section and go straight ahead to the computations.
 
 # Starting point, Phong shading
 
-Итак, давайте посмотрим на [отправную точку](https://github.com/ssloy/tinyrenderer/tree/e30ff353121460557e29dced5708652171dbc7d2). Шейдер очень простой, это затенение Фонга.
+Okay, here is the [starting point](https://github.com/ssloy/tinyrenderer/tree/e30ff353121460557e29dced5708652171dbc7d2). The shader is really simple, it is Phong shading.
 
 ```
 struct Shader : public IShader {
@@ -52,33 +52,33 @@ struct Shader : public IShader {
 };
 ```
 
-Вот результат работы шейдера:
+Here is the rendered image:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/starting_point_a.jpg)
 
-Для простоты обучения и отладки я уберу текстуру кожи и применю простейшую [регулярную сетку](https://github.com/ssloy/tinyrenderer/raw/master/obj/grid.tga) с горизонтальными красными и вертикальными синими линиями:
+For the educational and debugging purposes I am removing the skin texture and apply [a regular grid](https://github.com/ssloy/tinyrenderer/raw/master/obj/grid.tga) with horizontal red and vertical blue lines:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/starting_point_b.jpg)
 
-Давайте посмотрим, как работает наш шейдер Фонга на примере этой картинки:
+Let us remember how Phong shading works:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/grid_texture.png)
 
-Итак, для каждой вершины треугольника у нас даны её координаты p, её текстурные координаты uv и нормальные вектора к вершинам n. Для отрисовки каждого пикселя растеризатор нам даёт барицентрические координаты пикселя (альфа, бета, гамма). Это означает, что текущий пиксель имеет пространственные координаты p = альфа p0 + бета p1  + гамма p2. Мы интерполируем текстурные координаты ровно так же, затем интерполируем и вектор нормали:
+For each vertex of a triangle we have its coordinates p, texture coordinates uv and normal vectors. For shading current fragment our software rasterizer gives us barycentric coordinates of the fragment (alpha, beta, gamma). It means that the coordinates of the fragment can be obtained as p = alpha p0 + beta p1 + gamma p2. Then in the same way we interpolate texture coordinates and the normal vector:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f00.png)
 
-Обратите внимание, что красные и синии линии - это изолинии u и v, соответственно. Итак, для каждой точки нашей поверхности у нас задаётся (скользящий) репер Френе, у которого ось x параллельна красным линиям, ось y параллельна синим, а z ортогональная поверхности. Именно в этом репере и задаются нормальные вектора.
+Notice that blue and red lines are isolines of u and v, correspondingly. So, for each point of our surface we define a so-called Frenet frame, with x and y axes parallel to blue and red lines, and z axis orthogonal to the surface. This is the frame where tangent space normal map lives.
 
-# Вычисляем линейную функцию по трём её точкам
+# How to reconstruct a (3D) linear function from three samples
 
-Итак, наша задача - для каждого рисуемого пикселя посчитать тройку векторов, задающую репер Френе. Давайте для начала отвлечёмся и представим, что в нашем пространстве задана линейная функция f, которая каждой точке (x,y,z) сопоставляет вещественное число f(x,y,z) = Ax + By + Cz + D. Единственное, что мы не знаем чисел (A,B,C,D), но знаем значение функции в вершинах некоторого треугольника (p0, p1, p2):
+Okay, so our goal is to compute three vectors (tangent basis) for each pixel we draw. Let us put that aside for while and imagine a linear function f that for each point (x,y,z) gives a real number f(x,y,z) = Ax + By + Cz + D. The only problem that we do not know A, B, C and D, however we do know three values of the function at three different points of the space (p0, p1, p2):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f01.png)
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/gradient_a.png)
 
-Можно представлять себе, что f - это просто высота некоторой наклонной плоскости. Мы фиксируем три разные точки на плоскости и знаем значения высот в этих точках. Красные линии на треугольнике показывают изолинии высоты: изолиния для высоты f0, для высоты f0+1 метр, f0+2 метра и т.д. Для линейной функции все эти изолинии, очевидно, являются параллельными прямыми.
+It is convenient to imagine f as a height map of an inclined plane. We fix three different (non collinear) points on the plane and we know values of f in those points. Red lines inside the triangle show the iso-heights f0, f0 + 1 meter, f0 + 2 meters and so on. For a linear function we have the isolines are parallel (straight) lines.
 
 Что нам интересно это даже не столько направление изолиний, сколько направление, им ортогональное. Если мы передвигаемся вдоль какой-то изолинии, то высота не меняется (спасибо, капитан), если мы отклоняем направление чуть-чуть от изолинии, то высота начинает меняться, а самое большое изменение на единицу высоты будет тогда, когда мы будем передвигаться в направлении, ортогональном изолиниям.
 
