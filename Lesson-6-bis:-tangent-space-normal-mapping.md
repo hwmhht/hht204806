@@ -96,19 +96,19 @@ Let us rewrite the definition of g:
 
 Please note that superscript x in p^x  means x coordinate of the point p and not a power. So, the function g is simply a dot product between vector (p-p0) and (ABC). And we still do not know (A,B,C)!
 
-Итак, что нам известно? Нам известно, что если от точки p0 мы пойдём в p2, то функция g будет равняться f2-f0. Иными словами, скалярное произведение между векторами p2-p0 и ABC равняется f2-f0. То же самое для dot (p1-p0,ABC)=f1-f0. То есть, мы ищем вектор (ABC), который одновременно ортогонален нормали к треугольнику и имеет эти два ограничения на скалярные произведения:
+Okay, let us recall what we know. We know that if we go from point p0 to point p2, then the function g will go from zero to f2-f0. In other words, the dot product between vectors (p2-p0) and (ABC) is equal to f2-f0. Same thing for (p1-p0). Therefore, we are looking for the vector ABC, orthogonal to the normal n and respecting two constraints on dot products:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f03.png)
 
-Запишем то же самое в матричной форме:
+Let us rewrite this in a matrix form:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f04.png) 
 
-То есть, мы получили матричное уравнение Ax = b, которое легко решается:
+So, we got an easy to solve linear matrix equation Ax = b:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f05.png) 
 
-Обратите внимание, что я использовал литеру А в двух смыслах, значение должно быть ясно из контекста. То есть, наша 3x3 матрица A, помноженная на неизвестный вектор x=(A,B,C), даёт вектор b = (f1-f0, f2-f0, 0). Неизвестный вектор находится умножением матрицы, обратной к A, на вектор b.
+Please note that I used the letter A for two different things, the meaning should be clear from the context. So, our 3x3 matrix A, multiplied with the unknown vector x=(A,B,C), gives the vector b = (f1-f0, f2-f0, 0). Unknown vector x becomes known when we multiply inverse to A by b.
 
 Обратите внимание, что в матрице A нет ничего, что зависит от функции f! Там содержится только информация о геометрии треугольника.
 
