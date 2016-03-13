@@ -1,12 +1,12 @@
 The subject for today is [normal mapping](https://en.wikipedia.org/wiki/Normal_mapping). What is the main difference between normal mapping and Phong shading? The key is the density of information we have. For Phong shading we use normal vectors given per vertex of triangle mesh (and interpolate it inside triangles), whereas normal mapping textures provide dense information, dramatically improving rendering details.
 
-Well, we have already applied normal mapping [in previous lesson](https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer), however we used the global system of coordinates to store the texture. Today we are talking about [tangent space](https://en.wikipedia.org/wiki/Frenet%E2%80%93Serret_formulas) normal mapping.
+Well, we have already applied normal mapping [in previous lesson](https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer), however we used the global system of coordinates to store the texture. Today we are talking about [tangent space](https://en.wikipedia.org/wiki/Darboux_frame) normal mapping.
 
-So, we have two textures, the left one is given in the global frame (direct transformation from RGB to XYZ normal), whereas the right one in the Frenet frame:
+So, we have two textures, the left one is given in the global frame (direct transformation from RGB to XYZ normal), whereas the right one in the Darboux frame:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/nm_textures.jpg)
 
-To use right texture, for each pixel we draw we compute tangent space (Frenet) frame. In this basis one vector (usually z) is orthogonal to our surface, and two others give a plane tangent to the current point. Then we read a (perturbed) normal vector from our texture, transform its coordinates from Frenet frame to the global system coordinates and we are done. Usually normal maps provide small perturbations of normal vectors, thus textures are in dominant blue color.
+To use right texture, for each pixel we draw we compute tangent space (Darboux) frame. In this basis one vector (usually z) is orthogonal to our surface, and two others give a plane tangent to the current point. Then we read a (perturbed) normal vector from our texture, transform its coordinates from Darboux frame to the global system coordinates and we are done. Usually normal maps provide small perturbations of normal vectors, thus textures are in dominant blue color.
 
 Well, why such a mess? Why not to use global system as we did before? Imagine we want to animate our model. For example, I took the black guy model and opened his mouth. It is obvious that normal vectors are to be modified.
 
@@ -68,7 +68,7 @@ For each vertex of a triangle we have its coordinates p, texture coordinates uv 
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f00.png)
 
-Notice that blue and red lines are isolines of u and v, correspondingly. So, for each point of our surface we define a so-called Frenet frame, with x and y axes parallel to blue and red lines, and z axis orthogonal to the surface. This is the frame where tangent space normal map lives.
+Notice that blue and red lines are isolines of u and v, correspondingly. So, for each point of our surface we define a so-called Darboux frame, with x and y axes parallel to blue and red lines, and z axis orthogonal to the surface. This is the frame where tangent space normal map lives.
 
 # How to reconstruct a (3D) linear function from three samples
 
@@ -112,9 +112,9 @@ Please note that I used the letter A for two different things, the meaning shoul
 
 Also note that in the matrix A we have nothing related to the function f. It contains only some information about our triangle.
 
-# Let us compute Frenet basis and apply the perturbation of normals
+# Let us compute Darboux basis and apply the perturbation of normals
 
-So, Frenet basis is a triplet of vectors (i,j,n), where n - is the original normal vector, and i, j can be computed as follows:
+So, Darboux basis is a triplet of vectors (i,j,n), where n - is the original normal vector, and i, j can be computed as follows:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f06.png) 
 
@@ -129,7 +129,7 @@ All is quite straightforward, I compute the matrix A:
         A[2] = bn;
 ```
 
-Then compute two unknown vectors (i,j) of Frenet basis:
+Then compute two unknown vectors (i,j) of Darboux basis:
 
 ```
         mat<3,3,float> AI = A.invert();
@@ -152,4 +152,3 @@ Now it is the perfect time to recall how to draw [straight line segments](https:
 Have you noticed that generally a (flat) triangle has a constant normal vector, whereas I used the interpolated normal in the last row of the matrix A? Why did I do it?
 
 Happy coding!
-
