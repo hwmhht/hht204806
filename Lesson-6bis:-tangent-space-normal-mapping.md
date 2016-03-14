@@ -72,7 +72,7 @@ Notice that blue and red lines are isolines of u and v, correspondingly. So, for
 
 # How to reconstruct a (3D) linear function from three samples
 
-Okay, so our goal is to compute three vectors (tangent basis) for each pixel we draw. Let us put that aside for while and imagine a linear function f that for each point (x,y,z) gives a real number f(x,y,z) = Ax + By + Cz + D. The only problem that we do not know A, B, C and D, however we do know three values of the function at three different points of the space (p0, p1, p2):
+Okay, so our goal is to compute three vectors (tangent basis) for each pixel we draw. Let us put that aside for a while and imagine a linear function f that for each point (x,y,z) gives a real number f(x,y,z) = Ax + By + Cz + D. The only problem that we do not know A, B, C and D, however we do know three values of the function at three different points of the space (p0, p1, p2):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/f01.png)
 
