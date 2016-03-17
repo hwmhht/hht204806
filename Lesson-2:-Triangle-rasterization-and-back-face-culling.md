@@ -286,6 +286,8 @@ Let us compare:
 
 We get zero illumination if the polygon is parallel to the vector of light. To paraphrase: the intensity of illumination is equal to the scalar product of the light vector and the normal to the given triangle. The normal to the triangle can be calculated simply as the [cross product](https://en.wikipedia.org/wiki/Cross_product) of its two sides.
 
+As a side note, at this course we will perform linear computations on the colors. However (128,128,128) color is not half as bright as (255, 255, 255). We are going to ignore gamma correction and tolerate the incorrectness of the brightness of our colors.
+
 ```C++
 for (int i=0; i<model->nfaces(); i++) { 
     std::vector<int> face = model->face(i); 
