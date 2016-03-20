@@ -242,7 +242,7 @@ By the way, compare this image to another one, it gives exactly the same informa
 
 ![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm_tangent.png)
 
-One of the images gives normal vectors in clobal (Cartesian) coordinate system, another one in [Darboux frame](https://en.wikipedia.org/wiki/Darboux_frame) (so-called tangent space). In Darboux frame the z-vector is normal to the object, x - principal curvature direction and y - their cross product.
+One of the images gives normal vectors in global (Cartesian) coordinate system, another one in [Darboux frame](https://en.wikipedia.org/wiki/Darboux_frame) (so-called tangent space). In Darboux frame the z-vector is normal to the object, x - principal curvature direction and y - their cross product.
 
 **Exercise 1:** Can you tell which image is represented in Darboux frame and which one is in the global coordinate frame?
 
