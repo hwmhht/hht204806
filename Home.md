@@ -1,11 +1,14 @@
 # How OpenGL works: software renderer in 500 lines of code
 
 ***
+
+**My source code is irrelevant. Read the wiki and implement your own renderer. Only when you suffer through all the tiny details you will learn what is going on.**
+
 **I do want to get emails for feedback (dmitry.sokolov@univ-lorraine.fr); do not hesitate to contact me if you have any questions.**
 
 **If you are a teacher and willing to adopt this material for teaching your class your are very welcome, no authorization is needed, simply inform me by mail, it will  help me to improve the course.**
-***
 
+***
 
 
 In this series of articles, I want to show the way OpenGL works by writing its clone (a much simplified one). Surprisingly enough, I often meet people who cannot overcome the initial hurdle of learning OpenGL / DirectX. Thus, I have prepared a short series of lectures, after which my students show quite good renderers.
