@@ -159,7 +159,7 @@ Here is the output of gprof:
 
 # Timings: fifth and final attempt
 
-Why do we need floating points? The only reason is one division by dx and comparison with .5 in the loop body. We can get rid of the floating point by replacing the error variable with another one. Let’s call it error2, and assume it is equal to error*dx*2. Here’s the equivalent [code](https://github.com/ssloy/tinyrenderer/tree/28b766abe59b8635c912ed78b8a6e938a7ef29f2):
+Why do we need floating points? The only reason is one division by dx and comparison with .5 in the loop body. We can get rid of the floating point by replacing the error variable with another one. Let’s call it error2, and assume it is equal to error * dx * 2. Here’s the equivalent [code](https://github.com/ssloy/tinyrenderer/tree/28b766abe59b8635c912ed78b8a6e938a7ef29f2):
  
 ```C++
 void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
