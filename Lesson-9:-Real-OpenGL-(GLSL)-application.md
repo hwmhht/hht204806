@@ -63,7 +63,7 @@ This image gives me a headache. An intersection between two spheres in a circle,
 
 Yes, they can. Shaders can be used for other things than simple lighting tasks. I want to minimize data transfer between GPU and CPU, so I will send one vertex per sphere to draw.
 
-*Again, I am using GLSL #120 because of the harware restrictions I have. New GLSL has a bit different syntax, but the idea is the same.*
+*Again, I am using GLSL #120 because of the hardware restrictions I have. New GLSL has a bit different syntax, but the idea is the same.*
 
 [Here](https://github.com/ssloy/glsltuto/tree/b58de5f79de31ff0522ddd81eaead4a94f8595b3) is the source code for drawing the spheres using shaders. So, what is the idea?
 
