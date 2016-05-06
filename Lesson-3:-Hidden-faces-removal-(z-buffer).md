@@ -153,7 +153,7 @@ So the idea is to take the barycentric coordinates version of triangle rasteriza
 
 
 ```C++
-triangle(screen_coords, float *zbuffer, image, TGAColor(intensity*255, intensity*255, intensity*255, 255), zbuffer);
+triangle(screen_coords, float *zbuffer, image, TGAColor(intensity*255, intensity*255, intensity*255, 255));
 
 [...]
 
