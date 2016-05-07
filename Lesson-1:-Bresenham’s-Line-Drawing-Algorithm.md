@@ -86,7 +86,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 
 _**Warning**: compiler’s optimizator (g++ -O3) is often better than you (and me) in creating a fast code. This section is here for historical/cultural reasons._
 
-This code works great. That’s exactly the kind of complexity I want to see in the final version or our renderer. It is definitely inefficient (multiple divisions, and the like), but it is short and readable. Note that it has no asserts and no checks on going beyond the borders, which is bad. In these articles I try not to overload this particular code, as it gots read a lot. At the same time, I systematically remind of the necessity to perform checks.
+This code works great. That’s exactly the kind of complexity I want to see in the final version or our renderer. It is definitely inefficient (multiple divisions, and the like), but it is short and readable. Note that it has no asserts and no checks on going beyond the borders, which is bad. In these articles I try not to overload this particular code, as it gets read a lot. At the same time, I systematically remind of the necessity to perform checks.
 
 So, the previous code works fine, but we can optimize it. Optimization is a dangerous thing. We should be clear about the platform the code will run on. Optimizing the code for a graphics card or just for a CPU — are completely different things. Before and during any optimization, the code must be profiled. Try to guess, which operation is the most resource-intensive operation here?
 
