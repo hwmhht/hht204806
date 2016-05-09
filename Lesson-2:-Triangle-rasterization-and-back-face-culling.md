@@ -210,8 +210,8 @@ So, let us program our new rasterization routine: we iterate through all pixels 
 ```C++
 #include <vector> 
 #include <iostream> 
-#include ”geometry.h” 
-#include ”tgaimage.h” 
+#include "geometry.h"
+#include "tgaimage.h" 
  
 const int width  = 200; 
 const int height = 200; 
