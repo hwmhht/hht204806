@@ -179,7 +179,7 @@ Notice that the shader returns a bool value. It is easy to understand what it do
 
 Fragment shader can discard drawing of the current pixel, then the rasterizer simply skips it. It is handy if we want to create binary masks or whatever you want (check the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application) for a very cool example of discarding pixels).
 
-Of cause, the rasterizer can not imagine all the weird stuff you could program, therefore it can not be pre-compiled with your shader. Here we use abstract calss IShader as an intermediate between the two. Wow, it is quite rare I use abstract classes, but without it we would suffer here. Pointers to functions are ugly.
+Of course, the rasterizer can not imagine all the weird stuff you could program, therefore it can not be pre-compiled with your shader. Here we use abstract calss IShader as an intermediate between the two. Wow, it is quite rare I use abstract classes, but without it we would suffer here. Pointers to functions are ugly.
 
 # First modification of the shaders
 
