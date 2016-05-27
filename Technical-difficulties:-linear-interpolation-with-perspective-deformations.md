@@ -18,7 +18,7 @@ We know barycentric coordinates of the point P' with respect to the triangle A'B
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/td-perspective-correction/f07.png)
 
-Then, knowing screen-space coordinates A'B'C' and barycentric coordinates of P' with respect to A'B'C', we need to find barycentric coordinates of P with respect to the origninal triangle ABC:
+Then, knowing screen-space coordinates A'B'C' and barycentric coordinates of P' with respect to A'B'C', we need to find barycentric coordinates of P with respect to the original triangle ABC:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/td-perspective-correction/f06.png)
 
