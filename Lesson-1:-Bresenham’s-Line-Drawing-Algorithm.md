@@ -44,7 +44,7 @@ line(80, 40, 13, 20, image, red);
 
 ![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/097a691f9e.png)
 
-It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the second lines (in the code) give the same line of different colors. We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
+It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the third lines (in the code) give the same line of different colors. We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
 
 # Third attempt
 
