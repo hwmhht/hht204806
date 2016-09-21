@@ -10,7 +10,7 @@ Up to this moment convex objects were shaded correctly by our simple local shadi
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/07-shadows/b4af24130ecb1536703e4793308af425.png)
 
-Why is there some light at the right (demon's right, our left) shoulder? Why do not we see a shadow from his left corn? Not good.
+Why is there some light at the right (demon's right, our left) shoulder? Why do not we see a shadow from his left horn? Not good.
 
 The idea is really simple: we will do a two-pass rendering. First time we will render the image placing the camera at the light source position. It will allow to determine what parts are lit and what parts are hidden from the light. Then in the second pass we do a render taking in account the visibility information. Almost no difficulties here. Let us use this shader:
 
