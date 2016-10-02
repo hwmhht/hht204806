@@ -44,9 +44,11 @@ line(80, 40, 13, 20, image, red);
 
 ![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/097a691f9e.png)
 
-It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the third lines (in the code) give the same line of different colors. We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
+It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the third lines (in the code) draw the same line in different colors, and in different directions (with the source and target points flipped). We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
 
 # Third attempt
+
+We fix the missing red line by swapping the points so x0 is always lower than x1.
 
 There are holes in one of the line segments due to the fact that its height is greater than the width. My students often suggest the following fix:
 
@@ -92,7 +94,7 @@ So, the previous code works fine, but we can optimize it. Optimization is a dang
 
 For tests, 1,000,000 times I draw 3 line segments we have drawn before. My CPU is Intel® Core(TM) i5-3450 CPU @ 3.10GHz. For each pixel, this code calls the TGAColor copy constructor. Which is 1000000 * 3 line segments * approximately 50 pixels per line segment. Quite a lot of calls, isn’t it? Where to start with optimization? The profiler will tell us.
 
-I compiled the code with g++ -ggdb -g3 -pg -O0 keys, and then ran gprof:
+I compiled the code with g++ -ggdb -g -pg -O0 keys, and then ran gprof:
 
 ``` 
 %   cumulative   self              self     total 
@@ -104,11 +106,11 @@ I compiled the code with g++ -ggdb -g3 -pg -O0 keys, and then ran gprof:
   0.94      4.27     0.04                             TGAImage::get(int, int)
 ```
 
-10% of the time are spent on copying the color. But then 70% are performed in calling line()! That’s where we will optimize.
+10% of the time is spent on copying the color. But then 70% is spent calling line()! That’s where we will optimize.
 
 # Fourth attempt continued
 
-We should note that each division has the same divisor. Let’s take it out of the loop. The error variable gives is the distance to the best straight line from our current (x, y) pixel. Each time error is greater than one pixel, we increase (or decrease) y by one, and decrease the error by one as well.
+We should note that each division has the same divisor. Let’s take it out of the loop. The error variable gives us the distance to the best straight line from our current (x, y) pixel. Each time error is greater than one pixel, we increase (or decrease) y by one, and decrease the error by one as well.
 
 The code is available [here](https://github.com/ssloy/tinyrenderer/tree/2086cc7c082f4aec536661d7b4ab8a469eb0ce06).
  
