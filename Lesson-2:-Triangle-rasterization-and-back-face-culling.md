@@ -125,6 +125,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
             image.set(j, y, color); // attention, due to int casts t0.y+i != A.y 
         } 
     } 
+}
 ```
 
 ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/b1a0fce5f1.png)
