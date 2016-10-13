@@ -133,7 +133,7 @@ We know to rotate around the origin, we know how to translate. It is all we need
 
 In 3D sequences of actions will be a bit longer, but the idea is the same: we need to know few basic transformations and with their aid we can represent any composed action.
 
-# Wait a minute, may I touch this magic last row of the 3x3 matrix?
+# Wait a minute, may I touch this magical bottom row of the 3x3 matrix?
 
 Sure thing! Let us apply the following transformation to our standard squarish object:
 
@@ -184,7 +184,7 @@ It is really similar to the result we put aside few moments ago, but there we go
 
 # Let us sum up: the main formula for today
 
-*If you use simply copy-paste this formula without understanding the above material, I hate you.*
+*If you simply copy-paste this formula without understanding the above material, I hate you.*
 
 So, if we want to compute a central projection with a camera **(important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
 
