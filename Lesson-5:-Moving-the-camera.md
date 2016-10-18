@@ -2,7 +2,7 @@
 
 Today we are finishing with the part that i like a lot, but many readers find boring. Once you have mastered today's material, you can move to the next lesson and there we will actually do renders. To brighten you up here is the head we already know rendered using [Gouraud shading](https://en.wikipedia.org/wiki/Gouraud_shading):
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/bcdf0bba53495b4ebc86ba45f03d255e.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/bcdf0bba53495b4ebc86ba45f03d255e.png)
 
 I removed all the textures. Gouraud shading is really simple. Our kind 3d artists gave us normal vectors to each vertex of the model, they can be found in "vn x y z" lines of the .obj file. We compute the intensity per vertex (and not per triangle as before for the flat shading) and then simply interpolate the intensity inside each triangle as we already did for z or uv coordinates. 
 
@@ -12,27 +12,27 @@ By the way, in the case when 3d artists are not so kind, you can recompute the n
 
 In Euclidean space coordinates can be given by a point (the origin) and a basis. What does it mean that point P has coordinates (x,y,z) in the frame (O, i,j,k)? It means that the vector OP can be expressed as follows:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f00.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f00.svg)
 
 Now image that we have another frame (O', i',j',k'). How do we transform coordinates given in one frame to another? First of all let us note that since (i,j,k) and (i',j',k') are bases of 3D, there exists a (non degenerate) matrix M such that:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f01.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f01.svg)
 
 Let us draw an illustration:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f66a0139058ab1d1025dbfd8cd401389.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f66a0139058ab1d1025dbfd8cd401389.png)
 
 Then let us re-express the vector OP:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f02.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f02.svg)
 
 Now let us substitute (i',j',k') in the right part with the change of basis matrix:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f03.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f03.svg)
 
 And it gives us the formula to transform coordinates from one frame to another:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f04.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f04.svg)
 
 
 # Let us create our own gluLookAt
@@ -43,7 +43,7 @@ Let us put the problem this way: we want to draw a scene with a camera situated 
 
 Here is an illustration:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/b94dd4a591514fd66a91a6e4cc065644.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/b94dd4a591514fd66a91a6e4cc065644.png)
 
 It means that we want to do the rendering in the frame (c, x',y',z'). But then our model is given in the frame (O, x,y,z)... No problem, all we need is to compute the transformation of the coordinates. Here is a C++ code computing the necessary 4x4 matrix ModelView:
 
@@ -93,7 +93,7 @@ Matrix viewport(int x, int y, int w, int h) {
 
 This code creates this matrix:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f08.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f08.svg)
 
 It means that the bi-unit cube [-1,1]*[-1,1]*[-1,1] is mapped onto the screen cube [x,x+w]*[y,y+h]*[0,d]. Right, cube, and not a rectangle, this is because of the depth computations with the z-buffer. Here d is the resolution of the z-buffer. I like to have it equal to 255 because of simplicity of dumping black-and-white images of the z-buffer for debugging.
 
@@ -129,17 +129,17 @@ Thus, to remove all the black magic fog, we need to understand one simple thing:
 
 Back to 3D, we have a vector **n** = (A,B,C). We know that the plane passing through the origin and having **n** for its normal, has an equation Ax+By+Cz=0. Let us write it in the matrix form (i do it in homogeneous coordinates from the beginning):
  
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f05.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f05.svg)
 
 Recall that (A,B,C) - is a vector, so we augment it with 0 when embedding into the 4D, and (x,y,z) is augmented with 1 since it is a point.
 
 Let us insert an identity matrix in between (inverse to M multiplied by M is equal to identity):
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f06.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f06.svg)
 
 The expression in right parentheses - are for the transformed points of the object. In the left - are for normal vectors to the transformed object! In standard convention we usually write coordinates as columns (please let us not raise all the stuff about contra- and co-variant vectors), so we can rewrite the previous expression as follows:
 
-![](http://www.loria.fr/~sokolovd/cg-course/05-camera/img/f07.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f07.svg)
 
 And the left parentheses tell us that a normal to the transformed object can be computed from the old normal by applying the inverse transpose matrix of the affine mapping.
 
