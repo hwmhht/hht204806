@@ -181,27 +181,27 @@ There is another thing I like about this pseudocode: a neophyte in programming a
 
 Okay, let us start: first of all we need to know what the [barycentric coordinates](https://en.wikipedia.org/wiki/Barycentric_coordinate_system) are. Given a 2D triangle ABC and a point P, all in old good Cartesian coordinates (xy). Our goal is to find barycentric coordinates of the point P with respect to the triangle ABC. It means that we look for three numbers (1 − u − v,u,v) such that we can find the point P as follows:
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index0x.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index0x.png)
 
-While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index1x.png),![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index2x.png)):
+While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index1x.png),![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index2x.png)):
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index3x.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index3x.png)
 
-So, we have vectors ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index4x.png)￼, ![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index5x.png)￼ and ￼![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index6x.png), we need to find two real numbers u and v respecting the following constraint:
+So, we have vectors ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index4x.png), ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index5x.png) and ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index6x.png), we need to find two real numbers u and v respecting the following constraint:
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index7x.png)
-￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index7x.png)
+
 
 It is a simple vector equation, or a linear system of two equations with two variables:
 
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index8x.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index8x.png)
 
-￼
+
 I am lazy and do not want to solve linear systems in a scholar way. Let us write it in matrix form:
 
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index9x.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index9x.png)
 
 
 It means that we are looking for a vector (u,v,1) that is orthogonal to (￼ABx,AC￼x,￼PAx) and (￼ABy,AC￼y,PA￼y) *at the same time*! I hope you see [where I am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
