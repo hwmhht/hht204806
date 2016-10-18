@@ -2,8 +2,8 @@
 
 Hi, everyone. It’s me.
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/cfa0f3a9d9.png)
-￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/cfa0f3a9d9.png)
+
 More precisely, it is a model of my face rendered in the program we will be creating in the next hour or two. Last time we drew the wire mesh of a three-dimensional model. This time, we will fill polygons, or rather triangles. In fact, OpenGL triangulates almost any polygon, so there’s no need to consider sophisticated cases.
 
 _Let me remind you, this series of articles is designed to allow you to program yourself. When I said that in two hours you can draw a picture like the one above, I did not mean the time to read my code. It’s time for creating your code from scratch. My code is provided here purely to compare your (working) program with mine. I am an awful programmer, it is very likely that you are a better one. Do not simply copy-paste my code. Any comments and questions are welcome._
@@ -30,7 +30,7 @@ triangle(t1[0], t1[1], t1[2], image, white);
 triangle(t2[0], t2[1], t2[2], image, green);
 ```
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/41060d3251.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/41060d3251.png)
 
 As usual, the appropriate commit is available on GitHub [here](https://github.com/ssloy/tinyrenderer/tree/7e46cc57fa3f5a41129d6b6fefe4e77f77b8aa84). The code is simple: I provide three triangles for the initial debugging of your code. If we invoke `line()` inside the triangle function, we’ll get the contour of the triangle. How to draw a filled triangle?
 
@@ -65,7 +65,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 
 Here boundary A is red, and boundary B is green.
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/3a5643f513.png)￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/3a5643f513.png)￼
 
 Unfortunately, boundary B is made of two parts. Let us draw the bottom half of the triangle by cutting it horizontally:
 
@@ -88,11 +88,11 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 }
 ```
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/d8e0575a00.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/d8e0575a00.png)
 
 Note that the segments are not continuous. Last time when we drew straight lines we struggled to get continuous segments and here I did not bother with rotating the image (remember the xy swapping?). Why? We fill the triangles aftewards, that’s why. If we connect the corresponding pairs of points by horizontal lines, the gaps disappear:
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/c1f95127ad.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/c1f95127ad.png)
 
 Now, let us draw the second (upper) half of the triangle. We can do this by adding a second loop:
  
@@ -128,7 +128,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 }
 ```
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/b1a0fce5f1.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/b1a0fce5f1.png)
 
 This could be enough, but I dislike to see the same code twice. That is why we will make it a bit less readable, but more handy for modifications/maintaining:
 
@@ -255,7 +255,7 @@ int main(int argc, char** argv) {
 
 *barycentric()* function computes coordinates of a point P in a given triangle, we already saw the details. Now let us see how works *triangle()* function. First of all, it computes a bounding box, it is described by two points: bottom left and upper right. To find these corners we iterate through the vertices of the triangle and choose min/max coordinates. I also added a clipping of the bounding box with the screen rectangle to spare the CPU time for the triangles outside of the screen. Congratulations, you know how to draw a triangle!
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/0ba3f3e659f5feff80a78840fb927a71.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/0ba3f3e659f5feff80a78840fb927a71.png)
 
 # Flat shading render
 
@@ -275,15 +275,15 @@ for (int i=0; i<model->nfaces(); i++) {
 
 It is simple: just like before, we iterate through all the triangles, convert world coordinates to screen ones and draw triangles. I will provide the detailed description of various coordinate systems in my following articles. Current picture looks something like this:
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/0c58d8a735.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/0c58d8a735.png)
 
 Let us get rid of these clown-colors and put some lighting. Captain Obvious: ”At the same light intensity, the polygon is illuminated most brightly when it is orthogonal to the light direction.”
 
 Let us compare:
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/5371a416d1.jpg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/5371a416d1.jpg)
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/97e210ee08.jpg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/97e210ee08.jpg)
 
 We get zero illumination if the polygon is parallel to the vector of light. To paraphrase: the intensity of illumination is equal to the scalar product of the light vector and the normal to the given triangle. The normal to the triangle can be calculated simply as the [cross product](https://en.wikipedia.org/wiki/Cross_product) of its two sides.
 
@@ -310,7 +310,7 @@ for (int i=0; i<model->nfaces(); i++) {
 
 But the dot product can be negative. What does it mean? It means that the light comes from behind the polygon. If the scene is well modelled (it is usually the case), we can simply discard this triangle. This allows us to quickly remove some invisible triangles. It is called [Back-face culling](http://en.wikipedia.org/wiki/Back-face_culling).
 
-![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/img/d5223f9b93.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/d5223f9b93.png)
 
 Note that the inner cavity of the mouth is drawn on top of the lips. That is because of our dirty clipping of invisible triangles: it works perfectly for convex shapes only. We will get rid of this artifact next time when we encode the z-buffer.
 
