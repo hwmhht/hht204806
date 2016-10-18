@@ -2,7 +2,7 @@
 
 Hello, let me introduce you my friend z-buffer of a black guy. He will help us get rid of the visual artifacts of the hidden faces removal we had during the last lesson.
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3f057a75601d8ac34555e72ea03ef711.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/3f057a75601d8ac34555e72ea03ef711.png)
 
 By the way, i'd like to mention that this model i use heavily in the course is created by [Vidar Rapp](https://se.linkedin.com/in/vidarrapp). He kindely granted me a permission to use it for teaching rendering basics and i vandalized it, but i promise you to give back the eyes to the guy.
 
@@ -12,11 +12,11 @@ Well, back to the topic, in theory we could just draw all the triangles without 
 
 Imagine a simple scene made of three triangles: the camera looks up-to-down, we project the colored triangles onto the white screen:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d493c52da4cabe9a057c26f696784956.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/d493c52da4cabe9a057c26f696784956.png)
 
 The render should look like this:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/023668cb8ea97f59bf87d982c1e8b030.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/023668cb8ea97f59bf87d982c1e8b030.png)
 
 Blue facet - is it behind or in front of the red one? The painter's algorithm does not work here. It is possible to split blue facet in two (one in front of the red facet and one behind). And then the one in front of the red one is to be split in two - one in front of the green triangle and one behind... I think you get the problem: in scenes with millions of triangles it is really expensive to compute. It is possible to use [BSP trees](https://en.wikipedia.org/wiki/Binary_space_partitioning) to get it done. By the way, this data structure is constant for moving camera, but it is really messy. And the life is too short to get it messy.
 
@@ -24,12 +24,12 @@ Blue facet - is it behind or in front of the red one? The painter's algorithm do
 
 Let us lose a dimension for a while and to cut the above scene along the yellow plane:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d673f40bcadbe53f4b3cb29bbbcfb461.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/d673f40bcadbe53f4b3cb29bbbcfb461.png)
 
 I mean, now our scene is made of three line segments (intersection of the yellow plane and each of the triangles),
 and the final render has a normal width but 1 pixel height:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/3d4c4a1710b8e2558beb5c72ea52a61a.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/3d4c4a1710b8e2558beb5c72ea52a61a.png)
 
 As always, there is a [commit](https://github.com/ssloy/tinyrenderer/tree/d9c4b14c0d8c385937bc87cee1178f1e42966b7c) available. Our scene is two-dimensional, so it is easy to draw it using the line() function we programmed in the very first lesson.
 
@@ -52,7 +52,7 @@ As always, there is a [commit](https://github.com/ssloy/tinyrenderer/tree/d9c4b1
 
 This is how our 2D scene looks like if we look at it sideways:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/20e9d8742d17979ec70e45cafacd63a5.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/20e9d8742d17979ec70e45cafacd63a5.png)
 
 Let us render it. Recall that the render is 1 pixel height. In my source code I create images 16 pixels height for the ease of reading on high resolution screens. *rasterize()* function writes only in the first line of the image *render*
 
@@ -90,31 +90,31 @@ It is really-really simple: i iterate through all x-coordinates between p0.x and
 Let us see it step-by-step. After calling *rasterize()* on the first (red) segment this is our memory:
 
 screen:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/01694d604755b68c406998c03db374d9.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/01694d604755b68c406998c03db374d9.png)
 
 ybuffer:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/65ddaf2b4d87f9b80127ecc6b02d0f72.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/65ddaf2b4d87f9b80127ecc6b02d0f72.png)
 
 Here the magenta color indicates the minus infinity, those are places corresponding to the screen we did not touch. All the rest is shown in the shades of gray: clear colors are close to the camera, dark colors far from the camera.
 
 Then we draw the green segment.
 
 screen:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/6f081ac5fc77e2ec4bc733c945b16615.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/6f081ac5fc77e2ec4bc733c945b16615.png)
 
 ybuffer:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/bae97132fc4ae67584b46b03d7350944.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/bae97132fc4ae67584b46b03d7350944.png)
 
 And finally the blue one.
 
 screen:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/d6fdb1d49161923ac91796967afa766e.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/d6fdb1d49161923ac91796967afa766e.png)
 
 ybuffer:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/8f430d7de76bdcbda73b8de2986fbe49.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/8f430d7de76bdcbda73b8de2986fbe49.png)
 
 Congratulations, we just drew a 2D scene on a 1D screen! Let us admire once again the render:
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/24935d71a1b0023ee3cb48934fae175d.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/24935d71a1b0023ee3cb48934fae175d.png)
 
 
 # Back to 3D
@@ -186,7 +186,7 @@ void triangle(Vec3f *pts, float *zbuffer, TGAImage &image, TGAColor color) {
 It is terrific how little changes we made to the source code from the previous lesson to discard the hidden parts!
 Here is the render:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/f93a1fc1cbaebb9c4670ae0003e62947.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/f93a1fc1cbaebb9c4670ae0003e62947.png)
 
 The source code can be found [here](https://github.com/ssloy/tinyrenderer/tree/68a5ae382135d679891423fb5285fdd582ca389d).
 
@@ -201,4 +201,4 @@ Diffuse texture can be taken [here](https://github.com/ssloy/tinyrenderer/raw/ma
 
 Here is an example of what I expect from you:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/03-zbuffer/img/73714966ad4a4377b8c4df60bef03777.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/03-zbuffer/73714966ad4a4377b8c4df60bef03777.png)
