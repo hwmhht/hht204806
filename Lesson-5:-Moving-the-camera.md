@@ -12,11 +12,11 @@ By the way, in the case when 3d artists are not so kind, you can recompute the n
 
 In Euclidean space coordinates can be given by a point (the origin) and a basis. What does it mean that point P has coordinates (x,y,z) in the frame (O, i,j,k)? It means that the vector OP can be expressed as follows:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f00.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f00.png)
 
 Now image that we have another frame (O', i',j',k'). How do we transform coordinates given in one frame to another? First of all let us note that since (i,j,k) and (i',j',k') are bases of 3D, there exists a (non degenerate) matrix M such that:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f01.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f01.png)
 
 Let us draw an illustration:
 
@@ -24,15 +24,15 @@ Let us draw an illustration:
 
 Then let us re-express the vector OP:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f02.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f02.png)
 
 Now let us substitute (i',j',k') in the right part with the change of basis matrix:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f03.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f03.png)
 
 And it gives us the formula to transform coordinates from one frame to another:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f04.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f04.png)
 
 
 # Let us create our own gluLookAt
@@ -93,7 +93,7 @@ Matrix viewport(int x, int y, int w, int h) {
 
 This code creates this matrix:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f08.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f08.png)
 
 It means that the bi-unit cube [-1,1]*[-1,1]*[-1,1] is mapped onto the screen cube [x,x+w]*[y,y+h]*[0,d]. Right, cube, and not a rectangle, this is because of the depth computations with the z-buffer. Here d is the resolution of the z-buffer. I like to have it equal to 255 because of simplicity of dumping black-and-white images of the z-buffer for debugging.
 
@@ -129,17 +129,17 @@ Thus, to remove all the black magic fog, we need to understand one simple thing:
 
 Back to 3D, we have a vector **n** = (A,B,C). We know that the plane passing through the origin and having **n** for its normal, has an equation Ax+By+Cz=0. Let us write it in the matrix form (i do it in homogeneous coordinates from the beginning):
  
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f05.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f05.png)
 
 Recall that (A,B,C) - is a vector, so we augment it with 0 when embedding into the 4D, and (x,y,z) is augmented with 1 since it is a point.
 
 Let us insert an identity matrix in between (inverse to M multiplied by M is equal to identity):
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f06.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f06.png)
 
 The expression in right parentheses - are for the transformed points of the object. In the left - are for normal vectors to the transformed object! In standard convention we usually write coordinates as columns (please let us not raise all the stuff about contra- and co-variant vectors), so we can rewrite the previous expression as follows:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f07.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f07.png)
 
 And the left parentheses tell us that a normal to the transformed object can be computed from the old normal by applying the inverse transpose matrix of the affine mapping.
 
