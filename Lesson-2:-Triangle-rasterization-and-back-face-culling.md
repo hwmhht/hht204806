@@ -65,7 +65,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &image, TGAColor color) {
 
 Here boundary A is red, and boundary B is green.
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/3a5643f513.png)￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/3a5643f513.png)
 
 Unfortunately, boundary B is made of two parts. Let us draw the bottom half of the triangle by cutting it horizontally:
 
@@ -204,7 +204,7 @@ I am lazy and do not want to solve linear systems in a scholar way. Let us write
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index9x.png)
 
 
-It means that we are looking for a vector (u,v,1) that is orthogonal to (￼ABx,AC￼x,￼PAx) and (￼ABy,AC￼y,PA￼y) *at the same time*! I hope you see [where I am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
+It means that we are looking for a vector (u,v,1) that is orthogonal to (ABx,ACx,PAx) and (ABy,ACy,PAy) *at the same time*! I hope you see [where I am heading](https://en.wikipedia.org/wiki/Cross_product). That is a small hint: to find an intersection of two straight lines in a plane (that is exactly what we did here), it is sufficient to compute one cross product. By the way, test yourself: how do we find an equation of a line passing through two given points?
 
 So, let us program our new rasterization routine: we iterate through all pixels of a bounding box for a given triangle. For each pixel we compute its barycentric coordinates. If it has at least one negative component, then the pixel is outside of the triangle. Probably it is more clear to see the program directly:
 
