@@ -11,7 +11,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 }
 ```
 
-![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/c3c2ea8819.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/c3c2ea8819.png)
 
 The snapshot of the code is available [here](https://github.com/ssloy/tinyrenderer/tree/d0703acf18c48f2f7d00e552697d4797e0669ade).
 
@@ -19,7 +19,7 @@ The snapshot of the code is available [here](https://github.com/ssloy/tinyrender
 
 The problem with this code (in addition to efficiency) is the choice of the constant, which I took equal to .01. If we take it equal to .1, our line segment will look like this:
 
-![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/62a16a5321.png)￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/62a16a5321.png)￼
 
 We can easily find the necessary step: it’s just the number of pixels to be drawn. The simplest (with errors!) code looks something like the following:
 
@@ -42,7 +42,7 @@ line(80, 40, 13, 20, image, red);
 ```
 
 
-![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/097a691f9e.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/097a691f9e.png)
 
 It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the third lines (in the code) draw the same line in different colors, and in different directions (with the source and target points flipped). We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
 
@@ -82,7 +82,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 }
 ```
 
-![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/3e8e5c7d26.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/3e8e5c7d26.png)
 
 # Timings: fourth attempt
 
@@ -238,6 +238,6 @@ for (int i=0; i<model->nfaces(); i++) {
     } 
 }
 ```
-![](http://www.loria.fr/~sokolovd/cg-course/01-bresenham/img/5da6818190.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/5da6818190.png)
 
 Next time we will draw 2D triangles and improve our renderer.
