@@ -9,7 +9,7 @@ Time for fun! First of all, let us check the current state of the [source code](
 
 For a total of 525 lines, exactly what we wanted. Please note that the only files responsible for actual rendering are in our_gl.* and main.cpp with **168 lines in total**.
 
-![](https://hsto.org/getpro/habr/post_images/e3c/d70/492/e3cd704925f52b5466ab3c4f9fbab899.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/e3cd704925f52b5466ab3c4f9fbab899.png)
 
 # Refactoring the source code
 
@@ -127,7 +127,7 @@ What happens after that? We call the rasterization routine. What happens inside 
 
 The rendering pipeline for the OpenGL 2 can be represented as follows (in fact, it is more or less the same for newer versions too):
 
-![](http://3dgep.com/wp-content/uploads/2014/01/OpenGL-2.0-Programmable-Shader-Pipeline.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/OpenGL-2.0-Programmable-Shader-Pipeline.png)
 
 Because of the time limits I have for my course, I restrict myself to the OpenGL 2 pipeline and therefore to fragment and vertex shaders only. In newer versions of OpenGL there are other shaders, allowing, for example, to generate geometry on the fly. 
 
@@ -137,7 +137,7 @@ That is all. You know what the shaders are and now you can create your own shade
 
 # My implementation of shaders shown on Gouraud shading
 
-![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/output.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/output.png)
 
 Let us check the shader I listed above in the main.cpp. According to its name, it is a Gouraud shader. Let me re-list the code:
 
@@ -199,7 +199,7 @@ Of course, the rasterizer can not imagine all the weird stuff you could program,
 
 Simple modification of the Gourad shading, where the intensities are allowed to have 6 values only, here is the result:
 
-![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/f2bf83c5994b9051aaba499cb05e65bf.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/f2bf83c5994b9051aaba499cb05e65bf.png)
 
 # Textures
 
@@ -228,19 +228,19 @@ struct Shader : public IShader {
 
 Here is the result:
 
-![](https://hsto.org/files/51f/723/ffe/51f723ffe99f4c6888a13091796da8f7.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/51f723ffe99f4c6888a13091796da8f7.png)
 
 # Normalmapping
 
 Okay, now we have texture coordinates. What can we store in texture images? In fact, almost anything. It can be color, directions, temperature and so on. Let us load this texture:
 
-![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/african_head_nm.png)
 
 If we interpret RGB values as xyz directions, this image gives us normal vectors **for each pixel** of our render and not only per vertex as before.
 
 By the way, compare this image to another one, it gives exactly the same information, but in another frame:
 
-![](http://www.loria.fr/~sokolovd/infographie/04-geometry/tmp/african_head_nm_tangent.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/african_head_nm_tangent.png)
 
 One of the images gives normal vectors in global (Cartesian) coordinate system, another one in [Darboux frame](https://en.wikipedia.org/wiki/Darboux_frame) (so-called tangent space). In Darboux frame the z-vector is normal to the object, x - principal curvature direction and y - their cross product.
 
@@ -284,7 +284,7 @@ struct Shader : public IShader {
 
 **Uniform** is a reserved keyword in GLSL, it allows to pass constants to the shaders. Here I pass the matrix Projection\*ModelView and its inverse transpose to transform the normal vectors (refer to the end of the [lesson 5](https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera)). So, computation of the lighting intensity is the same as before with one exception: instead of interpolating normal vectors we retrieve the information from the normal mapping texture (do not forget to transform light vector and normal vectors).
 
-![](http://hsto.org/files/161/ecc/7c4/161ecc7c4f0147ca8ae66f0eb21baf29.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/161ecc7c4f0147ca8ae66f0eb21baf29.png)
 
 # Specular mapping
 
@@ -292,11 +292,11 @@ Okay, let us continue the fun. All the computer graphics science is the art to c
 
 Take a look at the following image, it speaks for itself:
 
-![](http://hsto.org/getpro/habr/comment_images/e37/20a/5df/e3720a5dfedc49edb0bf70f8bc64204a.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/e3720a5dfedc49edb0bf70f8bc64204a.png)
 
 We compute diffuse lighting as a cosine of the angle between the normal vector and the light direction vector. I mean, this supposes that the light is reflected in all directions uniformly. What happens to glossy surfaces? In the limit case (mirror) the pixel is illuminated if and only if we can see the light source reflected by this pixel:
 
-![](http://hsto.org/files/d58/cd3/bba/d58cd3bbab46463e87b782a12a147fbb.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/d58cd3bbab46463e87b782a12a147fbb.png)
 
 For diffuse lighting we computed the (cosine of) angle between vectors **n** and **l**, and now we are interested in the (cosine of) angle between vectors **r** (reflected light direction) and **v** (view direction).
 
@@ -341,9 +341,9 @@ I took 5 for the ambient component, 1 for the diffuse component and .6 for the s
 
 _Please note that normally the sum of the coefficents must be equal to 1, but you know. I like to create light._
 
-![](http://hsto.org/files/5ac/940/44f/5ac94044fb2b405f9b9c1647e5b86feb.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/5ac94044fb2b405f9b9c1647e5b86feb.png)
 
-![](http://www.loria.fr/~sokolovd/cg-course/06-shaders/img/boggie.png) 
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06-shaders/boggie.png) 
 
 # Conclusion
 
