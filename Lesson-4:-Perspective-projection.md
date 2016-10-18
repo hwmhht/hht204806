@@ -2,32 +2,32 @@
 
 In previous lessons we rendered our model in orthographic projection by simply forgetting the z-coordinate. The goal for today is to learn how to draw in perspective:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/39467dda61fdb644e68bdafc1e1f17f1.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/39467dda61fdb644e68bdafc1e1f17f1.png)
 
 # 2D geometry
 
 ## Linear transformations
 A linear transformation on a plane can be represented by a corresponding matrix. If we take a point (x,y) then its transformation can be written as follows:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f00.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f00.svg)
 
 The simplest (not degenerate) transformation is the identity, it does not move any point:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f01.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f01.svg)
 
 Diagonal coefficients of the matrix give scaling along coordinate axes. Let us illustrate it, if we take the following transformation:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f02.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f02.svg)
 
 Then the white object (the white square with one corner chopped) will be transformed into the yellow one. Red and green line segments give unit length vectors aligned with x and y, respectively:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/2aa8b671e124f1511c3b47a37c47f150.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/2aa8b671e124f1511c3b47a37c47f150.png)
 
 All the images for this article were generated using [this code](https://github.com/ssloy/tinyrenderer/tree/a175be75a8a9a773bdfae7543a372e3bc859e02f).
 
 Why do we bother with matrices? Because it is handy. First of all, in matrix form we can express a transformation of the entire object like this:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f03.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f03.svg)
 
 In this expression the transformation matrix is the same as in the previous one, but the 2x5 matrix is nothing else but the vertices of our squarish object. We simply took all the vertices in an array, multiplied it by the transformation matrix and obtained the transformed object. Cool, is not it?
 
@@ -46,39 +46,39 @@ This code performs two linear transformations for each vertex of our object, and
 
 Okay, let us continue. We know that diagonal coefficients of the matrix scale our world along the coordinate axes. What other coefficients are responsible for? Let us consider the following transformation:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f04.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f04.svg)
 
 Here is its action on our object:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/bb13159ffc0656ee622f9c4ebd108fed.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/bb13159ffc0656ee622f9c4ebd108fed.png)
 
 It is a simple shearing along the x-axis. Another anti-diagonal element shears our space along the y-axis. Thus, there are two base linear transformations on a plane: scaling and shearing. Many readers react: wait, what about rotations?!
 
 It turns out that any rotation (around the origin) can be represented as a composite action of three shears, here the white object is transformed to the red one, then to the green one and finally to the blue:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/8723ca291b463b6eb44b9a91f5cbd26f.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/8723ca291b463b6eb44b9a91f5cbd26f.png)
 
 But those are intricate details, to keep the things simple, a rotation matrix can be written directly (do you remember the pre-multiplication trick?):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f05.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f05.svg)
 
 We can multiply the matrices in any order, but let us remember that the multiplication for matrices is not commutative:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f06.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f06.svg)
 
 It makes sense: to shear an object and then to rotate it is not the same as to rotate it and then to shear it!
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/7a85ee0ebed76be99ba9f97f0c89c5a4.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/7a85ee0ebed76be99ba9f97f0c89c5a4.png)
 
 # 2D affine transformations
 
 So, any linear transformation on a plane is a composition of scale and shear transformations. And it means that we can do any linear transformation we want, the origin wont ever move! Those possibilities are great, but if we can not perform simple translations, our life will be miserable. Can we? Okay, translations are not linear, no problem, let us try to append translations after performing the linear part:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f07.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f07.svg)
 
 This expression is really cool, we can rotate, we can scale, shear and translate. However. Let us recall that we are interested in composing multiple transformation, here is what a composition of two transformations look like (remember, we need to compose dozes of those?):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f08.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f08.svg)
 
 It is starting to look ugly even for a single composition, add more and things get even worse.
 
@@ -86,7 +86,7 @@ It is starting to look ugly even for a single composition, add more and things g
 
 Okay, now it is the time for the black magic. Imagine that i add one column and one row to our transformation matrix (thus making it 3x3) and append one coordinate always equal to 1 to our vector to be transformed:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f09.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f09.svg)
 
 If we multiply this matrix and the vector augmented by 1 we get another vector with 1 in the last component, but the other two components have exactly the shape we would like! Magic.
 
@@ -94,7 +94,7 @@ In fact, the idea is really simple. Parallel translations are not linear in the 
 
 How do we project 3D back onto the 2D plane? Simply by dividing by the 3d component:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f10.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f10.svg)
 
 ## Wait a second, it is forbidden to divide by zero!
 
@@ -105,19 +105,19 @@ Who said this? [Shoots] Let us recall the pipeline:
 
 In this image our 2D plane is in magenta, the point (x,y,z) is projected onto (x/z, y/z):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/47cf05bf642df13f9b738e2c3040f648.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/47cf05bf642df13f9b738e2c3040f648.png)
 
 Let us imagine a vertical rail through the point (x,y,1). Where will be projected the point (x,y,1)? Doh, onto (x,y):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/0c054967a27e66bf020844118a1750d8.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/0c054967a27e66bf020844118a1750d8.png)
 
 Now let us descend on the rail, for example, the point (x,y,1/2) is projected onto (2x, 2y):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/ed24b22a0542f9f930e0386c598d5a77.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/ed24b22a0542f9f930e0386c598d5a77.png)
 
 Let us continue, point (x,y,1/4) becomes (4x, 4y):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/9e9658d91a6c8198606a8603012f048a.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/9e9658d91a6c8198606a8603012f048a.png)
 
 If we continue the process, approaching to z=0, then the projection goes farther from the origin in the direction (x,y). In other words, point (x,y,0) is projected onto an infinitely far point in the direction (x,y). What is it? Right, it is simply a vector!
 
@@ -129,7 +129,7 @@ As i said before, we should be able to accumulate dozens of transformations. Why
 
 We know to rotate around the origin, we know how to translate. It is all we need: translate (x0,y0) into the origin, rotate, un-translate, done:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f11.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f11.svg)
 
 In 3D sequences of actions will be a bit longer, but the idea is the same: we need to know few basic transformations and with their aid we can represent any composed action.
 
@@ -137,23 +137,23 @@ In 3D sequences of actions will be a bit longer, but the idea is the same: we ne
 
 Sure thing! Let us apply the following transformation to our standard squarish object:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f12.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f12.svg)
 
 Recall that the original object is in white, unit axis vectors are in red and green:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/7f36ab01dad4a2937599de236c8d4d28.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/7f36ab01dad4a2937599de236c8d4d28.png)
 
 Here is the transformed object:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/ff8f6a2130986fed747e55a26e054c6f.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/ff8f6a2130986fed747e55a26e054c6f.png)
 
 And here another kind of magic (white!) happens. Do you remember our y-buffer exercise? Here we will do the same: we project our 2D object onto the vertical line x=0. Let us harden the rules a bit: we have to use a central projection, our camera is in the point (5,0) and is pointed onto the origin. To find the projection we need to trace straight lines between the camera and the points to be projected (yellow) and to find the intersection with the screen line (white vertical).
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/a7081e13ad5016aa33f87edb50b218f0.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/a7081e13ad5016aa33f87edb50b218f0.png)
 
 Now i replace the original object with the transformed one, but i do not touch the yellow lines we drew before:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/2b9f233797ca0a8b2d9d9f9750c29a36.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/2b9f233797ca0a8b2d9d9f9750c29a36.png)
 
 If we project the red object onto the screen using **standard orthogonal projection**, then we find exactly the same points! Let us look closely how the transformation works: all vertical segments are transformed into vertical segments, but those close to the camera are stretched and those far from the camera are shrunk. If we choose the coefficient correctly (in our transformation matrix it is the -1/5 coefficient), we obtain an image in perspective (central) projection!
 
@@ -161,23 +161,23 @@ If we project the red object onto the screen using **standard orthogonal project
 
 Let us explain the magic. As for 2D affine transformations, for 3D affine transformations we will use homogeneous coordinates: a point (x,y,z) is augmented with 1 (x,y,z,1), then we transform it in 4D and project back to 3D. For example, if we take the following transformation:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f13.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f13.svg)
 
 The retro-projection gives us the following 3D coordinages:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f14.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f14.svg)
 
 Let us remember this result, but put it aside for a while. Let us return to the standard definition of the central projection, without any fancy stuff as 4D transformations. Given a point P=(x,y,z) we want to project it onto the plane z=0, the camera is on the z-axis in the point (0,0,c):
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/525d3930435c3be900e4c7956edb5a1c.png)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/525d3930435c3be900e4c7956edb5a1c.png)
 
 Triangles ABC and ODC are similar. It means that we can write the following: |AB|/|AC|=|OD|/|OC| => x/(c-z) = x'/c. In other words:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f15.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f15.svg)
 
 By doing the same reasoning for triangles CPB and CP'D, it is easy to find the following expression:
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f16.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f16.svg)
 
 It is really similar to the result we put aside few moments ago, but there we got the result by a single matrix multiplication. We got the law for the coefficient: r = -1/c.
 
@@ -188,6 +188,6 @@ It is really similar to the result we put aside few moments ago, but there we go
 
 So, if we want to compute a central projection with a camera **(important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
 
-![](http://webloria.loria.fr/~sokolovd/cg-course/04-perspective/img/f17.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f17.svg)
 
 We deformed our object in a way, that simply forgetting its z-coordinate we will get a drawing in a perspective. If we want to use the z-buffer, then, naturally, do not forget the z. The code is available [here](https://github.com/ssloy/tinyrenderer/tree/1cce85258d1f1cf75fd10fe4d62ebfdb669f8cf9), its result is visible in the very beginning of the article.
