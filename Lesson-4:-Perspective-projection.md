@@ -9,15 +9,15 @@ In previous lessons we rendered our model in orthographic projection by simply f
 ## Linear transformations
 A linear transformation on a plane can be represented by a corresponding matrix. If we take a point (x,y) then its transformation can be written as follows:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f00.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f00.png)
 
 The simplest (not degenerate) transformation is the identity, it does not move any point:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f01.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f01.png)
 
 Diagonal coefficients of the matrix give scaling along coordinate axes. Let us illustrate it, if we take the following transformation:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f02.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f02.png)
 
 Then the white object (the white square with one corner chopped) will be transformed into the yellow one. Red and green line segments give unit length vectors aligned with x and y, respectively:
 
@@ -27,7 +27,7 @@ All the images for this article were generated using [this code](https://github.
 
 Why do we bother with matrices? Because it is handy. First of all, in matrix form we can express a transformation of the entire object like this:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f03.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f03.png)
 
 In this expression the transformation matrix is the same as in the previous one, but the 2x5 matrix is nothing else but the vertices of our squarish object. We simply took all the vertices in an array, multiplied it by the transformation matrix and obtained the transformed object. Cool, is not it?
 
@@ -46,7 +46,7 @@ This code performs two linear transformations for each vertex of our object, and
 
 Okay, let us continue. We know that diagonal coefficients of the matrix scale our world along the coordinate axes. What other coefficients are responsible for? Let us consider the following transformation:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f04.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f04.png)
 
 Here is its action on our object:
 
@@ -60,11 +60,11 @@ It turns out that any rotation (around the origin) can be represented as a compo
 
 But those are intricate details, to keep the things simple, a rotation matrix can be written directly (do you remember the pre-multiplication trick?):
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f05.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f05.png)
 
 We can multiply the matrices in any order, but let us remember that the multiplication for matrices is not commutative:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f06.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f06.png)
 
 It makes sense: to shear an object and then to rotate it is not the same as to rotate it and then to shear it!
 
@@ -74,11 +74,11 @@ It makes sense: to shear an object and then to rotate it is not the same as to r
 
 So, any linear transformation on a plane is a composition of scale and shear transformations. And it means that we can do any linear transformation we want, the origin wont ever move! Those possibilities are great, but if we can not perform simple translations, our life will be miserable. Can we? Okay, translations are not linear, no problem, let us try to append translations after performing the linear part:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f07.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f07.png)
 
 This expression is really cool, we can rotate, we can scale, shear and translate. However. Let us recall that we are interested in composing multiple transformation, here is what a composition of two transformations look like (remember, we need to compose dozes of those?):
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f08.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f08.png)
 
 It is starting to look ugly even for a single composition, add more and things get even worse.
 
@@ -86,7 +86,7 @@ It is starting to look ugly even for a single composition, add more and things g
 
 Okay, now it is the time for the black magic. Imagine that i add one column and one row to our transformation matrix (thus making it 3x3) and append one coordinate always equal to 1 to our vector to be transformed:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f09.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f09.png)
 
 If we multiply this matrix and the vector augmented by 1 we get another vector with 1 in the last component, but the other two components have exactly the shape we would like! Magic.
 
@@ -94,7 +94,7 @@ In fact, the idea is really simple. Parallel translations are not linear in the 
 
 How do we project 3D back onto the 2D plane? Simply by dividing by the 3d component:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f10.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f10.png)
 
 ## Wait a second, it is forbidden to divide by zero!
 
@@ -129,7 +129,7 @@ As i said before, we should be able to accumulate dozens of transformations. Why
 
 We know to rotate around the origin, we know how to translate. It is all we need: translate (x0,y0) into the origin, rotate, un-translate, done:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f11.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f11.png)
 
 In 3D sequences of actions will be a bit longer, but the idea is the same: we need to know few basic transformations and with their aid we can represent any composed action.
 
@@ -137,7 +137,7 @@ In 3D sequences of actions will be a bit longer, but the idea is the same: we ne
 
 Sure thing! Let us apply the following transformation to our standard squarish object:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f12.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f12.png)
 
 Recall that the original object is in white, unit axis vectors are in red and green:
 
@@ -161,11 +161,11 @@ If we project the red object onto the screen using **standard orthogonal project
 
 Let us explain the magic. As for 2D affine transformations, for 3D affine transformations we will use homogeneous coordinates: a point (x,y,z) is augmented with 1 (x,y,z,1), then we transform it in 4D and project back to 3D. For example, if we take the following transformation:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f13.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f13.png)
 
 The retro-projection gives us the following 3D coordinages:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f14.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f14.png)
 
 Let us remember this result, but put it aside for a while. Let us return to the standard definition of the central projection, without any fancy stuff as 4D transformations. Given a point P=(x,y,z) we want to project it onto the plane z=0, the camera is on the z-axis in the point (0,0,c):
 
@@ -173,11 +173,11 @@ Let us remember this result, but put it aside for a while. Let us return to the 
 
 Triangles ABC and ODC are similar. It means that we can write the following: |AB|/|AC|=|OD|/|OC| => x/(c-z) = x'/c. In other words:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f15.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f15.png)
 
 By doing the same reasoning for triangles CPB and CP'D, it is easy to find the following expression:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f16.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f16.png)
 
 It is really similar to the result we put aside few moments ago, but there we got the result by a single matrix multiplication. We got the law for the coefficient: r = -1/c.
 
@@ -188,6 +188,6 @@ It is really similar to the result we put aside few moments ago, but there we go
 
 So, if we want to compute a central projection with a camera **(important!) camera located on the z-axis with distance c from the origin**, then we embed the point into 4D by augmenting it with 1, then we multiply it with the following matrix, and retro-project it into 3D.
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f17.svg)
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f17.png)
 
 We deformed our object in a way, that simply forgetting its z-coordinate we will get a drawing in a perspective. If we want to use the z-buffer, then, naturally, do not forget the z. The code is available [here](https://github.com/ssloy/tinyrenderer/tree/1cce85258d1f1cf75fd10fe4d62ebfdb669f8cf9), its result is visible in the very beginning of the article.
