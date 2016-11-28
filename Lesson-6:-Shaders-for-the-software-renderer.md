@@ -150,7 +150,7 @@ Let us check the shader I listed above in the main.cpp. According to its name, i
     }
 ```
 
-**vayring** is a reserved keyword in GLSL language, I have used varying_intensity as a name in order to show the correspondence (we will talk about GLSL in the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application)). In varying variables we store data to be interpolated inside the triangle, and the fragment shaders get the interpolated value (for the current pixel).
+**varying** is a reserved keyword in GLSL language, I have used varying_intensity as a name in order to show the correspondence (we will talk about GLSL in the [lesson 9](https://github.com/ssloy/tinyrenderer/wiki/Lesson-9:-Real-OpenGL-(GLSL)-application)). In varying variables we store data to be interpolated inside the triangle, and the fragment shaders get the interpolated value (for the current pixel).
 
 Let us re-list the fragment shader:
 
