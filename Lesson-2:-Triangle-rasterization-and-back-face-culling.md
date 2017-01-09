@@ -183,7 +183,7 @@ Okay, let us start: first of all we need to know what the [barycentric coordinat
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index0x.png)
 
-While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](http://www.loria.fr/~sokolovd/cg-course/02-triangles/index1x.png),![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index2x.png)):
+While being a bit frightening at the first glance, it is really simple: imagine that we put three weights (1 −u−v,u,v) at the vertices A, B and C, respectively. Then the barycenter of the system is exactly in the point P. We can say the same thing with other words: the point P has coordinates (u,v) in the (oblique) basis (A,![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index1x.png),![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index2x.png)):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/02-triangle/index3x.png)
 
