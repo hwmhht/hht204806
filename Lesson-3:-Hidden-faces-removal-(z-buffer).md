@@ -197,7 +197,7 @@ Texture! It would be our home assignment.
 In the .obj file we have lines starting with "vt u v", they give an array of texture coordinates.
 The number in the middle (between the slashes) in the facet lines "f x/x/x x/x/x x/x/x" are the texture coordinates of this vertex of this triangle. Interpolate it inside the triangle, multiply by the width-height of the texture image and you will get the color to put in your render.
 
-Diffuse texture can be taken [here](https://github.com/ssloy/tinyrenderer/raw/master/obj/african_head_diffuse.tga).
+Diffuse texture can be taken [here](https://github.com/ssloy/tinyrenderer/raw/master/obj/african_head/african_head_diffuse.tga).
 
 Here is an example of what I expect from you:
 
