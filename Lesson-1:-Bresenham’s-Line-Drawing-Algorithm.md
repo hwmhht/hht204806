@@ -1,5 +1,5 @@
 # First attempt
-The goal of the first lesson is to render the wire mesh. To do this, we should learn how to draw line segments. We can simply read what Bresenham’s line algorithm is, but let’s write code ourselves. How does the simplest code that draws a line segment between (x0, y0) and (x1, y1) points look like? Apparently, something like this :
+The goal of the first lesson is to render the wire mesh. To do this, we should learn how to draw line segments. We can simply read what Bresenham’s line algorithm is, but let’s write code ourselves. How does the simplest code that draws a line segment between (x0, y0) and (x1, y1) points look like? Apparently, something like this:
 
 ```C++ 
 void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
@@ -17,11 +17,11 @@ The snapshot of the code is available [here](https://github.com/ssloy/tinyrender
 
 # Second attempt
 
-The problem with this code (in addition to efficiency) is the choice of the constant, which I took equal to .01. If we take it equal to .1, our line segment will look like this:
+The problem with this code (besides its inefficiency) is the choice of the constant, which I took equal to .01. If we take it equal to .1, our line segment will look like this:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/62a16a5321.png)￼
 
-We can easily find the necessary step: it’s just the number of pixels to be drawn. The simplest (with errors!) code looks something like the following:
+We can easily find the necessary step: it’s just the number of pixels to be drawn. The simplest (but erroneous) code looks something like the following:
 
 ```C++
 void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
@@ -33,14 +33,13 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 }
 ```
 
-Caution! The first source of errors in such code of my students is the integer division, like (x-x0)/(x1-x0). Then, if we try to draw the following lines with this code:
+Caution! The first source of errors in such code of my students is the integer division, like `(x-x0)/(x1-x0)`. Then, if we try to draw the following lines with this code:
  
 ```C++
 line(13, 20, 80, 40, image, white); 
 line(20, 13, 40, 80, image, red); 
 line(80, 40, 13, 20, image, red);
-```
-
+``
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/097a691f9e.png)
 
