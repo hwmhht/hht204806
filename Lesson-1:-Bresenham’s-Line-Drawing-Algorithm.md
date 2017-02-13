@@ -19,7 +19,7 @@ The snapshot of the code is available [here](https://github.com/ssloy/tinyrender
 
 The problem with this code (besides its inefficiency) is the choice of the constant, which I took equal to .01. If we take it equal to .1, our line segment will look like this:
 
-![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/62a16a5321.png)￼
+![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/62a16a5321.png)
 
 We can easily find the necessary step: it’s just the number of pixels to be drawn. The simplest (but erroneous) code looks something like the following:
 
@@ -39,9 +39,10 @@ Caution! The first source of errors in such code of my students is the integer d
 line(13, 20, 80, 40, image, white); 
 line(20, 13, 40, 80, image, red); 
 line(80, 40, 13, 20, image, red);
-``
+```
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/01-bresenham/097a691f9e.png)
+
 
 It turns out that one line is good, the second one is with holes, and there’s no third line at all. Note that the first and the third lines (in the code) draw the same line in different colors, and in different directions (with the source and target points flipped). We have already seen the white one, it is drawn well. I was hoping to change the color of the white line to red, but could not do it. It’s a test for symmetry: the result of drawing a line segment should not depend on the order of points: the (a,b) line segment should be exactly the same as the (b,a) line segment.
 
