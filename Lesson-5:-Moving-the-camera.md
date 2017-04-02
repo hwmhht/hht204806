@@ -10,7 +10,7 @@ By the way, in the case when 3d artists are not so kind, you can recompute the n
 
 # Change of basis in 3D space
 
-In Euclidean space coordinates can be given by a point (the origin) and a basis. What does it mean that point P has coordinates (x,y,z) in the frame (O, i,j,k)? It means that the vector OP can be expressed as follows:
+In Euclidean space, coordinates can be given by a point (the origin) and a basis. What does it mean that point P has coordinates (x,y,z) in the frame (O, i,j,k)? It means that the vector OP can be expressed as follows:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f00.png)
 
