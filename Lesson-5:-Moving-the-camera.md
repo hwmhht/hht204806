@@ -75,7 +75,7 @@ screen_coords[j] = Vec2i((v.x+1.)*width/2., (v.y+1.)*height/2.);
 
 What does it mean? It means that i have a point Vec2f v, it belongs to the square [-1,1]*[-1,1]. I want to draw it in the image of (width, height) dimensions. Value (v.x+1) is varying between 0 and 2, (v.x+1)/2 between 0 and 1, and (v.x+1)*width/2 sweeps all the image. Thus we effectively mapped the bi-unit square onto the image.
 
-But now we are getting rid of these ugly constructs, and i want to rewrite all the computiations in the matrix form. Let us consider the following C++ code:
+But now we are getting rid of these ugly constructs, and i want to rewrite all the computations in the matrix form. Let us consider the following C++ code:
 
 ```C++
 Matrix viewport(int x, int y, int w, int h) {
@@ -95,7 +95,7 @@ This code creates this matrix:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/05-camera/f08.png)
 
-It means that the bi-unit cube [-1,1]*[-1,1]*[-1,1] is mapped onto the screen cube [x,x+w]*[y,y+h]*[0,d]. Right, cube, and not a rectangle, this is because of the depth computations with the z-buffer. Here d is the resolution of the z-buffer. I like to have it equal to 255 because of simplicity of dumping black-and-white images of the z-buffer for debugging.
+It means that the bi-unit cube [-1,1]x[-1,1]x[-1,1] is mapped onto the screen cube [x,x+w]x[y,y+h]x[0,d]. Right, cube, and not a rectangle, this is because of the depth computations with the z-buffer. Here d is the resolution of the z-buffer. I like to have it equal to 255 because of simplicity of dumping black-and-white images of the z-buffer for debugging.
 
 In the OpenGL terminology this matrix is called viewport matrix.
 
