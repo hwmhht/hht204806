@@ -99,7 +99,7 @@ How do we project 3D back onto the 2D plane? Simply by dividing by the 3d compon
 ## Wait a second, it is forbidden to divide by zero!
 
 Who said this? [Shoots] Let us recall the pipeline:
-* We embed 2D into 3D by putting it inside the plane z=3
+* We embed 2D into 3D by putting it inside the plane z=1
 * We do whatever we want in 3d
 * For every point we want to project from 3D into 2D we draw a straight line between the origin and the point to project and then we find its intersection with the plane z=1.
 
