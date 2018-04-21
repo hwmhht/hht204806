@@ -29,7 +29,7 @@ Why do we bother with matrices? Because it is handy. First of all, in matrix for
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f03.png)
 
-In this expression the transformation matrix is the same as in the previous one, but the 2x5 matrix is nothing else but the vertices of our squarish object. We simply took all the vertices in an array, multiplied it by the transformation matrix and obtained the transformed object. Cool, is not it?
+In this expression the transformation matrix is the same as in the previous one, but the 2x5 matrix is nothing else but the vertices of our squarish object. We simply took all the vertices in an array, multiplied it by the transformation matrix and obtained the transformed object. Cool, is it not?
 
 Well, the true reason hides here: very, very often we wish to transform our object with many transformations in a row. Imagine that in your source code you write transformation functions like
 
@@ -76,7 +76,7 @@ So, any linear transformation on a plane is a composition of scale and shear tra
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f07.png)
 
-This expression is really cool, we can rotate, we can scale, shear and translate. However. Let us recall that we are interested in composing multiple transformation, here is what a composition of two transformations look like (remember, we need to compose dozens of those?):
+This expression is really cool. We can rotate, scale, shear, and translate. However, let us recall that we are interested in composing multiple transformations. Here is what a composition of two transformations looks like (remember, we need to compose *dozens* of those):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f08.png)
 
