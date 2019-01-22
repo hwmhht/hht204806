@@ -1,6 +1,7 @@
 # How OpenGL works: software rendering in 500 lines of code
 
 ***
+**This is a tiny software rasterizer, if you are looking for a tiny software ray tracer, you can find it [here](https://github.com/ssloy/tinyraytracer)**
 
 **My source code is irrelevant. Read the wiki and implement your own renderer. Only when you suffer through all the tiny details you will learn what is going on.**
 
