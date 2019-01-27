@@ -206,6 +206,8 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
 
 Now, it’s enough to remove unnecessary copies during the function call by passing the color by reference (or just enable the compilation flag -O3), and it’s done. Not a single multiplication or division in code. The execution time has decreased from 2.95 to 0.64 seconds.
 
+I also recommend to check [this issue](https://github.com/ssloy/tinyrenderer/issues/28). Optimization is tricky!
+
 # Wireframe rendering
 
 So now we are ready to create a wire render. You can find the snapshot of the [code and the test model here](https://github.com/ssloy/tinyrenderer/tree/f6fecb7ad493264ecd15e230411bfb1cca539a12).
