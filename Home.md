@@ -5,5 +5,5 @@ If you are interested by this project, you might want to [check my other tiny* r
 [![tinyraytracer](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/tinyraytracer.jpg)](https://github.com/ssloy/tinyraytracer/wiki)
 [![tinyraycaster](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/tinyraycaster.jpg)](https://github.com/ssloy/tinyraycaster/wiki)
 
-[![tinyrenderer](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/tinyrenderer.jpg)](https://github.com/ssloy/tinyrenderer/wiki/Lesson-0:-getting-started)
+[![tinyrenderer](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/tinyrenderer_border.jpg)](https://github.com/ssloy/tinyrenderer/wiki/Lesson-0:-getting-started)
 [![tinykaboom](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/tinykaboom.jpg)](https://github.com/ssloy/tinykaboom/wiki)
