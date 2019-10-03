@@ -84,7 +84,7 @@ In fact, I am more interested in the direction, orthogonal to the isolines. If w
 
 Let us recall that the steepest ascent direction for a function is nothing else than its [gradient](https://en.wikipedia.org/wiki/Gradient). For a linear function f(x,y,z) = Ax + By + Cz + D its gradient is a constant vector (A, B, C). Recall that we do not know the values of (A,B,C). We know only three samples of the function. Can we reconstruct A,B and C? Sure thing.
 
-So, we have three points p0, p1, p2 and thre values f0, f1, f2. We need to find the vector of the steepest ascent (A,B,C). Let us consider another function defined as g(p) = f(p) - f(p0):
+So, we have three points p0, p1, p2 and three values f0, f1, f2. We need to find the vector of the steepest ascent (A,B,C). Let us consider another function defined as g(p) = f(p) - f(p0):
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/gradient_b.png)
 
