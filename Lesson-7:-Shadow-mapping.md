@@ -35,7 +35,7 @@ struct DepthShader : public IShader {
 };
 ```
 
-This shader simply copies the z-buffer into the framebuffer. Here is how it I call it from the main() function:
+This shader simply copies the z-buffer into the framebuffer. Here is how I call it from the main() function:
 
 ```C++
      { // rendering the shadow buffer
