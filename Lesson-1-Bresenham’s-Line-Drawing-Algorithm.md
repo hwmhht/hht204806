@@ -223,7 +223,7 @@ and faces
 f 1193/1240/1193 1180/1227/1180 1179/1226/1179
 ```
 
-We are interested in the first number after each space. It is the number of the vertex in the array that we have read before. Thus, this line says that 1193, 1180 and 1179 vertices form a triangle.
+We are interested in the first number after each space. It is the number of the vertex in the array that we have read before. Thus, this line says that 1193, 1180 and 1179 vertices form a triangle. Note that in obj files indexes start from 1, meaning you should look for 1192, 1179 and 1178 vertices respectively.
 The model.cpp file contains a simple parser. Write the following loop to our main.cpp and voilà, our wire renderer is ready.
  
 ```C++
