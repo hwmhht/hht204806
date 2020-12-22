@@ -84,7 +84,7 @@ It is starting to look ugly even for a single composition, add more and things g
 
 # Homogeneous coordinates
 
-Okay, now it is the time for the black magic. Imagine that i add one column and one row to our transformation matrix (thus making it 3x3) and append one coordinate always equal to 1 to our vector to be transformed:
+Okay, now it is the time for the black magic. Imagine that I add one column and one row to our transformation matrix (thus making it 3x3) and append one coordinate always equal to 1 to our vector to be transformed:
 
 ![](https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/04-perspective-projection/f09.png)
 
