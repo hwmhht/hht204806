@@ -143,7 +143,7 @@ The expression in right parentheses - are for the transformed points of the obje
 
 And the left parentheses tell us that a normal to the transformed object can be computed from the old normal by applying the inverse transpose matrix of the affine mapping.
 
-Please note that if our transformation matrix M is a composition of uniform scalings, rotations and translations, then M is equal to its inverse transpose, since inverse and transpose are cancelling each other in this case. But since our matrices include perspective deformations, usually this trick does not help.
+Please note that if our transformation matrix M is a composition of uniform scalings, rotations and translations (an isometry of euclidean space), then M is equal to its inverse transpose, since inverse and transpose are cancelling each other in this case. But since our matrices include perspective deformations, usually this trick does not help.
 
 In the current code we do not use the transformation of normal vectors, but in the next lesson it will be very, very handy. 
 
