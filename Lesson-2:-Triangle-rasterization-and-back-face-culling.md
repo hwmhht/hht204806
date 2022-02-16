@@ -218,11 +218,11 @@ const int width  = 200;
 const int height = 200; 
  
 Vec3f barycentric(Vec2i *pts, Vec2i P) { 
-    Vec3f u = cross(Vec3f(pts[2][0]-pts[0][0], pts[1][0]-pts[0][0], pts[0][0]-P[0]), Vec3f(pts[2][1]-pts[0][1], pts[1][1]-pts[0][1], pts[0][1]-P[1]));
+    Vec3f u = Vec3f(pts[2][0]-pts[0][0], pts[1][0]-pts[0][0], pts[0][0]-P[0])^Vec3f(pts[2][1]-pts[0][1], pts[1][1]-pts[0][1], pts[0][1]-P[1]);
     /* `pts` and `P` has integer value as coordinates
        so `abs(u[2])` < 1 means `u[2]` is 0, that means
        triangle is degenerate, in this case return something with negative coordinates */
-    if (std::abs(u[2])<1) return Vec3f(-1,1,1);
+    if (std::abs(u.z)<1) return Vec3f(-1,1,1);
     return Vec3f(1.f-(u.x+u.y)/u.z, u.y/u.z, u.x/u.z); 
 } 
  
@@ -231,10 +231,11 @@ void triangle(Vec2i *pts, TGAImage &image, TGAColor color) {
     Vec2i bboxmax(0, 0); 
     Vec2i clamp(image.get_width()-1, image.get_height()-1); 
     for (int i=0; i<3; i++) { 
-        for (int j=0; j<2; j++) { 
-            bboxmin[j] = std::max(0,        std::min(bboxmin[j], pts[i][j])); 
-            bboxmax[j] = std::min(clamp[j], std::max(bboxmax[j], pts[i][j])); 
-        } 
+        bboxmin.x = std::max(0, std::min(bboxmin.x, pts[i].x));
+	bboxmin.y = std::max(0, std::min(bboxmin.y, pts[i].y));
+
+	bboxmax.x = std::min(clamp.x, std::max(bboxmax.x, pts[i].x));
+	bboxmax.y = std::min(clamp.y, std::max(bboxmax.y, pts[i].y));
     } 
     Vec2i P; 
     for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) { 
@@ -293,6 +294,8 @@ We get zero illumination if the polygon is parallel to the vector of light. To p
 As a side note, at this course we will perform linear computations on the colors. However (128,128,128) color is not half as bright as (255, 255, 255). We are going to ignore gamma correction and tolerate the incorrectness of the brightness of our colors.
 
 ```C++
+Vec3f light_dir(0,0,-1); // define light_dir
+
 for (int i=0; i<model->nfaces(); i++) { 
     std::vector<int> face = model->face(i); 
     Vec2i screen_coords[3]; 
