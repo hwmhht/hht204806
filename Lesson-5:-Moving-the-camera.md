@@ -58,7 +58,7 @@ void lookat(Vec3f eye, Vec3f center, Vec3f up) {
         Minv[0][i] = x[i];
         Minv[1][i] = y[i];
         Minv[2][i] = z[i];
-        Tr[i][3] = -center[i];
+        Tr[i][3] = -eye[i];
     }
     ModelView = Minv*Tr;
 }
