@@ -64,7 +64,7 @@ void lookat(Vec3f eye, Vec3f center, Vec3f up) {
 }
 ```
 
-Note that z' is given by the vector **ce** (do not forget to normalize it, it helps later). How do we compute x'? Simply by a cross product between **u** and **z'**. Then we compute y', such that it is orthogonal to already calculated x' and z' (let me remind you that in our problem settings **ce** and **u** are not necessarily orthogonal). The very last step is a translation of the origin to the center **c** and our transformation matrix is ready. Now it suffices to get any point with coordinates (x,y,z,1) in the model frame, multiply it by the matrix ModelView and we get the coordinates in the camera frame! By the way, the name ModelView comes from OpenGL terminology.
+Note that z' is given by the vector **ce** (do not forget to normalize it, it helps later). How do we compute x'? Simply by a cross product between **u** and **z'**. Then we compute y', such that it is orthogonal to already calculated x' and z' (let me remind you that in our problem settings **ce** and **u** are not necessarily orthogonal). The very last step is a translation of the origin to the point of viewer **e** and our transformation matrix is ready. Now it suffices to get any point with coordinates (x,y,z,1) in the model frame, multiply it by the matrix ModelView and we get the coordinates in the camera frame! By the way, the name ModelView comes from OpenGL terminology.
 
 # Viewport
 
