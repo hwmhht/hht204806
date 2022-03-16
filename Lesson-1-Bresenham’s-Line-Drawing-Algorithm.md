@@ -1,3 +1,4 @@
+```cpp
 // Bresenham's 直线算法
 // 具体实现参考 https://www.wikiwand.com/en/Bresenham%27s_line_algorithm#/All_cases
 void draw_line(int x1, int y1, int x2, int y2, TGAImage &image, TGAColor color) {
@@ -38,3 +39,4 @@ void draw_line(int x1, int y1, int x2, int y2, TGAImage &image, TGAColor color) 
         }
     }
 }
+```
