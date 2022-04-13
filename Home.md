@@ -1,7 +1,3 @@
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://standwithukraine.pp.ua)
-
-
-
 # Tiny renderer or how OpenGL works: software rendering in 500 lines of code
 
 ![read this ->](https://raw.githubusercontent.com/ssloy/tinyraycaster/master/doc/readthis.png?2)
